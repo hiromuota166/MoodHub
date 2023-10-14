@@ -7,7 +7,7 @@ const Page = () => {
 		<div>
 			<div className='absolute top-0 right-0 z-10'>
 				<button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound</button>
-				{isPermissionGranted ? <button onClick={requestPermission}>Enable Motion</button> : <></>}
+				{!isPermissionGranted || true ? <button onClick={requestPermission}>Enable Motion</button> : <></>}
 			</div>
 			<Show3dObj />
 		</div>
