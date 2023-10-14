@@ -11,7 +11,7 @@ export const useSoundHook = () => {
 
 	const enableSensor = async (): Promise<boolean> => {
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-		if (isIOS && true) {
+		if (isIOS) {
 			// ios の場合は明示的に許可が必要
 			const response = await (DeviceMotionEvent as any).requestPermission();
 			if (response === "granted") {
@@ -26,22 +26,22 @@ export const useSoundHook = () => {
 	};
 
 	const requestPermission = async () => {
-		const sensor = await enableSensor();
-		setIsPermissionGranted(sensor);
-		// if (
-		// 	typeof DeviceMotionEvent !== "undefined" &&
-		// 	typeof (DeviceMotionEvent as any).requestPermission === "function"
-		// ) {
-		// 	try {
-		// 		const permission: PermissionState = await (DeviceMotionEvent as any).requestPermission();
-		// 		setIsPermissionGranted(permission === "granted");
-		// 	} catch (error) {
-		// 		console.error("Permission request was denied:", error);
-		// 	}
-		// } else {
-		// 	// For browsers that do not need explicit permission
-		// 	setIsPermissionGranted(true);
-		// }
+		// const sensor = await enableSensor();
+		// setIsPermissionGranted(sensor);
+		if (
+			typeof DeviceMotionEvent !== "undefined" &&
+			typeof (DeviceMotionEvent as any).requestPermission === "function"
+		) {
+			try {
+				const permission: PermissionState = await (DeviceMotionEvent as any).requestPermission();
+				setIsPermissionGranted(permission === "granted");
+			} catch (error) {
+				console.error("Permission request was denied:", error);
+			}
+		} else {
+			// For browsers that do not need explicit permission
+			setIsPermissionGranted(true);
+		}
 	};
 
 	const playSound = useCallback(() => {
@@ -54,18 +54,17 @@ export const useSoundHook = () => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
+			const shakeThreshold = 5;
+			const magnitude = Math.sqrt(ax ** 2 + ay ** 2 + az ** 2);
+			if (magnitude < shakeThreshold) {
+				return;
+			}
 
+			playSound();
 			if (e.acceleration && ax && ay && az) {
 				setAccelerationX(ax);
 				setAccelerationY(ay);
 				setAccelerationZ(az);
-			}
-
-			const shakeThreshold = 5;
-			const magnitude = Math.sqrt(ax ** 2 + ay ** 2 + az ** 2);
-
-			if (magnitude > shakeThreshold) {
-				playSound();
 			}
 		},
 		[setAccelerationX, setAccelerationY, setAccelerationZ, playSound]
