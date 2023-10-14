@@ -55,17 +55,22 @@ export const useSoundHook = () => {
 			}
 		};
 		const handleShake = (e: DeviceMotionEvent) => {
-			if (e.acceleration && e.acceleration.x && e.acceleration.y && e.acceleration.z) {
-				setAccelerationX(e.acceleration.x);
-				setAccelerationY(e.acceleration.y);
-				setAccelerationZ(e.acceleration.z);
+			const ax = e.acceleration?.x || 0;
+			const ay = e.acceleration?.y || 0;
+			const az = e.acceleration?.z || 0;
+			if (e.acceleration && ax && ay && az) {
+				setAccelerationX(ax);
+				setAccelerationY(ay);
+				setAccelerationZ(az);
 			}
-			console.log("handleShake");
-			playSound();
+			const shakeThreshold = 15;
+
+			if (Math.abs(ax) > shakeThreshold || Math.abs(ay) > shakeThreshold || Math.abs(az) > shakeThreshold) {
+				playSound();
+			}
 		};
 
 		const handleSwipe = () => {
-			console.log("handleSwipe");
 			// Swipe detection logic
 			// ...
 			playSound();
@@ -82,7 +87,15 @@ export const useSoundHook = () => {
 		};
 	}, [isSoundOn]);
 
-	return { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission, accelerationX, accelerationY, accelerationZ };
+	return {
+		isSoundOn,
+		setIsSoundOn,
+		isPermissionGranted,
+		requestPermission,
+		accelerationX,
+		accelerationY,
+		accelerationZ,
+	};
 };
 
 export default useSoundHook;
