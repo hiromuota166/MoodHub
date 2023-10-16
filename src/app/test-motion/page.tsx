@@ -1,6 +1,5 @@
 "use client";
 import useSoundHook from "@/customhooks/useSoundHook";
-import playSound from "@/functions/playSound";
 
 const Page = () => {
 	const {
@@ -11,6 +10,7 @@ const Page = () => {
 		accelerationX,
 		accelerationY,
 		accelerationZ,
+		playSound,
 	} = useSoundHook();
 	return (
 		<div>

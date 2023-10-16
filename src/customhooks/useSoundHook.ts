@@ -1,6 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import playSound from "@/functions/playSound";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
@@ -9,6 +8,11 @@ export const useSoundHook = () => {
 	const [accelerationX, setAccelerationX] = useState<number>(0);
 	const [accelerationY, setAccelerationY] = useState<number>(0);
 	const [accelerationZ, setAccelerationZ] = useState<number>(0);
+	const audio = useMemo(() => new Audio("/maracas-sound.wav"), []);
+
+	const playSound = useCallback(async () => {
+		audio.play();
+	}, [audio])
 
 	const enableSensor = async (): Promise<boolean> => {
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
@@ -72,7 +76,7 @@ export const useSoundHook = () => {
 				playSound();
 			}
 		},
-		[setAccelerationX, setAccelerationY, setAccelerationZ]
+		[setAccelerationX, setAccelerationY, setAccelerationZ, playSound]
 	);
 
 	const handleSwipe = useCallback(() => {
@@ -82,7 +86,7 @@ export const useSoundHook = () => {
 			playSound();
 			lastPlayedTime.current = now; // 最後に再生した時刻を更新
 		}
-	}, [isSoundOn]);
+	}, [isSoundOn, playSound]);
 
 	useEffect(() => {
 		console.log("useEffect");
@@ -105,6 +109,7 @@ export const useSoundHook = () => {
 		accelerationX,
 		accelerationY,
 		accelerationZ,
+		playSound,
 	};
 };
 
