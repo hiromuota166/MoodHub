@@ -15,16 +15,22 @@ const Page = () => {
 	return (
 		<div>
 			<div className=''>
-				<button onClick={playSound}>play Sound</button>
-				<button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound</button>
-				{!isPermissionGranted? <button onClick={requestPermission}>Enable Motion</button> : <></>}
-                <div>
-                    <ul>
-                        <li>accelerationX: {accelerationX}</li>
-                        <li>accelerationY: {accelerationY}</li>
-                        <li>accelerationZ: {accelerationZ}</li>
-                    </ul>
-                </div>
+				<div>
+					<button onClick={playSound}>play Sound</button>
+				</div>
+				<div>
+					<button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound: is Sound On {isSoundOn.toString()}</button>
+				</div>
+				<div>
+					{<button onClick={requestPermission}>Enable Motion: is permission Granted {isPermissionGranted.toString()}</button>}
+				</div>
+				<div>
+					<ul>
+						<li>accelerationX: {accelerationX}</li>
+						<li>accelerationY: {accelerationY}</li>
+						<li>accelerationZ: {accelerationZ}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	);

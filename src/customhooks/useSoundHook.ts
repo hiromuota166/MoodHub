@@ -60,16 +60,16 @@ export const useSoundHook = () => {
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
 			const isShaking = detectAcceleration(ax, ay, az);
+			if (e.acceleration && ax && ay && az) {
+				setAccelerationX(ax);
+				setAccelerationY(ay);
+				setAccelerationZ(az);
+			}
 			if (!isShaking) {
 				return;
 			}
 			else {
 				playSound();
-				if (e.acceleration && ax && ay && az) {
-					setAccelerationX(ax);
-					setAccelerationY(ay);
-					setAccelerationZ(az);
-				}
 			}
 		},
 		[setAccelerationX, setAccelerationY, setAccelerationZ]
@@ -85,6 +85,7 @@ export const useSoundHook = () => {
 	}, [isSoundOn]);
 
 	useEffect(() => {
+		console.log("useEffect");
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
