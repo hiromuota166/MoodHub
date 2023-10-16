@@ -1,5 +1,6 @@
 "use client";
 import useSoundHook from "@/customhooks/useSoundHook";
+import playSound from "@/functions/playSound";
 
 const Page = () => {
 	const {
@@ -14,6 +15,7 @@ const Page = () => {
 	return (
 		<div>
 			<div className=''>
+				<button onClick={playSound}>play Sound</button>
 				<button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound</button>
 				{!isPermissionGranted? <button onClick={requestPermission}>Enable Motion</button> : <></>}
                 <div>

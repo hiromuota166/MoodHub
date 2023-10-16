@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import playSound from "@/functions/playSound";
 
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
@@ -44,30 +45,34 @@ export const useSoundHook = () => {
 		}
 	};
 
-	const playSound = useCallback(() => {
-		const audio = new Audio("/maracas-sound.wav");
-		audio.play();
-	}, []);
+	const detectAcceleration = (x: number, y: number, z: number) => {
+		const threshold = 5;
+		const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+		if (magnitude < threshold) {
+			return false;
+		}
+		return true;
+	}
 
 	const handleShake = useCallback(
-		(e: DeviceMotionEvent) => {
+		async (e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
-			const shakeThreshold = 5;
-			const magnitude = Math.sqrt(ax ** 2 + ay ** 2 + az ** 2);
-			if (magnitude < shakeThreshold) {
+			const isShaking = detectAcceleration(ax, ay, az);
+			if (!isShaking) {
 				return;
 			}
-
-			playSound();
-			if (e.acceleration && ax && ay && az) {
-				setAccelerationX(ax);
-				setAccelerationY(ay);
-				setAccelerationZ(az);
+			else {
+				playSound();
+				if (e.acceleration && ax && ay && az) {
+					setAccelerationX(ax);
+					setAccelerationY(ay);
+					setAccelerationZ(az);
+				}
 			}
 		},
-		[setAccelerationX, setAccelerationY, setAccelerationZ, playSound]
+		[setAccelerationX, setAccelerationY, setAccelerationZ]
 	);
 
 	const handleSwipe = useCallback(() => {
@@ -77,7 +82,7 @@ export const useSoundHook = () => {
 			playSound();
 			lastPlayedTime.current = now; // 最後に再生した時刻を更新
 		}
-	}, [playSound, isSoundOn]);
+	}, [isSoundOn]);
 
 	useEffect(() => {
 		if (isSoundOn && isPermissionGranted) {
