@@ -21,25 +21,24 @@ const ModalCss = {
   },
 };
 
+
+const REGISTER_MUTATION = gql`
+mutation Register($regist: Register!) {
+  register(regist: $regist) {
+    userId
+    categories
+  }
+}`;
+
 interface Props {
   default?: boolean;
   userId: number;
 }
 
-const REGISTER_MUTATION = gql`
-  mutation Register($regist: Register!) {
-    register(regist: $regist) {
-      userId
-      categories
-    }
-  }
-`;
-
 const ModalWhole = (props: Props) => {
   const { userId } = props;
   const [modalIsOpen, setIsOpen] = React.useState(props.default ? true : false);
   const [registerMutation] = useMutation(REGISTER_MUTATION);
-
 
   const handleDone = async () => {
     console.log("done")
