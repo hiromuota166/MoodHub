@@ -70,23 +70,6 @@ export const useSoundHook = () => {
 		}
 	};
 
-	const handleShake = useCallback(
-		() =>
-			throttle((e: DeviceMotionEvent) => {
-				const ax = e.acceleration?.x || 0;
-				const ay = e.acceleration?.y || 0;
-				const az = e.acceleration?.z || 0;
-				const isShaking = detectAcceleration(ax, ay, az);
-
-				setAcceleration({ x: ax, y: ay, z: az });
-
-				if (isShaking) {
-					playSound();
-				}
-			}, 200),
-		[playSound, setAcceleration] // 依存関係をリストに追加
-	);
-
 	const handleSwipe = useCallback(() => {
 		const now = Date.now();
 		if (isSoundOn && now - lastPlayedTime.current >= 150) {
@@ -96,6 +79,18 @@ export const useSoundHook = () => {
 	}, [isSoundOn, playSound]); // 依存関係をリストに追加
 
 	useEffect(() => {
+		const handleShake = throttle((e: DeviceMotionEvent) => {
+			const ax = e.acceleration?.x || 0;
+			const ay = e.acceleration?.y || 0;
+			const az = e.acceleration?.z || 0;
+			const isShaking = detectAcceleration(ax, ay, az);
+
+			setAcceleration({ x: ax, y: ay, z: az });
+
+			if (isShaking) {
+				playSound();
+			}
+		}, 200);
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
@@ -105,7 +100,7 @@ export const useSoundHook = () => {
 			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [isSoundOn, isPermissionGranted, playSound, handleShake, handleSwipe]);
+	}, [isSoundOn, isPermissionGranted, playSound, handleSwipe]);
 
 	return {
 		isSoundOn,
