@@ -92,8 +92,8 @@ export const useSoundHook = () => {
 		playSound();
 	}, [playSound]); // 依存関係をリストに追加
 
-	const handleShake = useCallback(
-		(e: DeviceMotionEvent) => {
+	useEffect(() => {
+		const handleShake = throttle((e: DeviceMotionEvent) => {
 			if (!observePlaySound()) {
 				return;
 			}
@@ -101,16 +101,11 @@ export const useSoundHook = () => {
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
 			const isShaking = detectAcceleration(ax, ay, az);
-
+			setAcceleration({ x: ax, y: ay, z: az });
 			if (isShaking) {
 				playSound();
-				setAcceleration({ x: ax, y: ay, z: az });
 			}
-		},
-		[playSound]
-	);
-
-	useEffect(() => {
+		}, 100);
 		if (isSoundOn) {
 			window.addEventListener("touchmove", handleSwipe);
 			window.addEventListener("touchstart", handleStart);
@@ -128,7 +123,7 @@ export const useSoundHook = () => {
 			window.removeEventListener("touchstart", handleStart);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleShake, handleStart]);
+	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleStart]);
 
 	return {
 		isSoundOn,
