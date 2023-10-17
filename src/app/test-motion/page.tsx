@@ -32,7 +32,9 @@ const Page = () => {
 		<div>
 			<div className=''>
 				<div>
-					<audio controls src='/maracas-sound.mp3' className="m-4"></audio>
+					<audio controls className='m-4'>
+						<source src='/maracas-sound.mp3' type='audio/mp3' />
+					</audio>
 				</div>
 				<div>
 					<button className='m-4' onClick={() => playVoice()}>
