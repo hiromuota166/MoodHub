@@ -6,6 +6,24 @@ export const useSoundHook = () => {
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
 
+	const worker = new Worker("/worker.js");
+
+	worker.onmessage = (event) => {
+		switch (event.data.action) {
+			case "ACCELERATION_DATA":
+				const { ax, ay, az } = event.data.data;
+				// ここで取得した加速度データを利用して何らかの処理を行います
+				handleShake(ax, ay, az);
+				setAcceleration({ x: ax, y: ay, z: az });
+				break;
+			default:
+				console.error("Unknown action:", event.data.action);
+		}
+	};
+
+	// 加速度の監視を開始
+	worker.postMessage({ action: "START_ACCELERATION_MONITORING" });
+
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	if (typeof window !== "undefined") {
@@ -13,7 +31,7 @@ export const useSoundHook = () => {
 	}
 	const playSound = useCallback(() => {
 		if (!audioRef.current) return;
-		audioRef.current.play();
+		audioRef.current.play().catch((e) => console.error(e));
 	}, []);
 
 	const enableSensor = async (): Promise<boolean> => {
@@ -60,20 +78,14 @@ export const useSoundHook = () => {
 		return true;
 	};
 
+	const handleShake = (ax: number, ay: number, az: number) => {
+		const isShaking = detectAcceleration(ax, ay, az);
+		if (isShaking) {
+			playSound();
+		}
+	};
+
 	useEffect(() => {
-		const handleShake = (e: DeviceMotionEvent) => {
-			const ax = e.acceleration?.x || 0;
-			const ay = e.acceleration?.y || 0;
-			const az = e.acceleration?.z || 0;
-			const isShaking = detectAcceleration(ax, ay, az);
-
-			setAcceleration({ x: ax, y: ay, z: az });
-
-			if (isShaking) {
-				playSound();
-			}
-		};
-
 		const handleSwipe = () => {
 			const now = Date.now();
 			if (isSoundOn && now - lastPlayedTime.current >= 150) {
@@ -82,12 +94,10 @@ export const useSoundHook = () => {
 			}
 		};
 		if (isSoundOn && isPermissionGranted) {
-			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
 		}
 
 		return () => {
-			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
 	}, [isSoundOn, isPermissionGranted, playSound]);
