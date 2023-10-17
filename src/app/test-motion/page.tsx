@@ -1,27 +1,39 @@
 "use client";
 import useSoundHook from "@/customhooks/useSoundHook";
-import React, { useState, useEffect } from "react";
 
 const Page = () => {
 	const { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission, acceleration, playSound } = useSoundHook();
-	const [count, setCount] = useState(0);
-	const interval = 200;
+	const pageAudio = new Audio("/maracas-sound.wav");
 
-	useEffect(() => {
-		const timer = setInterval(() => {
-			setCount((prevCount) => prevCount + 1);
-		}, interval);
-
-		return () => {
-			clearInterval(timer);
-		};
-	}, [interval]);
 	return (
 		<div>
 			<div className=''>
-				<div>{count}</div>
 				<div>
-					<button onClick={playSound}>play Sound</button>
+					<button
+						className='m-4'
+						onClick={() => {
+							pageAudio.play();
+						}}
+					>
+						play sound
+					</button>
+				</div>
+				<div>
+					<button
+						className='m-4'
+						onClick={async () => {
+							let audio: HTMLAudioElement | null = new Audio("/maracas-sound.wav");
+							await audio.play();
+							audio = null;
+						}}
+					>
+						play sound
+					</button>
+				</div>
+				<div>
+					<button className='m-4' onClick={playSound}>
+						play Sound
+					</button>
 				</div>
 				<div>
 					<button onClick={() => setIsSoundOn(!isSoundOn)}>
