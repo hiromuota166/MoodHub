@@ -41,17 +41,30 @@ export const useSoundHook = () => {
 	const [isDevicemotionPermissionGranted, setIsDevicemotionPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
-	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const audioContextRef = useRef<AudioContext | null>(null);
+	const audioBufferRef = useRef<AudioBuffer | null>(null);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
-			audioRef.current = new Audio("/maracas-sound.mp3");
+			audioContextRef.current = new AudioContext();
+
+			fetch("/maracas-sound.mp3")
+				.then((response) => response.arrayBuffer())
+				.then((data) => audioContextRef.current!.decodeAudioData(data))
+				.then((buffer) => {
+					audioBufferRef.current = buffer;
+				})
+				.catch((e) => console.error(e));
 		}
 	}, []);
 
 	const playSound = useCallback(() => {
-		if (!audioRef.current) return;
-		audioRef.current.play().catch((e) => console.error(e));
+		if (!audioBufferRef.current || !audioContextRef.current) return;
+
+		const source = audioContextRef.current.createBufferSource();
+		source.buffer = audioBufferRef.current;
+		source.connect(audioContextRef.current.destination);
+		source.start(0);
 	}, []);
 
 	const observePlaySound = () => {
