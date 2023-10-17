@@ -63,7 +63,7 @@ export const useSoundHook = () => {
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
-			setWorker(new Worker("/path/to/your/worker.js"));
+			setWorker(new Worker("/worker.js"));
 		}
 	}, []);
 
