@@ -3,21 +3,10 @@ import useSoundHook from "@/customhooks/useSoundHook";
 
 const Page = () => {
 	const { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission, acceleration, playSound } = useSoundHook();
-	const pageAudio = new Audio("/maracas-sound.wav");
 
 	return (
 		<div>
 			<div className=''>
-				<div>
-					<button
-						className='m-4'
-						onClick={() => {
-							pageAudio.play();
-						}}
-					>
-						play sound
-					</button>
-				</div>
 				<div>
 					<button
 						className='m-4'
