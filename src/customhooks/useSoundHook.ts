@@ -94,9 +94,6 @@ export const useSoundHook = () => {
 
 	useEffect(() => {
 		const handleShake = throttle((e: DeviceMotionEvent) => {
-			if (!observePlaySound()) {
-				return;
-			}
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
@@ -119,9 +116,9 @@ export const useSoundHook = () => {
 		}
 
 		return () => {
-			window.removeEventListener("devicemotion", handleShake);
-			window.removeEventListener("touchstart", handleStart);
 			window.removeEventListener("touchmove", handleSwipe);
+			window.removeEventListener("touchstart", handleStart);
+			window.removeEventListener("devicemotion", handleShake);
 		};
 	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleStart]);
 
