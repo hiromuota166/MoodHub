@@ -44,8 +44,18 @@ export const useSoundHook = () => {
 		return true;
 	};
 
+	const debounce = (func: (...args: any[]) => void, wait: number) => {
+		let timeoutId: ReturnType<typeof setTimeout> | null = null;
+		return (...args: any[]) => {
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+			timeoutId = setTimeout(() => func(...args), wait);
+		};
+	};
+
 	useEffect(() => {
-		const handleShake = (e: DeviceMotionEvent) => {
+		const handleShake = debounce((e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
@@ -56,7 +66,7 @@ export const useSoundHook = () => {
 			if (isShaking) {
 				playSound();
 			}
-		};
+		}, 50); // 150ms の遅延を設定
 
 		const handleSwipe = () => {
 			const now = Date.now();
