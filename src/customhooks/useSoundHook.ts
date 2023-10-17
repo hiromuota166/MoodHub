@@ -80,7 +80,7 @@ export const useSoundHook = () => {
 			if (isShaking) {
 				playSound();
 			}
-		}, 50);
+		}, 200);
 
 		const handleSwipe = () => {
 			const now = Date.now();

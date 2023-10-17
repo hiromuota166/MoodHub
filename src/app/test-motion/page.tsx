@@ -1,11 +1,25 @@
 "use client";
 import useSoundHook from "@/customhooks/useSoundHook";
+import React, { useState, useEffect } from "react";
 
 const Page = () => {
 	const { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission, acceleration, playSound } = useSoundHook();
+	const [count, setCount] = useState(0);
+	const interval = 200;
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setCount((prevCount) => prevCount + 1);
+		}, interval);
+
+		return () => {
+			clearInterval(timer);
+		};
+	}, [interval]);
 	return (
 		<div>
 			<div className=''>
+				<div>{count}</div>
 				<div>
 					<button onClick={playSound}>play Sound</button>
 				</div>
