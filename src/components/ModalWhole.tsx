@@ -70,7 +70,7 @@ const ModalWhole = (props: Props) => {
 
   return (
     <div className="relative">
-      <button onClick={() => setIsOpen(true)}>
+      <button title="isBtn" onClick={() => setIsOpen(true)}>
         <Image
           src="/filter.svg"
           width={500}
