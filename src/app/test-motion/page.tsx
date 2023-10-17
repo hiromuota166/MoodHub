@@ -32,6 +32,9 @@ const Page = () => {
 		<div>
 			<div className=''>
 				<div>
+					<audio controls src='/maracas-sound.mp3' className="m-4"></audio>
+				</div>
+				<div>
 					<button className='m-4' onClick={() => playVoice()}>
 						play Sound
 					</button>
