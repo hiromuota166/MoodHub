@@ -10,9 +10,9 @@ const Page = () => {
 				<div>
 					<button
 						className='m-4'
-						onClick={async () => {
+						onClick={() => {
 							let audio: HTMLAudioElement | null = new Audio("/maracas-sound.mp3");
-							await audio.play();
+							audio.play();
 							audio = null;
 						}}
 					>
