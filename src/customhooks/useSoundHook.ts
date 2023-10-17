@@ -34,6 +34,8 @@ const throttle = <T extends any[]>(func: (...args: T) => void, interval: number)
 	};
 };
 
+const PLAY_SOUND_INTERVAL = 150; // 例として150ミリ秒を設定
+
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
 	const [isPermissionGranted, setIsPermissionGranted] = useState(false);
@@ -53,6 +55,18 @@ export const useSoundHook = () => {
 		audioRef.current.play().catch((e) => console.error(e));
 	}, []);
 
+	const observePlaySound = () => {
+		const now = Date.now();
+
+		// 前回のplaySound実行からの時間が指定インターバルよりも短い場合は早期リターン
+		if (now - lastPlayedTime.current < PLAY_SOUND_INTERVAL) {
+			return false;
+		}
+
+		lastPlayedTime.current = now;
+		return true;
+	};
+
 	const requestPermission = async () => {
 		if (
 			typeof DeviceMotionEvent !== "undefined" &&
@@ -71,15 +85,17 @@ export const useSoundHook = () => {
 	};
 
 	const handleSwipe = useCallback(() => {
-		const now = Date.now();
-		if (isSoundOn && now - lastPlayedTime.current >= 150) {
-			playSound();
-			lastPlayedTime.current = now;
+		if (!observePlaySound()) {
+			return;
 		}
-	}, [isSoundOn, playSound]); // 依存関係をリストに追加
+		playSound();
+	}, [playSound]); // 依存関係をリストに追加
 
-	useEffect(() => {
-		const handleShake = throttle((e: DeviceMotionEvent) => {
+	const handleShake = useCallback(
+		(e: DeviceMotionEvent) => {
+			if (!observePlaySound()) {
+				return;
+			}
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
@@ -90,17 +106,24 @@ export const useSoundHook = () => {
 			if (isShaking) {
 				playSound();
 			}
-		}, 200);
+		},
+		[playSound]
+	);
+	useEffect(() => {
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
+		} else {
+			// どちらかがfalseの場合、イベントリスナーを削除する
+			window.removeEventListener("devicemotion", handleShake);
+			window.removeEventListener("touchmove", handleSwipe);
 		}
 
 		return () => {
 			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [isSoundOn, isPermissionGranted, playSound, handleSwipe]);
+	}, [isSoundOn, isPermissionGranted, playSound, handleSwipe, handleShake]);
 
 	return {
 		isSoundOn,
