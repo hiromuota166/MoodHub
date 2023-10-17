@@ -34,14 +34,13 @@ const throttle = <T extends any[]>(func: (...args: T) => void, interval: number)
 	};
 };
 
-const PLAY_SOUND_INTERVAL = 50; // 例として150ミリ秒を設定
+const PLAY_SOUND_INTERVAL = 100; // 例として150ミリ秒を設定
 
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
 	const [isDevicemotionPermissionGranted, setIsDevicemotionPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
-
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	useEffect(() => {
@@ -50,41 +49,17 @@ export const useSoundHook = () => {
 		}
 	}, []);
 
-	type TimeData = {
-		timestamp: number;
-		difference: number;
-	};
-
-	const [playData, setPlayData] = useState<TimeData[]>([]);
-
 	const playSound = useCallback(() => {
-		const now = Date.now();
-
-		// 最後のタイムスタンプとの差分を計算
-		const lastTimestamp = playData.length > 0 ? playData[playData.length - 1].timestamp : 0;
-		const timeDifference = now - lastTimestamp;
-
-		// インターバルよりも短い場合は早期リターン
-		if (timeDifference < PLAY_SOUND_INTERVAL) {
-			return;
-		}
-
 		if (!audioRef.current) return;
-
 		audioRef.current.play().catch((e) => console.error(e));
-
-		// タイムスタンプと差分のペアを配列に追加
-		setPlayData((prevData) => [...prevData, { timestamp: now, difference: timeDifference }]);
-	}, [playData, audioRef]);
+	}, []);
 
 	const observePlaySound = () => {
 		const now = Date.now();
-
 		// 前回のplaySound実行からの時間が指定インターバルよりも短い場合は早期リターン
 		if (now - lastPlayedTime.current < PLAY_SOUND_INTERVAL) {
 			return false;
 		}
-
 		lastPlayedTime.current = now;
 		return true;
 	};
@@ -134,6 +109,7 @@ export const useSoundHook = () => {
 		},
 		[playSound]
 	);
+
 	useEffect(() => {
 		if (isSoundOn) {
 			window.addEventListener("touchmove", handleSwipe);
@@ -161,7 +137,6 @@ export const useSoundHook = () => {
 		requestPermission,
 		acceleration,
 		playSound,
-		playData,
 	};
 };
 

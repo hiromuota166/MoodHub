@@ -9,7 +9,6 @@ const Page = () => {
 		requestPermission,
 		acceleration,
 		playSound,
-		playData,
 	} = useSoundHook();
 
 	function playVoice(): Promise<HTMLAudioElement> {
@@ -85,16 +84,6 @@ const Page = () => {
 						<li>accelerationZ: {acceleration.z}</li>
 					</ul>
 				</div>
-				{playData.map((data, index) => {
-					return (
-						<div key={index}>
-							<ul>
-								<li>accelerationX: {data.difference}</li>
-								<li>accelerationY: {data.timestamp}</li>
-							</ul>
-						</div>
-					);
-				})}
 			</div>
 		</div>
 	);
