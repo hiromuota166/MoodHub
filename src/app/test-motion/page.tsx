@@ -2,69 +2,11 @@
 import useSoundHook from "@/customhooks/useSoundHook";
 
 const Page = () => {
-	const {
-		isSoundOn,
-		setIsSoundOn,
-		isDevicemotionPermissionGranted,
-		requestPermission,
-		acceleration,
-		playSound,
-	} = useSoundHook();
-
-	function playVoice(): Promise<HTMLAudioElement> {
-		const languageCode = "en-US";
-		const voice = "NEUTRAL";
-
-		// const url = createSpeechUrl(text, languageCode, voice);
-		// Substitute for this SO code snippet:
-
-		// Instantiate the audio element with the source URL
-		// so that it can stream the audio data as early as possible
-		// (without waiting for the entire "file" to buffer)
-		const audio = new Audio("/maracas-sound.mp3");
-
-		// Return a promise with the result of attempting playback
-		// after enough streaming data has been downloaded
-		return new Promise<HTMLAudioElement>((resolve, reject) =>
-			audio.addEventListener("canplaythrough", () =>
-				audio
-					.play()
-					.then(() => resolve(audio))
-					.catch(reject)
-			)
-		);
-	}
+	const { isSoundOn, setIsSoundOn, isDevicemotionPermissionGranted, requestPermission, acceleration } = useSoundHook();
 
 	return (
 		<div>
 			<div className='min-h-[500vh]'>
-				<div>
-					<audio controls className='m-4'>
-						<source src='/maracas-sound.mp3' type='audio/mp3' />
-					</audio>
-				</div>
-				<div>
-					<button className='m-4' onClick={() => playVoice()}>
-						play Sound
-					</button>
-				</div>
-				<div>
-					<button
-						className='m-4'
-						onClick={() => {
-							let audio: HTMLAudioElement | null = new Audio("/maracas-sound.mp3");
-							audio.play();
-							audio = null;
-						}}
-					>
-						play sound
-					</button>
-				</div>
-				<div>
-					<button className='m-4' onClick={playSound}>
-						play Sound
-					</button>
-				</div>
 				<div>
 					<button onClick={() => setIsSoundOn(!isSoundOn)}>
 						{isSoundOn ? "Stop" : "Start"} Sound: is Sound On {isSoundOn.toString()}

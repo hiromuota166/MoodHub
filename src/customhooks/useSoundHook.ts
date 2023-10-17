@@ -128,7 +128,6 @@ export const useSoundHook = () => {
 		isDevicemotionPermissionGranted,
 		requestPermission,
 		acceleration,
-		playSound,
 	};
 };
 
