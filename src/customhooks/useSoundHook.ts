@@ -1,18 +1,20 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
 	const [isPermissionGranted, setIsPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
-	const [accelerationX, setAccelerationX] = useState<number>(0);
-	const [accelerationY, setAccelerationY] = useState<number>(0);
-	const [accelerationZ, setAccelerationZ] = useState<number>(0);
-	const audio = useMemo(() => new Audio("/maracas-sound.wav"), []);
+	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
 
-	const playSound = useCallback(async () => {
-		audio.play();
-	}, [audio])
+	const audioRef = useRef<HTMLAudioElement | null>(null);
+
+	if (typeof window !== "undefined") {
+		audioRef.current = new Audio("/maracas-sound.wav");
+	}
+	const playSound = useCallback(() => {
+		if (!audioRef.current) return;
+		audioRef.current.play();
+	}, []);
 
 	const enableSensor = async (): Promise<boolean> => {
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
@@ -56,40 +58,29 @@ export const useSoundHook = () => {
 			return false;
 		}
 		return true;
-	}
+	};
 
-	const handleShake = useCallback(
-		async (e: DeviceMotionEvent) => {
+	useEffect(() => {
+		const handleShake = (e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
 			const isShaking = detectAcceleration(ax, ay, az);
-			if (e.acceleration && ax && ay && az) {
-				setAccelerationX(ax);
-				setAccelerationY(ay);
-				setAccelerationZ(az);
-			}
-			if (!isShaking) {
-				return;
-			}
-			else {
+
+			setAcceleration({ x: ax, y: ay, z: az });
+
+			if (isShaking) {
 				playSound();
 			}
-		},
-		[setAccelerationX, setAccelerationY, setAccelerationZ, playSound]
-	);
+		};
 
-	const handleSwipe = useCallback(() => {
-		const now = Date.now();
-		if (isSoundOn && now - lastPlayedTime.current >= 150) {
-			// 1秒以上経過しているか確認
-			playSound();
-			lastPlayedTime.current = now; // 最後に再生した時刻を更新
-		}
-	}, [isSoundOn, playSound]);
-
-	useEffect(() => {
-		console.log("useEffect");
+		const handleSwipe = () => {
+			const now = Date.now();
+			if (isSoundOn && now - lastPlayedTime.current >= 150) {
+				playSound();
+				lastPlayedTime.current = now;
+			}
+		};
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
@@ -99,19 +90,16 @@ export const useSoundHook = () => {
 			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [isSoundOn, isPermissionGranted, handleShake, handleSwipe]);
+	}, [isSoundOn, isPermissionGranted, playSound]);
 
 	return {
 		isSoundOn,
 		setIsSoundOn,
 		isPermissionGranted,
 		requestPermission,
-		accelerationX,
-		accelerationY,
-		accelerationZ,
+		acceleration,
 		playSound,
 	};
 };
 
 export default useSoundHook;
-
