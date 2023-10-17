@@ -5,7 +5,6 @@ export const useSoundHook = () => {
 	const [isPermissionGranted, setIsPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
-	const [worker, setWorker] = useState<Worker | null>(null);
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -61,45 +60,30 @@ export const useSoundHook = () => {
 		return true;
 	};
 
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			setWorker(new Worker("/worker.js"));
-		}
-	}, []);
+	const debounce = (func: Function, wait: number) => {
+		let timeoutId: ReturnType<typeof setTimeout> | null = null;
+		return function (...args: any[]) {
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+			timeoutId = setTimeout(() => func(...args), wait);
+		};
+	};
 
 	useEffect(() => {
-		const handleShake = (ax: number, ay: number, az: number) => {
+		const handleShake = (e: DeviceMotionEvent) => {
+			const ax = e.acceleration?.x || 0;
+			const ay = e.acceleration?.y || 0;
+			const az = e.acceleration?.z || 0;
 			const isShaking = detectAcceleration(ax, ay, az);
+			setAcceleration({ x: ax, y: ay, z: az });
 			if (isShaking) {
 				playSound();
 			}
 		};
-		if (worker) {
-			worker.onmessage = (event) => {
-				// Handle worker messages here
-				switch (event.data.action) {
-					case "ACCELERATION_DATA":
-						const { ax, ay, az } = event.data.data;
-						// ここで取得した加速度データを利用して何らかの処理を行います
-						handleShake(ax, ay, az);
-						setAcceleration({ x: ax, y: ay, z: az });
-						break;
-					default:
-						console.error("Unknown action:", event.data.action);
-				}
-			};
 
-			// Example of sending a message to the worker
-			// 加速度の監視を開始
-			worker.postMessage({ action: "START_ACCELERATION_MONITORING" });
-		}
+		const debouncedHandleShake = debounce(handleShake, 100);
 
-		return () => {
-			worker?.terminate(); // Cleanup the worker when component unmounts
-		};
-	}, [worker, playSound]);
-
-	useEffect(() => {
 		const handleSwipe = () => {
 			const now = Date.now();
 			if (isSoundOn && now - lastPlayedTime.current >= 150) {
@@ -109,10 +93,12 @@ export const useSoundHook = () => {
 		};
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("touchmove", handleSwipe);
+			window.addEventListener("devicemotion", debouncedHandleShake);
 		}
 
 		return () => {
 			window.removeEventListener("touchmove", handleSwipe);
+			window.removeEventListener("devicemotion", debouncedHandleShake);
 		};
 	}, [isSoundOn, isPermissionGranted, playSound]);
 
