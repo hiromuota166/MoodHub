@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const detectAcceleration = (x: number, y: number, z: number) => {
-	const threshold = 10;
+	const threshold = 20
 	const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
 	if (magnitude < threshold) {
 		return false;
