@@ -11,7 +11,7 @@ const Page = () => {
 					<button
 						className='m-4'
 						onClick={async () => {
-							let audio: HTMLAudioElement | null = new Audio("/maracas-sound.wav");
+							let audio: HTMLAudioElement | null = new Audio("/maracas-sound.mp3");
 							await audio.play();
 							audio = null;
 						}}

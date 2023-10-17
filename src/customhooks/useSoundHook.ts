@@ -9,7 +9,7 @@ export const useSoundHook = () => {
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	if (typeof window !== "undefined") {
-		audioRef.current = new Audio("/maracas-sound.wav");
+		audioRef.current = new Audio("/maracas-sound.mp3");
 	}
 	const playSound = useCallback(() => {
 		if (!audioRef.current) return;
