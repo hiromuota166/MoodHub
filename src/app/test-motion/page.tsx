@@ -2,7 +2,15 @@
 import useSoundHook from "@/customhooks/useSoundHook";
 
 const Page = () => {
-	const { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission, acceleration, playSound } = useSoundHook();
+	const {
+		isSoundOn,
+		setIsSoundOn,
+		isDevicemotionPermissionGranted,
+		requestPermission,
+		acceleration,
+		playSound,
+		playData,
+	} = useSoundHook();
 
 	function playVoice(): Promise<HTMLAudioElement> {
 		const languageCode = "en-US";
@@ -30,7 +38,7 @@ const Page = () => {
 
 	return (
 		<div>
-			<div className=''>
+			<div className='min-h-[500vh]'>
 				<div>
 					<audio controls className='m-4'>
 						<source src='/maracas-sound.mp3' type='audio/mp3' />
@@ -66,7 +74,7 @@ const Page = () => {
 				<div>
 					{
 						<button onClick={requestPermission}>
-							Enable Motion: is permission Granted {isPermissionGranted.toString()}
+							Enable Motion: is permission Granted {isDevicemotionPermissionGranted.toString()}
 						</button>
 					}
 				</div>
@@ -77,6 +85,16 @@ const Page = () => {
 						<li>accelerationZ: {acceleration.z}</li>
 					</ul>
 				</div>
+				{playData.map((data, index) => {
+					return (
+						<div key={index}>
+							<ul>
+								<li>accelerationX: {data.difference}</li>
+								<li>accelerationY: {data.timestamp}</li>
+							</ul>
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);

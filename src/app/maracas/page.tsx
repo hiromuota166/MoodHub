@@ -2,12 +2,12 @@
 import Show3dObj from "@/components/Show3dObj";
 import useSoundHook from "@/customhooks/useSoundHook";
 const Page = () => {
-	const { isSoundOn, setIsSoundOn, isPermissionGranted, requestPermission } = useSoundHook();
+	const { isSoundOn, setIsSoundOn, isDevicemotionPermissionGranted, requestPermission } = useSoundHook();
 	return (
 		<div>
 			<div className='absolute top-0 right-0 z-10'>
 				<button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound</button>
-				{!isPermissionGranted || true ? <button onClick={requestPermission}>Enable Motion</button> : <></>}
+				{!isDevicemotionPermissionGranted || true ? <button onClick={requestPermission}>Enable Motion</button> : <></>}
 			</div>
 			<Show3dObj />
 		</div>
