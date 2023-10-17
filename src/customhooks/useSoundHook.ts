@@ -1,5 +1,39 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+const detectAcceleration = (x: number, y: number, z: number) => {
+	const threshold = 5;
+	const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+	if (magnitude < threshold) {
+		return false;
+	}
+	return true;
+};
+
+const throttle = <T extends any[]>(func: (...args: T) => void, interval: number) => {
+	// この関数はintervalミリ秒間に一度しか実行されません。
+	// 高頻度で呼び出された場合でも、intervalミリ秒の間隔を空けて実行されます。
+	// intervalミリ秒の間隔中に関数が複数回呼び出された場合、最後の呼び出しが次のintervalミリ秒のタイミングで実行されます。
+	let isThrottled = false;
+	let argsForNextRun: T | null = null;
+
+	return (...args: T) => {
+		if (!isThrottled) {
+			isThrottled = true;
+			func(...args);
+			setTimeout(() => {
+				isThrottled = false;
+				if (argsForNextRun) {
+					func(...argsForNextRun);
+					argsForNextRun = null;
+				}
+			}, interval);
+		} else {
+			argsForNextRun = args;
+		}
+	};
+};
+
 export const useSoundHook = () => {
 	const [isSoundOn, setIsSoundOn] = useState(false);
 	const [isPermissionGranted, setIsPermissionGranted] = useState(false);
@@ -8,17 +42,18 @@ export const useSoundHook = () => {
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
-	if (typeof window !== "undefined") {
-		audioRef.current = new Audio("/maracas-sound.mp3");
-	}
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			audioRef.current = new Audio("/maracas-sound.mp3");
+		}
+	}, []);
+
 	const playSound = useCallback(() => {
 		if (!audioRef.current) return;
 		audioRef.current.play().catch((e) => console.error(e));
 	}, []);
 
 	const requestPermission = async () => {
-		// const sensor = await enableSensor();
-		// setIsPermissionGranted(sensor);
 		if (
 			typeof DeviceMotionEvent !== "undefined" &&
 			typeof (DeviceMotionEvent as any).requestPermission === "function"
@@ -35,60 +70,32 @@ export const useSoundHook = () => {
 		}
 	};
 
-	const detectAcceleration = (x: number, y: number, z: number) => {
-		const threshold = 5;
-		const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
-		if (magnitude < threshold) {
-			return false;
+	const handleShake = useCallback(
+		() =>
+			throttle((e: DeviceMotionEvent) => {
+				const ax = e.acceleration?.x || 0;
+				const ay = e.acceleration?.y || 0;
+				const az = e.acceleration?.z || 0;
+				const isShaking = detectAcceleration(ax, ay, az);
+
+				setAcceleration({ x: ax, y: ay, z: az });
+
+				if (isShaking) {
+					playSound();
+				}
+			}, 200),
+		[playSound, setAcceleration] // 依存関係をリストに追加
+	);
+
+	const handleSwipe = useCallback(() => {
+		const now = Date.now();
+		if (isSoundOn && now - lastPlayedTime.current >= 150) {
+			playSound();
+			lastPlayedTime.current = now;
 		}
-		return true;
-	};
-
-	const throttle = <T extends any[]>(func: (...args: T) => void, interval: number) => {
-		// この関数はintervalミリ秒間に一度しか実行されません。
-		// 高頻度で呼び出された場合でも、intervalミリ秒の間隔を空けて実行されます。
-		// intervalミリ秒の間隔中に関数が複数回呼び出された場合、最後の呼び出しが次のintervalミリ秒のタイミングで実行されます。
-		let isThrottled = false;
-		let argsForNextRun: T | null = null;
-
-		return (...args: T) => {
-			if (!isThrottled) {
-				isThrottled = true;
-				func(...args);
-				setTimeout(() => {
-					isThrottled = false;
-					if (argsForNextRun) {
-						func(...argsForNextRun);
-						argsForNextRun = null;
-					}
-				}, interval);
-			} else {
-				argsForNextRun = args;
-			}
-		};
-	};
+	}, [isSoundOn, playSound]); // 依存関係をリストに追加
 
 	useEffect(() => {
-		const handleShake = throttle((e: DeviceMotionEvent) => {
-			const ax = e.acceleration?.x || 0;
-			const ay = e.acceleration?.y || 0;
-			const az = e.acceleration?.z || 0;
-			const isShaking = detectAcceleration(ax, ay, az);
-
-			setAcceleration({ x: ax, y: ay, z: az });
-
-			if (isShaking) {
-				playSound();
-			}
-		}, 200);
-
-		const handleSwipe = () => {
-			const now = Date.now();
-			if (isSoundOn && now - lastPlayedTime.current >= 150) {
-				playSound();
-				lastPlayedTime.current = now;
-			}
-		};
 		if (isSoundOn && isPermissionGranted) {
 			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
@@ -98,7 +105,7 @@ export const useSoundHook = () => {
 			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [isSoundOn, isPermissionGranted, playSound]);
+	}, [isSoundOn, isPermissionGranted, playSound, handleShake, handleSwipe]);
 
 	return {
 		isSoundOn,
