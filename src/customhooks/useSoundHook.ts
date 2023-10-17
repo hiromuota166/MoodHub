@@ -16,22 +16,6 @@ export const useSoundHook = () => {
 		audioRef.current.play().catch((e) => console.error(e));
 	}, []);
 
-	const enableSensor = async (): Promise<boolean> => {
-		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-		if (isIOS) {
-			// ios の場合は明示的に許可が必要
-			const response = await (DeviceMotionEvent as any).requestPermission();
-			if (response === "granted") {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			// android
-			return true;
-		}
-	};
-
 	const requestPermission = async () => {
 		// const sensor = await enableSensor();
 		// setIsPermissionGranted(sensor);
@@ -60,29 +44,19 @@ export const useSoundHook = () => {
 		return true;
 	};
 
-	const debounce = (func: Function, wait: number) => {
-		let timeoutId: ReturnType<typeof setTimeout> | null = null;
-		return function (...args: any[]) {
-			if (timeoutId !== null) {
-				clearTimeout(timeoutId);
-			}
-			timeoutId = setTimeout(() => func(...args), wait);
-		};
-	};
-
 	useEffect(() => {
 		const handleShake = (e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
 			const isShaking = detectAcceleration(ax, ay, az);
+
 			setAcceleration({ x: ax, y: ay, z: az });
+
 			if (isShaking) {
 				playSound();
 			}
 		};
-
-		const debouncedHandleShake = debounce(handleShake, 100);
 
 		const handleSwipe = () => {
 			const now = Date.now();
@@ -92,13 +66,13 @@ export const useSoundHook = () => {
 			}
 		};
 		if (isSoundOn && isPermissionGranted) {
+			window.addEventListener("devicemotion", handleShake);
 			window.addEventListener("touchmove", handleSwipe);
-			window.addEventListener("devicemotion", debouncedHandleShake);
 		}
 
 		return () => {
+			window.removeEventListener("devicemotion", handleShake);
 			window.removeEventListener("touchmove", handleSwipe);
-			window.removeEventListener("devicemotion", debouncedHandleShake);
 		};
 	}, [isSoundOn, isPermissionGranted, playSound]);
 
