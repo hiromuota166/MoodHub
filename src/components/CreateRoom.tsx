@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { gql, useMutation } from "@apollo/client";
 import { useState } from 'react';
 import { makeUID } from '@/functions/makeUID';
-
+import NavigateButton from './NavigateButton';
 const CreateRoom = () => {
     const router = useRouter();
     const CREATE_ROOM_MUTATION = gql`
@@ -52,11 +52,12 @@ const CreateRoom = () => {
         }
     }
     return (
-        <a href="/target-page" onClick={(e) => handleClick(e, '/target-page')}>
-            <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
-                <h2>ルーム作成</h2>
-            </div>
-        </a>
+        <NavigateButton href={"/maracas"} label={"ルーム作成"} onClick={(e) => handleClick(e, '/target-page')} />
+        // <a href="/target-page" onClick={(e) => handleClick(e, '/target-page')}>
+        //     <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
+        //         <h2>ルーム作成</h2>
+        //     </div>
+        // </a>
     )
 }
 
