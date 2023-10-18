@@ -1,11 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import type { NextPage } from "next";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const Show3dObj = () => {
+interface Show3dObjProps {
+	mode: "normal" | "special";
+}
+
+const Show3dObj = (props: Show3dObjProps) => {
+	const { mode } = props;
 	const mountRef = useRef<HTMLDivElement>(null);
 	const [feverMode, setFeverMode] = useState(false);
 
@@ -30,41 +34,45 @@ const Show3dObj = () => {
 
 		const loader = new GLTFLoader();
 
-		loader.load(
-			"/maracas-gold.glb",
-			(gltf) => {
-				// When the .gltf is loaded
-				gltf.scene.position.set(0, 1.5, 0);
-				gltf.scene.scale.set(1.5, 1.5, 1.5);
-				scene.add(gltf.scene); // Add the loaded object to the scene
-			},
-			(xhr) => {
-				// Called while loading is progressing
-				console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
-			},
-			(error) => {
-				// Called when an error occurred
-				console.log("An error happened", error);
-			}
-		);
+		if (mode === "normal") {
 
-		loader.load(
-			"/maracas-wood.glb",
-			(gltf) => {
-				// When the .gltf is loaded
-				gltf.scene.scale.set(1.5, 1.5, 1.5);
-				gltf.scene.position.set(3, 1.5, 0);
-				scene.add(gltf.scene); // Add the loaded object to the scene
-			},
-			(xhr) => {
-				// Called while loading is progressing
-				console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
-			},
-			(error) => {
-				// Called when an error occurred
-				console.log("An error happened", error);
-			}
-		);
+			loader.load(
+				"/maracas-wood.glb",
+				(gltf) => {
+					// When the .gltf is loaded
+					gltf.scene.position.set(0, 1.5, 0);
+					gltf.scene.scale.set(1.5, 1.5, 1.5);
+					scene.add(gltf.scene); // Add the loaded object to the scene
+				},
+				(xhr) => {
+					// Called while loading is progressing
+					console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+				},
+				(error) => {
+					// Called when an error occurred
+					console.log("An error happened", error);
+				}
+			);
+		} else if (mode === "special") {
+
+			loader.load(
+				"/maracas-gold.glb",
+				(gltf) => {
+					// When the .gltf is loaded
+					gltf.scene.scale.set(1.5, 1.5, 1.5);
+					gltf.scene.position.set(0, 1.5, 0);
+					scene.add(gltf.scene); // Add the loaded object to the scene
+				},
+				(xhr) => {
+					// Called while loading is progressing
+					console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+				},
+				(error) => {
+					// Called when an error occurred
+					console.log("An error happened", error);
+				}
+			);
+		}
 
 		//DirectionalLight
 		const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
@@ -118,8 +126,6 @@ const Show3dObj = () => {
 
 				spotLight.color.setHSL(Math.sin(Date.now() * 0.001), 1, 0.5);
 
-				// cube.rotation.x += 0.01;
-				// cube.rotation.y += 0.01;
 				requestAnimationFrame(animate);
 			} else {
 				scene.background = new THREE.Color("#D6E5E3"); // 背景色を設定
@@ -158,4 +164,3 @@ const Show3dObj = () => {
 };
 
 export default Show3dObj;
-
