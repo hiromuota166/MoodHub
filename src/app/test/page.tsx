@@ -1,7 +1,7 @@
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import React from 'react'
 
-function page() {
+function Page() {
   return (
     <>
       <GoogleLoginBtn/>
@@ -9,4 +9,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
