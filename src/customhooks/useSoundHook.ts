@@ -1,15 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const detectAcceleration = (x: number, y: number, z: number) => {
-	const threshold = 20;
-	const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
-	if (magnitude < threshold) {
-		return false;
-	}
-	return true;
-};
-
 const throttle = <T extends any[]>(func: (...args: T) => void, interval: number) => {
 	// この関数はintervalミリ秒間に一度しか実行されません。
 	// 高頻度で呼び出された場合でも、intervalミリ秒の間隔を空けて実行されます。
@@ -42,6 +33,7 @@ export const useSoundHook = () => {
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
 	const [loadingState, setLoadingState] = useState<"init" | "loading" | "loaded" | "error">("init");
+	const [threshold, setThreshold] = useState(20); // 例として20を設定
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
 	if (typeof window !== "undefined") {
@@ -88,6 +80,17 @@ export const useSoundHook = () => {
 		return true;
 	};
 
+	const detectAcceleration = useCallback(
+		(x: number, y: number, z: number) => {
+			const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+			if (magnitude < threshold) {
+				return false;
+			}
+			return true;
+		},
+		[threshold]
+	);
+
 	const requestPermission = async () => {
 		if (
 			typeof DeviceMotionEvent !== "undefined" &&
@@ -116,7 +119,7 @@ export const useSoundHook = () => {
 		playSound();
 	}, [playSound]); // 依存関係をリストに追加
 
-	const [shankeInterval, setShankeInterval] = useState(200)
+	const [shankeInterval, setShankeInterval] = useState(200);
 
 	useEffect(() => {
 		const handleShake = throttle((e: DeviceMotionEvent) => {
@@ -147,7 +150,15 @@ export const useSoundHook = () => {
 			window.removeEventListener("touchstart", handleStart);
 			window.removeEventListener("devicemotion", handleShake);
 		};
-	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleStart, shankeInterval]);
+	}, [
+		isSoundOn,
+		isDevicemotionPermissionGranted,
+		playSound,
+		handleSwipe,
+		handleStart,
+		shankeInterval,
+		detectAcceleration,
+	]);
 
 	return {
 		isSoundOn,
@@ -159,7 +170,9 @@ export const useSoundHook = () => {
 		reloadAudio: loadAudio,
 		playSound,
 		shankeInterval,
-		setShankeInterval
+		setShankeInterval,
+		threshold,
+		setThreshold,
 	};
 };
 
