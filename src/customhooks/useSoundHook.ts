@@ -41,18 +41,23 @@ export const useSoundHook = () => {
 	const [isDevicemotionPermissionGranted, setIsDevicemotionPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
-	const [loadingState, setLoadingState] = useState<"loading" | "loaded" | "error">("loading");
+	const [loadingState, setLoadingState] = useState<"init" | "loading" | "loaded" | "error">("init");
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
-
+	const audioContext = new window.AudioContext();
+	audioContextRef.current = audioContext;
 	const loadAudio = async () => {
 		setLoadingState("loading");
 		try {
-			if (audioContextRef.current === null) return;
-			const response = await fetch("/maracas-sound.mp3");
-			const audioData = await response.arrayBuffer();
-			audioBufferRef.current = await audioContextRef.current.decodeAudioData(audioData);
-			setLoadingState("loaded");
+			if (typeof window !== "undefined") {
+				audioContextRef.current = new AudioContext();
+				console.log("audioContextRef.current", audioContextRef.current);
+				const response = await fetch("/maracas-sound.mp3");
+				console.log("fetched");
+				const audioData = await response.arrayBuffer();
+				audioBufferRef.current = await audioContextRef.current.decodeAudioData(audioData);
+				setLoadingState("loaded");
+			}
 		} catch (error) {
 			console.error("Failed to load audio:", error);
 			setLoadingState("error");
