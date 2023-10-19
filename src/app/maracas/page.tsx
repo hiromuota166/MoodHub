@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import NavigateButton from "@/components/NavigateButton";
 const Page = () => {
 	const navigationButtonProps = [

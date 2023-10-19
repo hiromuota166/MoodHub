@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const detectAcceleration = (x: number, y: number, z: number) => {
-	const threshold = 20
+	const threshold = 20;
 	const magnitude = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
 	if (magnitude < threshold) {
 		return false;
@@ -41,21 +41,26 @@ export const useSoundHook = () => {
 	const [isDevicemotionPermissionGranted, setIsDevicemotionPermissionGranted] = useState(false);
 	const lastPlayedTime = useRef<number>(0);
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
+	const [loadingState, setLoadingState] = useState<"loading" | "loaded" | "error">("loading");
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
 
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			audioContextRef.current = new AudioContext();
-
-			fetch("/maracas-sound.mp3")
-				.then((response) => response.arrayBuffer())
-				.then((data) => audioContextRef.current!.decodeAudioData(data))
-				.then((buffer) => {
-					audioBufferRef.current = buffer;
-				})
-				.catch((e) => console.error(e));
+	const loadAudio = async () => {
+		setLoadingState("loading");
+		try {
+			if (audioContextRef.current === null) return;
+			const response = await fetch("/maracas-sound.mp3");
+			const audioData = await response.arrayBuffer();
+			audioBufferRef.current = await audioContextRef.current.decodeAudioData(audioData);
+			setLoadingState("loaded");
+		} catch (error) {
+			console.error("Failed to load audio:", error);
+			setLoadingState("error");
 		}
+	};
+
+	useEffect(() => {
+		loadAudio();
 	}, []);
 
 	const playSound = useCallback(() => {
@@ -141,6 +146,9 @@ export const useSoundHook = () => {
 		isDevicemotionPermissionGranted,
 		requestPermission,
 		acceleration,
+		loadingState,
+		reloadAudio: loadAudio,
+		playSound,
 	};
 };
 
