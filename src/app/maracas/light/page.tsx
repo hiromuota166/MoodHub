@@ -35,7 +35,7 @@ const Page = () => {
 				<p>shankeInterval: Current Value: {shankeInterval}</p>
 			</div>
 			<div>
-				<input type='range' min='0' max='1000' step='10' value={threshold} onChange={handleThresholdChange} />
+				<input type='range' min='0' max='30' value={threshold} onChange={handleThresholdChange} />
 				<p>Shake Power threshold: Current Value: {threshold}</p>
 			</div>
 			<div className='w-[60%] h-[60%] m-auto'>
