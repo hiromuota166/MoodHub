@@ -116,32 +116,20 @@ export const useSoundHook = () => {
 		playSound();
 	}, [playSound]); // 依存関係をリストに追加
 
-	useEffect(() => {
-		const movingAverage = (value: number, previousValues: number[], windowSize: number = 5) => {
-			previousValues.push(value);
-			if (previousValues.length > windowSize) {
-				previousValues.shift();
-			}
-			return previousValues.reduce((acc, val) => acc + val, 0) / previousValues.length;
-		};
+	const [shankeInterval, setShankeInterval] = useState(200)
 
-		let previousXValues: number[] = [];
-		let previousYValues: number[] = [];
-		let previousZValues: number[] = [];
+	useEffect(() => {
 		const handleShake = throttle((e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
-			const smoothX = movingAverage(ax, previousXValues);
-			const smoothY = movingAverage(ay, previousYValues);
-			const smoothZ = movingAverage(az, previousZValues);
 
-			const isShaking = detectAcceleration(smoothX, smoothY, smoothZ);
+			const isShaking = detectAcceleration(ax, ay, az);
 			setAcceleration({ x: ax, y: ay, z: az });
 			if (isShaking) {
 				playSound();
 			}
-		}, PLAY_SOUND_INTERVAL);
+		}, shankeInterval);
 		if (isSoundOn) {
 			window.addEventListener("touchmove", handleSwipe);
 			window.addEventListener("touchstart", handleStart);
@@ -159,7 +147,7 @@ export const useSoundHook = () => {
 			window.removeEventListener("touchstart", handleStart);
 			window.removeEventListener("devicemotion", handleShake);
 		};
-	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleStart]);
+	}, [isSoundOn, isDevicemotionPermissionGranted, playSound, handleSwipe, handleStart, shankeInterval]);
 
 	return {
 		isSoundOn,
@@ -170,6 +158,8 @@ export const useSoundHook = () => {
 		loadingState,
 		reloadAudio: loadAudio,
 		playSound,
+		shankeInterval,
+		setShankeInterval
 	};
 };
 
