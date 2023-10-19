@@ -117,16 +117,31 @@ export const useSoundHook = () => {
 	}, [playSound]); // 依存関係をリストに追加
 
 	useEffect(() => {
+		const movingAverage = (value: number, previousValues: number[], windowSize: number = 5) => {
+			previousValues.push(value);
+			if (previousValues.length > windowSize) {
+				previousValues.shift();
+			}
+			return previousValues.reduce((acc, val) => acc + val, 0) / previousValues.length;
+		};
+
+		let previousXValues: number[] = [];
+		let previousYValues: number[] = [];
+		let previousZValues: number[] = [];
 		const handleShake = throttle((e: DeviceMotionEvent) => {
 			const ax = e.acceleration?.x || 0;
 			const ay = e.acceleration?.y || 0;
 			const az = e.acceleration?.z || 0;
-			const isShaking = detectAcceleration(ax, ay, az);
+			const smoothX = movingAverage(ax, previousXValues);
+			const smoothY = movingAverage(ay, previousYValues);
+			const smoothZ = movingAverage(az, previousZValues);
+
+			const isShaking = detectAcceleration(smoothX, smoothY, smoothZ);
 			setAcceleration({ x: ax, y: ay, z: az });
 			if (isShaking) {
 				playSound();
 			}
-		}, 100);
+		}, PLAY_SOUND_INTERVAL);
 		if (isSoundOn) {
 			window.addEventListener("touchmove", handleSwipe);
 			window.addEventListener("touchstart", handleStart);
