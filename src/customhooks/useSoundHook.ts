@@ -44,13 +44,14 @@ export const useSoundHook = () => {
 	const [loadingState, setLoadingState] = useState<"init" | "loading" | "loaded" | "error">("init");
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
-	const audioContext = new window.AudioContext();
-	audioContextRef.current = audioContext;
+	if (typeof window !== "undefined") {
+		const audioContext = new window.AudioContext();
+		audioContextRef.current = audioContext;
+	}
 	const loadAudio = async () => {
 		setLoadingState("loading");
 		try {
-			if (typeof window !== "undefined") {
-				audioContextRef.current = new AudioContext();
+			if (typeof window !== "undefined" && audioContextRef.current) {
 				console.log("audioContextRef.current", audioContextRef.current);
 				const response = await fetch("/maracas-sound.mp3");
 				console.log("fetched");
