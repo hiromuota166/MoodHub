@@ -1,13 +1,31 @@
-"use client"
+"use client";
 import Link from "next/link";
 import NavigateButton from "@/components/NavigateButton";
 const Page = () => {
+	const navigationButtonProps = [
+		{
+			href: "/maracas/light",
+			label: "軽量マラカス",
+		},
+		{
+			href: "/maracas/normal",
+			label: "ノーマルマラカス",
+		},
+		{
+			href: "/maracas/special",
+			label: "スペシャルマラカス",
+		},
+	];
 	return (
-		<div className="flex justify-center items-center h-[70vh]">
-			<div className="flex w-fit h-fit m-auto gap-4">
-				<NavigateButton href={"/maracas/light"} label={"軽量マラカス"} />
-				<NavigateButton href={"/maracas/normal"} label={"ノーマルマラカス"} />
-				<NavigateButton href={"/maracas/special"} label={"スペシャルマラカス"} />
+		<div className='flex justify-center items-center h-[70vh]'>
+			<div className='xl:flex w-fit h-fit m-auto gap-4'>
+				{navigationButtonProps.map((props, i) => {
+					return (
+						<div key={i} className="w-fit m-auto">
+							<NavigateButton href={props.href} label={props.label} />
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);
