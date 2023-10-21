@@ -31,7 +31,7 @@ const Page = () => {
 			<div>loadingState: {loadingState}</div>
 			<button onClick={reloadAudio}>reload audio</button>
 			<div>
-				<input type='range' min='0' max='1000' step='10' value={shankeInterval} onChange={handleSliderChange} />
+				<input type='range' min='0' max='300' step='10' value={shankeInterval} onChange={handleSliderChange} />
 				<p>shankeInterval: Current Value: {shankeInterval}</p>
 			</div>
 			<div>
