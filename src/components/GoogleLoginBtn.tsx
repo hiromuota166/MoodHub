@@ -1,36 +1,41 @@
-'use client'
 import { useAuth } from "@/context/auth";
 import { login, logout } from "@/lib/auth";
 import { useEffect, useState } from "react";
 
+type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
+
 export default function GoogleLoginBtn() {
   const user = useAuth();
-  const [waiting, setWaiting] = useState<boolean>(false);
-
+  const [loginState, setLoginState] = useState<LoginState>("NOT_LOGGED_IN");
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    console.log(user)
-    if (user != undefined && user != null) { 
-      console.log("ログイン成功")
+    if (user) {
+      setLoginState("LOGGED_IN");
+    } else if (loginState !== "LOGGING_IN") {
+      setLoginState("NOT_LOGGED_IN");
     }
   }, [user]);
 
   const signIn = () => {
-    setWaiting(true);
+    setLoginState("LOGGING_IN");
 
     login()
+      .then(() => {
+        setLoginState("LOGGED_IN");
+      })
       .catch((error) => {
         console.error(error?.code);
-      })
-      //ログインい失敗しても成功しても、setWaiting(false)を実行
-      .finally(() => {
-        setWaiting(false);
+        setError(error?.message || "ログインに失敗しました");
+        setLoginState("LOGIN_FAILED");
       });
   };
+
   return (
     <div>
-      {user === null && !waiting && <button onClick={signIn}>ログイン</button>}
-      {user && <button onClick={logout}>ログアウト</button>}
+      {loginState === "NOT_LOGGED_IN" && <button onClick={signIn}>ログイン</button>}
+      {loginState === "LOGGED_IN" && <button onClick={logout}>ログアウト</button>}
+      {loginState === "LOGIN_FAILED" && <p>{error}</p>}
     </div>
   );
 }
