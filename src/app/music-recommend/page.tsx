@@ -6,7 +6,7 @@ import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 
-type SongListProps = {
+interface SongListProps {
   roomId: number;
   userID: number;
 };
