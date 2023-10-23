@@ -43,7 +43,6 @@ export const useSoundHook = () => {
 		try {
 			if (typeof window !== "undefined" && audioContextRef.current) {
 				const response = await fetch("/maracas-sound.mp3");
-				console.log("fetched");
 				const audioData = await response.arrayBuffer();
 				audioBufferRef.current = await audioContextRef.current.decodeAudioData(audioData);
 				setLoadingState("loaded");
@@ -83,7 +82,6 @@ export const useSoundHook = () => {
 	const observePlaySound = useCallback(() => {
 		const now = Date.now();
 		// 前回のplaySound実行からの時間が指定インターバルよりも短い場合は早期リターン
-		console.log((now - lastPlayedTime.current).toString());
 		if (now - lastPlayedTime.current < shankeInterval) {
 			return false;
 		}
@@ -130,26 +128,6 @@ export const useSoundHook = () => {
 		playSound();
 	}, [playSound]); // 依存関係をリストに追加
 
-	// const handleShake = useCallback(
-	// 	() =>
-	// 		throttle((e: DeviceMotionEvent) => {
-	// 			if (!observePlaySound()) {
-	// 				return;
-	// 			}
-	// 			const ax = e.acceleration?.x || 0;
-	// 			const ay = e.acceleration?.y || 0;
-	// 			const az = e.acceleration?.z || 0;
-
-	// 			const isShaking = detectAcceleration(ax, ay, az);
-	// 			setAcceleration({ x: ax, y: ay, z: az });
-	// 			if (isShaking) {
-	// 				console.log("shake");
-	// 				playSound();
-	// 			}
-	// 		}, shankeInterval),
-	// 	[playSound, detectAcceleration, shankeInterval]
-	// );
-
 	const handleShake = useCallback(
 		(e: DeviceMotionEvent) => {
 			if (!observePlaySound()) {
@@ -162,33 +140,13 @@ export const useSoundHook = () => {
 			const isShaking = detectAcceleration(ax, ay, az);
 			setAcceleration({ x: ax, y: ay, z: az });
 			if (isShaking) {
-				console.log("shake");
 				playSound();
 			}
 		},
 		[playSound, detectAcceleration, observePlaySound]
 	);
 
-	// const throttledShake = throttle((e: DeviceMotionEvent) => {
-	// 	if (!observePlaySound()) {
-	// 		return;
-	// 	}
-	// 	const ax = e.acceleration?.x || 0;
-	// 	const ay = e.acceleration?.y || 0;
-	// 	const az = e.acceleration?.z || 0;
-
-	// 	const isShaking = detectAcceleration(ax, ay, az);
-	// 	setAcceleration({ x: ax, y: ay, z: az });
-	// 	if (isShaking) {
-	// 		console.log("shake");
-	// 		playSound();
-	// 	}
-	// }, shankeInterval);
-
-	// const handleShake = useCallback(throttledShake, [playSound, detectAcceleration, shankeInterval, throttledShake]);
-
 	useEffect(() => {
-		console.log("useEffect");
 		if (isSoundOn) {
 			window.addEventListener("touchmove", handleSwipe);
 			window.addEventListener("touchstart", handleStart);
