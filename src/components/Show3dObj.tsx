@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import * as THREE from "three";
+import { useEffect } from "react";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { useThreeScene } from "@/customhooks/threeCustomhooks/useThreeScene";
 import { useThreeLighting } from "@/customhooks/threeCustomhooks/useThreeLighting";
@@ -37,7 +36,9 @@ const Show3dObj = (props: Show3dObjProps) => {
 
 	return (
 		<div ref={mountRef} className='absolute top-0 left-0 w-full h-full'>
-			<button onClick={() => setFeverMode(!feverMode)}>{feverMode ? "Stop" : "Start"} Animation</button>
+			<button className={`absolute top-0 left-0 ${feverMode?"text-background": "text-font"} `} onClick={() => setFeverMode(!feverMode)}>
+				start {feverMode ? "normal" : "fever"} Mode
+			</button>
 		</div>
 	);
 };
