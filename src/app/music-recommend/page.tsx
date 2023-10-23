@@ -1,10 +1,11 @@
-'use client'
+'use client';
 import React, { Suspense } from "react";
 import useSongByRoomId from "@/lib/useSongByRoomId";
 import NeumourList from "@/components/NeumorList";
 import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
+import IsLoading from "@/components/IsLoading";
 
 interface SongListProps {
   roomId: number;
@@ -33,19 +34,19 @@ const Page = () => {
   const userID = searchParams.get("userID");
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {
-    return <div>Loading...</div>;
+    return <IsLoading />;
   }
   if (typeof roomID !== "string" || typeof userID !== "string") {
     return <p>ルームIDまたはユーザーIDが不正です。</p>
   }
   if (!roomID) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<IsLoading />}>
         <SongList roomId={Number(roomID)} userID={Number(userID)} />
       </Suspense>)
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<IsLoading />}>
       <SongList roomId={Number(roomID)} userID={Number(userID)} />
     </Suspense>
   );
