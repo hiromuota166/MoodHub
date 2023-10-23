@@ -7,6 +7,7 @@ const zenkakugothicnew = Zen_Kaku_Gothic_New({
   weight: "400",
   subsets: ['latin']
 })
+import { AuthProvider } from '@/context/auth'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,12 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${zenkakugothicnew.className} bg-background`}>
-        <ApolloWrapper>
-          <Header />
-          <main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12"'>
-            {children}
-          </main>
-        </ApolloWrapper>
+        <AuthProvider>
+          <ApolloWrapper>
+            <Header />
+            <main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12"'>
+              {children}
+            </main>
+          </ApolloWrapper>
+        </AuthProvider>
       </body>
     </html>
   )
