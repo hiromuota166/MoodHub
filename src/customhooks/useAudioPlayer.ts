@@ -1,16 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 
-const useAudioPlayer = (audioFile: string) => {
+const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
     const [loadingState, setLoadingState] = useState<"init" | "loading" | "loaded" | "error">("init");
     const audioContextRef = useRef<AudioContext | null>(null);
     const audioBufferRef = useRef<AudioBuffer | null>(null);
 
     // 音声ファイルを読み込む関数
-    const loadAudio = async () => {
+    const loadAudio = async (audioFilePath:string) => {
         setLoadingState("loading");
         try {
             if (typeof window !== "undefined" && audioContextRef.current) {
-                const response = await fetch("/maracas-sound.mp3");
+                const response = await fetch(audioFilePath);
                 const audioData = await response.arrayBuffer();
                 audioBufferRef.current = await audioContextRef.current.decodeAudioData(audioData);
                 setLoadingState("loaded");
@@ -24,12 +24,12 @@ const useAudioPlayer = (audioFile: string) => {
     useEffect(() => {
         if (typeof window !== "undefined") {
             audioContextRef.current = new window.AudioContext();
-            loadAudio();
+            loadAudio(audioFilePath);
         }
         return () => {
             audioContextRef.current?.close(); // Clean up the AudioContext when component is unmounted
         };
-    }, []);
+    }, [audioFilePath]);
 
     // 音声を再生する関数
     const playSound = useCallback(() => {
