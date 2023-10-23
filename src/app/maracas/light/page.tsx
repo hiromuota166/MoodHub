@@ -1,22 +1,8 @@
 "use client";
 import useSoundEvents from "@/customhooks/useSoundEvents";
-import useSoundHook from "@/customhooks/useSoundHook";
 import Image from "next/image";
 import { useState } from "react";
 const Page = () => {
-	// const {
-	// 	isSoundOn,
-	// 	setIsSoundOn,
-	// 	isDevicemotionPermissionGranted,
-	// 	requestPermission,
-	// 	loadingState,
-	// 	reloadAudio,
-	// 	shankeInterval,
-	// 	setShankeInterval,
-	// 	threshold,
-	// 	setThreshold,
-	// } = useSoundHook();
-
 	const ausioPath = "/maracas-sound.mp3";
 	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
 	const [shakeInterval, setShakeInterval] = useState(100); // シェイクのインターバル
@@ -34,13 +20,10 @@ const Page = () => {
 	return (
 		<div>
 			<div>light maracas</div>
-			{/* <button onClick={() => setIsSoundOn(!isSoundOn)}>{isSoundOn ? "Stop" : "Start"} Sound</button> */}
 			<div>
 				{!isDevicemotionPermissionGranted || true ? <button onClick={requestDeviceMotion}>Enable Motion</button> : <></>}
 
 			</div>
-			{/* <div>loadingState: {loadingState}</div>
-			<button onClick={reloadAudio}>reload audio</button> */}
 			<div>
 				<input type='range' min='0' max='300' step='10' value={shakeInterval} onChange={handleSliderChange} />
 				<p>shankeInterval: Current Value: {shakeInterval}</p>
