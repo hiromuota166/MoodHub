@@ -14,9 +14,9 @@ export const useThreeAnimation = (
 				ambientLight: THREE.AmbientLight | null;
 				pointLights: THREE.PointLight[] | null;
 				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
-		}
+		  }
 		| undefined,
-	lightUpdateCounter: number,
+	lightUpdateCounter: number
 ) => {
 	const [feverMode, setFeverMode] = useState(false);
 
@@ -31,15 +31,20 @@ export const useThreeAnimation = (
 
 		const animate = () => {
 			if (feverMode) {
-				directionalLights[0].intensity = 0;
+				directionalLights.forEach((directionalLight) => {
+					directionalLight.intensity = 0.1;
+				});
 				ambientLight.intensity = 0;
 				scene.background = new THREE.Color("#000"); // 背景色を設定
 				pointLights.forEach((pointLight) => {
-					pointLightsUpdate(pointLight);
+					const newPointLight = pointLightsUpdate(pointLight);
+					scene.add(newPointLight);
 				});
 			} else {
 				scene.background = new THREE.Color("#D6E5E3"); // 背景色を設定
-				directionalLights[0].intensity = 3;
+				directionalLights.forEach((directionalLight) => {
+					directionalLight.intensity = 3;
+				});
 				ambientLight.intensity = 0;
 				pointLights.forEach((pointLight) => {
 					scene.remove(pointLight);
