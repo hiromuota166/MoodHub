@@ -10,42 +10,42 @@ export const useThreeAnimation = (
 	renderer: THREE.WebGLRenderer | null,
 	lights:
 		| {
-				directionalLights: THREE.DirectionalLight[];
-				ambientLight: THREE.AmbientLight;
-				pointLights: THREE.PointLight[];
+				directionalLights: THREE.DirectionalLight[] | null;
+				ambientLight: THREE.AmbientLight | null;
+				pointLights: THREE.PointLight[] | null;
 				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
-		  }
-		| undefined
+		}
+		| undefined,
+	lightUpdateCounter: number,
 ) => {
-	console.log("useThreeAnimation");
 	const [feverMode, setFeverMode] = useState(true);
 
 	useEffect(() => {
 		if (!scene || !renderer || !lights || !camera) return;
-
-		const pointLights = lights.pointLights;
-		const pointLightsUpdate = lights.pointLightsUpdate;
+		const { directionalLights, ambientLight, pointLights, pointLightsUpdate } = lights;
 		const controls = new OrbitControls(camera, renderer.domElement);
 		let animationFrameId: number;
+		if (!directionalLights || !ambientLight || !pointLights) {
+			return;
+		}
 
 		const animate = () => {
 			if (feverMode) {
-				lights.directionalLights[0].intensity = 0;
-				lights.ambientLight.intensity = 0;
+				directionalLights[0].intensity = 0;
+				ambientLight.intensity = 0;
 				scene.background = new THREE.Color("#000"); // 背景色を設定
 				pointLights.forEach((pointLight) => {
 					pointLightsUpdate(pointLight);
 				});
-
 			} else {
 				scene.background = new THREE.Color("#D6E5E3"); // 背景色を設定
-				lights.directionalLights[0].intensity = 3;
-				lights.ambientLight.intensity = 0;
+				directionalLights[0].intensity = 3;
+				ambientLight.intensity = 0;
 				pointLights.forEach((pointLight) => {
 					scene.remove(pointLight);
 				});
 			}
-			
+
 			renderer.render(scene, camera);
 			controls.update();
 			animationFrameId = requestAnimationFrame(animate);
@@ -57,11 +57,10 @@ export const useThreeAnimation = (
 			cancelAnimationFrame(animationFrameId); // アニメーションのキャンセル
 			controls.dispose(); // OrbitControlsのクリーンアップ
 		};
-	}, [feverMode, scene, camera, renderer, lights]);
+	}, [feverMode, scene, camera, renderer, lights, lightUpdateCounter, lightUpdateCounter]);
 
 	return {
 		setFeverMode,
 		feverMode,
 	};
 };
-

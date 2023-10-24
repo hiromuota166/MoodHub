@@ -16,9 +16,24 @@ const Show3dObj = (props: Show3dObjProps) => {
 
 	const { mountRef, renderer, scene } = useThreeScene();
 	const camera = useThreeCamera();
-	const lights = useThreeLighting(scene);
+	const { directionalLights, ambientLight, pointLights, pointLightsUpdate, lightUpdateCounter } =
+		useThreeLighting(scene);
+	const lights = useMemo(() => {
+		return {
+			directionalLights,
+			ambientLight,
+			pointLights,
+			pointLightsUpdate,
+		};
+	}, [directionalLights, ambientLight, pointLights, pointLightsUpdate]);
 	useThreeModel(scene, memoizedMode);
-	const { setFeverMode, feverMode } = useThreeAnimation(scene, camera, renderer, lights);
+	const { setFeverMode, feverMode } = useThreeAnimation(
+		scene,
+		camera,
+		renderer,
+		lights,
+		lightUpdateCounter,
+	);
 
 	useEffect(() => {
 		if (renderer === null) return;
