@@ -27,18 +27,12 @@ const Show3dObj = (props: Show3dObjProps) => {
 		};
 	}, [directionalLights, ambientLight, pointLights, pointLightsUpdate]);
 	useThreeModel(scene, memoizedMode);
-	const { setFeverMode, feverMode } = useThreeAnimation(
-		scene,
-		camera,
-		renderer,
-		lights,
-		lightUpdateCounter,
-	);
+	const { setFeverMode, feverMode } = useThreeAnimation(scene, camera, renderer, lights, lightUpdateCounter);
 
 	useEffect(() => {
 		if (renderer === null) return;
 		const elm = mountRef?.current;
-		const w = window.innerWidth;
+		const w = document.documentElement.clientWidth;
 		const h = window.innerHeight;
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(w, h);
