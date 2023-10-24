@@ -3,18 +3,19 @@ import { useRouter } from 'next/navigation';
 import { gql, useMutation } from "@apollo/client";
 import { useState } from 'react';
 import { makeUID } from '@/functions/makeUID';
+import IsLoading from './IsLoading';
 
 const CreateRoom = () => {
     const router = useRouter();
     const CREATE_ROOM_MUTATION = gql`
     mutation CreateARoom($room: CreateRoom!) {
-      createRoom(room: $room) {
+        createRoom(room: $room) {
         roomId
         userId
         name
-      }
+        }
     }
-  `;
+    `;
 
     interface RoomResponse {
         createRoom: Room;
@@ -52,9 +53,11 @@ const CreateRoom = () => {
         }
     }
     return (
-        <a href="/target-page" onClick={(e) => handleClick(e, '/target-page')}>
+        <a 
+            href="/target-page" 
+            onClick={(e) => handleClick(e, '/target-page')}>
             <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
-                <h2>ルーム作成</h2>
+            {loading ? <IsLoading /> : <h2>ルーム作成</h2>}
             </div>
         </a>
     )

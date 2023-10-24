@@ -7,6 +7,7 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function makeClient() {
   const httpLink = new HttpLink({
@@ -30,7 +31,9 @@ function makeClient() {
 export function ApolloWrapper({ children }) {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
+      <ChakraProvider>
       {children}
+      </ChakraProvider>
     </ApolloNextAppProvider>
   );
 }
