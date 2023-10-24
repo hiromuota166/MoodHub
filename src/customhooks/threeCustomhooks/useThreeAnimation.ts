@@ -18,7 +18,7 @@ export const useThreeAnimation = (
 		| undefined,
 	lightUpdateCounter: number,
 ) => {
-	const [feverMode, setFeverMode] = useState(true);
+	const [feverMode, setFeverMode] = useState(false);
 
 	useEffect(() => {
 		if (!scene || !renderer || !lights || !camera) return;
