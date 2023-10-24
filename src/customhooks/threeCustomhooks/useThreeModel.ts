@@ -2,7 +2,9 @@
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
-export const useThreeModel = (scene: THREE.Scene, mode: "normal" | "special") => {
+export const useThreeModel = (scene: THREE.Scene | null, mode: "normal" | "special") => {
+	console.log("useThreeModel");
+	if (!scene) return;
 	const loader = new GLTFLoader();
 
 	const loadModel = (url: string, onLoadCallback: (gltf: any) => void) => {

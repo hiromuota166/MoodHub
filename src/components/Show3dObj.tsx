@@ -1,6 +1,5 @@
 "use client";
-import { useEffect } from "react";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { useEffect, useMemo } from "react";
 import { useThreeScene } from "@/customhooks/threeCustomhooks/useThreeScene";
 import { useThreeLighting } from "@/customhooks/threeCustomhooks/useThreeLighting";
 import { useThreeModel } from "@/customhooks/threeCustomhooks/useThreeModel";
@@ -13,16 +12,17 @@ interface Show3dObjProps {
 
 const Show3dObj = (props: Show3dObjProps) => {
 	const { mode } = props;
+	const memoizedMode = useMemo(() => mode, [mode]);
 
 	const { mountRef, renderer, scene } = useThreeScene();
 	const camera = useThreeCamera();
-	const controls = new OrbitControls(camera, renderer.domElement);
 	const lights = useThreeLighting(scene);
-	useThreeModel(scene, mode);
-	const { setFeverMode, feverMode } = useThreeAnimation(scene, camera, renderer, controls, lights);
+	useThreeModel(scene, memoizedMode);
+	const { setFeverMode, feverMode } = useThreeAnimation(scene, camera, renderer, lights);
 
 	useEffect(() => {
-		const elm = mountRef.current;
+		if (renderer === null) return;
+		const elm = mountRef?.current;
 		const w = window.innerWidth;
 		const h = window.innerHeight;
 		renderer.setPixelRatio(window.devicePixelRatio);
@@ -36,7 +36,10 @@ const Show3dObj = (props: Show3dObjProps) => {
 
 	return (
 		<div ref={mountRef} className='absolute top-0 left-0 w-full h-full'>
-			<button className={`absolute top-0 left-0 ${feverMode?"text-background": "text-font"} `} onClick={() => setFeverMode(!feverMode)}>
+			<button
+				className={`absolute top-0 left-0 ${feverMode ? "text-background" : "text-font"} `}
+				onClick={() => setFeverMode(!feverMode)}
+			>
 				start {feverMode ? "normal" : "fever"} Mode
 			</button>
 		</div>

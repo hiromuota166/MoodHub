@@ -1,63 +1,63 @@
+"use client";
 // useThreeAnimation.ts
 import { useState, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export const useThreeAnimation = (
-	scene: THREE.Scene,
-	camera: THREE.Camera,
-	renderer: THREE.WebGLRenderer,
-	controls: OrbitControls,
-	lights: {
-		directionalLight: THREE.DirectionalLight;
-		ambientLight: THREE.AmbientLight;
-		pointLights: THREE.PointLight[];
-		pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
-	}
+	scene: THREE.Scene | null,
+	camera: THREE.Camera | null,
+	renderer: THREE.WebGLRenderer | null,
+	lights:
+		| {
+				directionalLights: THREE.DirectionalLight[];
+				ambientLight: THREE.AmbientLight;
+				pointLights: THREE.PointLight[];
+				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
+		  }
+		| undefined
 ) => {
-	const [feverMode, setFeverMode] = useState(false);
-	const pointLights = lights.pointLights;
-	const pointLightsUpdate = lights.pointLightsUpdate;
+	console.log("useThreeAnimation");
+	const [feverMode, setFeverMode] = useState(true);
 
 	useEffect(() => {
+		if (!scene || !renderer || !lights || !camera) return;
+
+		const pointLights = lights.pointLights;
+		const pointLightsUpdate = lights.pointLightsUpdate;
+		const controls = new OrbitControls(camera, renderer.domElement);
+		let animationFrameId: number;
+
 		const animate = () => {
 			if (feverMode) {
-				scene.remove(lights.directionalLight);
-				scene.remove(lights.ambientLight);
+				lights.directionalLights[0].intensity = 0;
+				lights.ambientLight.intensity = 0;
 				scene.background = new THREE.Color("#000"); // 背景色を設定
 				pointLights.forEach((pointLight) => {
 					pointLightsUpdate(pointLight);
 				});
 
-				// spotLight.color.setHSL(Math.sin(Date.now() * 0.001), 1, 0.5);
-
-				requestAnimationFrame(animate);
 			} else {
 				scene.background = new THREE.Color("#D6E5E3"); // 背景色を設定
-				scene.add(lights.directionalLight);
-				scene.add(lights.ambientLight);
+				lights.directionalLights[0].intensity = 3;
+				lights.ambientLight.intensity = 0;
 				pointLights.forEach((pointLight) => {
 					scene.remove(pointLight);
 				});
 			}
-
+			
 			renderer.render(scene, camera);
 			controls.update();
+			animationFrameId = requestAnimationFrame(animate);
 		};
 
 		animate();
 
-		const tick = () => {
-			renderer.render(scene, camera);
-			requestAnimationFrame(tick);
-		};
-
-		tick();
-
 		return () => {
-			// クリーンアップロジック
+			cancelAnimationFrame(animationFrameId); // アニメーションのキャンセル
+			controls.dispose(); // OrbitControlsのクリーンアップ
 		};
-	}, [feverMode, scene, camera, renderer, controls, lights, pointLights, pointLightsUpdate]);
+	}, [feverMode, scene, camera, renderer, lights]);
 
 	return {
 		setFeverMode,
