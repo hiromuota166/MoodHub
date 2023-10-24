@@ -1,4 +1,6 @@
+
 'use client';
+
 import React, { Suspense } from "react";
 import useSongByRoomId from "@/lib/useSongByRoomId";
 import NeumourList from "@/components/NeumorList";
@@ -10,21 +12,20 @@ import IsLoading from "@/components/IsLoading";
 interface SongListProps {
   roomId: number;
   userID: number;
-}
+};
 
-const SongList: React.FC<SongListProps> = ({ roomId, userID }) => {
-  const songs = useSongByRoomId(roomId);
-  const songNames = songs ? songs.map(song => song.songName) : [];
+const SongList = (props: SongListProps) => {
+  const songs = useSongByRoomId(props.roomId);
+  const songNames = songs ? songs.map((song) => song.songName) : [];
 
   return (
     <>
-      <ModalWhole userId={userID} />
-      <ShowRoomID roomID={String(roomId)} />
+      <ModalWhole userId={props.userID} />
+      <ShowRoomID roomID={String(props.roomId)} />
       <NeumourList listItems={songNames} />
     </>
   );
 };
-
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -37,13 +38,14 @@ const Page = () => {
     return <IsLoading />;
   }
   if (typeof roomID !== "string" || typeof userID !== "string") {
-    return <p>ルームIDまたはユーザーIDが不正です。</p>
+    return <p>ルームIDまたはユーザーIDが不正です。</p>;
   }
   if (!roomID) {
     return (
       <Suspense fallback={<IsLoading />}>
         <SongList roomId={Number(roomID)} userID={Number(userID)} />
-      </Suspense>)
+      </Suspense>
+    );
   }
   return (
     <Suspense fallback={<IsLoading />}>
