@@ -33,15 +33,15 @@ export const useThreeLighting = (scene: THREE.Scene | null) => {
 	useEffect(() => {
 		if (!scene) return;
 
-		const light1Position = setLightPosition(0, 50, -15);
-		const light2Position = setLightPosition(120, 50, -15);
-		const light3Position = setLightPosition(-120, 50, -15);
-		const lightIntensity = 1;
+		const light1Position = setLightPosition(0, 40, -15);
+		const light2Position = setLightPosition(120, 40, -15);
+		const light3Position = setLightPosition(-120, 40, -15);
+		const lightIntensity = 0.1;
 		const newDirectionalLights = [
 			createDirectionalLight(scene, 0xffffff, 3, { x: 0, y: 5, z: 50 }),
-			createDirectionalLight(scene, 0xffffff, lightIntensity, light1Position),
-			createDirectionalLight(scene, 0xffffff, lightIntensity, light2Position),
-			createDirectionalLight(scene, 0xffffff, lightIntensity, light3Position),
+			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light1Position),
+			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light2Position),
+			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light3Position),
 		];
 
 		const newAmbientLight = new THREE.AmbientLight(0x404040, 90);
