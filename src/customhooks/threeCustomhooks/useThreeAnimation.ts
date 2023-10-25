@@ -14,7 +14,7 @@ export const useThreeAnimation = (
 				ambientLight: THREE.AmbientLight | null;
 				pointLights: THREE.PointLight[] | null;
 				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
-		  }
+		}
 		| undefined,
 	lightUpdateCounter: number
 ) => {

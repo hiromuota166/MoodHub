@@ -24,4 +24,3 @@ export const useThreeModel = (scene: THREE.Scene | null, mode: "normal" | "speci
 		});
 	}
 };
-
