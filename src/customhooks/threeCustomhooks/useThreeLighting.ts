@@ -24,6 +24,14 @@ const setLightPosition = (angleDeg: number, distance: number, y: number) => {
 	};
 };
 
+const shuffleArray = (array: number[]) => {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]]; // 配列の要素を交換
+	}
+	return array;
+};
+
 export const useThreeLighting = (scene: THREE.Scene | null) => {
 	const directionalLightsRef = useRef<THREE.DirectionalLight[]>([]);
 	const pointLightsRef = useRef<THREE.PointLight[]>([]);
@@ -46,10 +54,9 @@ export const useThreeLighting = (scene: THREE.Scene | null) => {
 
 		const newAmbientLight = new THREE.AmbientLight(0x404040, 90);
 		scene.add(newAmbientLight);
-		const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff, 0xffa500, 0x800080, 0x808000, 0x008080];
-
+		const colors = [0xd50000, 0x00ff00, 0x0000ff, 0xcccc00, 0xcc00cc, 0x00ffff, 0xe57300, 0x660066, 0x666600, 0x008080];
 		const newPointLights: THREE.PointLight[] = [];
-		colors.forEach((color, idx) => {
+		shuffleArray(colors).forEach((color, idx) => {
 			const light = new THREE.PointLight(color, 0, 50);
 			light.position.set(5 * Math.sin(idx), 5 * Math.cos(idx), 5 * Math.sin(idx) * Math.cos(idx));
 			scene.add(light);
@@ -74,7 +81,7 @@ export const useThreeLighting = (scene: THREE.Scene | null) => {
 		const idx = pointLightsRef.current.indexOf(pointLight) + 1;
 		pointLight.position.x = 6 * Math.sin(Date.now() * 0.001 * idx);
 		pointLight.position.z = 6 * Math.cos(Date.now() * 0.001 * idx);
-		pointLight.intensity = (Math.sin(Date.now() * 0.001 * idx) + 1.5) * 10;
+		pointLight.intensity = (Math.sin(Date.now() * 0.001 * idx) + 1.5) * 30;
 		return pointLight;
 	};
 
