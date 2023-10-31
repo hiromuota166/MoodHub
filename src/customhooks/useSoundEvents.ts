@@ -3,7 +3,7 @@ import useAudioPlayer from "./useAudioPlayer";
 import useDeviceMotion from "./useDeviceMotion";
 
 const useSoundEvents = (audioPath: string, shakeThreshold: number = 20, shakeInterval: number = 200) => {
-	const { loadingState, playSound, reloadAudio, adjustVolume, mute, unmute, toggleMute, isMuted } =
+	const { loadingState, playSound, reloadAudio, adjustVolume, mute, unmute, toggleMute, isMuted, volume } =
 		useAudioPlayer(audioPath);
 	const { requestDeviceMotion, isDevicemotionPermissionGranted, updateAndDetectAcceleration } =
 		useDeviceMotion(shakeThreshold);
@@ -74,6 +74,7 @@ const useSoundEvents = (audioPath: string, shakeThreshold: number = 20, shakeInt
 		unmute,
 		toggleMute,
 		isMuted,
+		volume,
 		isDevicemotionPermissionGranted,
 		requestDeviceMotion,
 	};

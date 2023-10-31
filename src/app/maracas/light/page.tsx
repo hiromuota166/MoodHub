@@ -8,7 +8,6 @@ const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";
 	const [shakeInterval, setShakeInterval] = useState(80); // シェイクのインターバル
 	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
-	const [DeviceVolume, setDeviceVolume] = useState(1); // デバイス全体の音量
 
 	const {
 		loadingState,
@@ -19,6 +18,7 @@ const Page = () => {
 		unmute,
 		toggleMute,
 		isMuted,
+		volume,
 		isDevicemotionPermissionGranted,
 		requestDeviceMotion,
 	} = useSoundEvents(ausioPath, shakeThreshold, shakeInterval);
@@ -31,11 +31,6 @@ const Page = () => {
 		setShakeThreshold(value); // スライダーの値をステートにセット
 	};
 
-	const handleDeviceVolumeChange = (value: number) => {
-		setDeviceVolume(value); // スライダーの値をステートにセット
-		adjustVolume(value)
-	}
-
 	return (
 		<div>
 			<div>軽量マラカス</div>
@@ -45,13 +40,13 @@ const Page = () => {
 					handleMaracasSensitivityChange={handleMaracasSensitivityChange}
 					MaracasVibrationIntensity={shakeThreshold}
 					handleMaracasVibrationIntensityChange={handleMaracasVibrationIntensityChange}
-					DeviceVolume={DeviceVolume}
-					handleDeviceVolumeChange={handleDeviceVolumeChange}
+					Volume={volume}
+					handleVolumeChange={adjustVolume}
 					handleMaracasSoundSwitch={toggleMute}
 				/>
 			</div>
 			<div>
-				{!isDevicemotionPermissionGranted || true ? (
+				{!isDevicemotionPermissionGranted ? (
 					<button onClick={requestDeviceMotion} className="rounded-3xl shadow-boxOut p-4 m-4">マラカスをはじめる</button>
 				) : (
 					<></>

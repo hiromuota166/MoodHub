@@ -6,6 +6,7 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
 	const gainNode = useRef<GainNode | null>(null);
 	const [isMuted, setIsMuted] = useState(false);
+	const [volume, setVolume] = useState(1);
 
 	// 音声ファイルを読み込む関数
 	const loadAudio = async (audioFilePath: string) => {
@@ -38,10 +39,14 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 
 	// 音量を調整する関数
 	const adjustVolume = (volume: number) => {
-		console.log("adjustVolume:", volume);
 		if (!gainNode.current) return;
 		gainNode.current.gain.value = volume;
-		console.log("New Volume Set:", gainNode.current.gain.value);
+		setVolume(volume);
+		if (volume === 0) {
+			setIsMuted(true);
+		} else {
+			setIsMuted(false);
+		}
 	};
 
 	// ミュートする関数
@@ -91,6 +96,7 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 		unmute,
 		toggleMute,
 		isMuted,
+		volume,
 	};
 };
 

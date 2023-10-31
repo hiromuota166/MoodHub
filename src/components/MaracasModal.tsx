@@ -16,8 +16,8 @@ interface MaracasModalProps {
 	handleMaracasSensitivityChange: (value: number) => void;
 	MaracasVibrationIntensity: number;
 	handleMaracasVibrationIntensityChange: (value: number) => void;
-	DeviceVolume: number;
-	handleDeviceVolumeChange: (value: number) => void;
+	Volume: number;
+	handleVolumeChange: (value: number) => void;
 	handleMaracasSoundSwitch: () => void;
 }
 const MaracasModal = (props: MaracasModalProps) => {
@@ -26,14 +26,16 @@ const MaracasModal = (props: MaracasModalProps) => {
 		handleMaracasSensitivityChange,
 		MaracasVibrationIntensity,
 		handleMaracasVibrationIntensityChange,
-		DeviceVolume,
-		handleDeviceVolumeChange,
+		Volume,
+		handleVolumeChange,
 		handleMaracasSoundSwitch,
 	} = props;
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<>
-			<button onClick={onOpen} className="rounded-3xl shadow-boxOut p-4 px-6 bg-background">設定</button>
+			<button onClick={onOpen} className='rounded-3xl shadow-boxOut p-4 px-6 bg-background'>
+				設定
+			</button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -61,8 +63,8 @@ const MaracasModal = (props: MaracasModalProps) => {
 							min={0}
 							max={1}
 							step={0.1}
-							value={DeviceVolume}
-							onChange={handleDeviceVolumeChange}
+							value={Volume}
+							onChange={handleVolumeChange}
 							label='マラカスの音量'
 							id='volumeSlider'
 						/>
