@@ -15,10 +15,12 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, value, step = 1, on
 	};
 
 	return (
-		<div className='rounded-3xl shadow-boxOut p-8 '>
+		<div className='my-0'>
 			{label && (
-				<label htmlFor={id} className='text-font'>
-					{label}: <span>{value}</span>
+				<label htmlFor={id} className='leading-10'>
+					<span>{label}</span>
+					<span>{": "}</span>
+					<span>{value}</span>
 				</label>
 			)}
 			<input

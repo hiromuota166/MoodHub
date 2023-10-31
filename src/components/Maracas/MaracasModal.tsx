@@ -8,9 +8,10 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	useDisclosure,
+	Box,
+	Text,
 } from "@chakra-ui/react";
 import RangeSlider from "../RangeSlider/RangeSlider";
-import VolumeButton from "./VolumeButton";
 
 interface MaracasModalProps {
 	MaracasSensitivity: number;
@@ -43,7 +44,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 			</button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent bg="#D6E5E3">
 					<ModalHeader>マラカス設定</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
@@ -64,7 +65,6 @@ const MaracasModal = (props: MaracasModalProps) => {
 							label='マラカスの振動強度'
 							id='volumeSlider'
 						/>
-						<VolumeButton Volume={Volume} isMuted={isMuted} handleToggleMute={toggleMute} />
 						<RangeSlider
 							min={0}
 							max={1}
@@ -74,9 +74,12 @@ const MaracasModal = (props: MaracasModalProps) => {
 							label='マラカスの音量'
 							id='volumeSlider'
 						/>
+						<Box m='2'>
+							<Text fontSize='sm'>音が鳴らない場合は消音モードをオフにしてください。</Text>
+						</Box>
 					</ModalBody>
 					<ModalFooter>
-						<button className="bg-background rounded-2xl shadow-boxOut p-4 pt-2 text-lg" onClick={onClose}>
+						<button className='bg-background rounded-2xl shadow-boxOut p-4 pt-2 text-lg' onClick={onClose}>
 							Close
 						</button>
 					</ModalFooter>
