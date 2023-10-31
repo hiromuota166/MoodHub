@@ -6,7 +6,7 @@ import MaracasModal from "@/components/MaracasModal";
 
 const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";
-	const [shakeInterval, setShakeInterval] = useState(100); // シェイクのインターバル
+	const [shakeInterval, setShakeInterval] = useState(80); // シェイクのインターバル
 	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
 	const [DeviceVolume, setDeviceVolume] = useState(1); // デバイス全体の音量
 

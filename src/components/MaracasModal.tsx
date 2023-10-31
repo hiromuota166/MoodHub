@@ -38,20 +38,21 @@ const MaracasModal = (props: MaracasModalProps) => {
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Modal Title</ModalHeader>
+					<ModalHeader>マラカス設定</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<RangeSlider
-							min={0}
-							max={100}
+							min={10}
+							max={150}
+							step={10}
 							value={MaracasSensitivity}
 							onChange={handleMaracasSensitivityChange}
 							label='マラカスの感度設定'
 							id='volumeSlider'
 						/>
 						<RangeSlider
-							min={0}
-							max={100}
+							min={1}
+							max={30}
 							value={MaracasVibrationIntensity}
 							onChange={handleMaracasVibrationIntensityChange}
 							label='マラカスの振動強度設定'
