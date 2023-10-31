@@ -1,10 +1,6 @@
 "use client";
 import NavigateButton from "@/components/NavigateButton";
-import RangeSlider from "@/components/RangeSlider/RangeSlider";
-import { useState } from "react";
 const Page = () => {
-	const [sliderValue, setSliderValue] = useState(50);
-
 	const navigationButtonProps = [
 		{
 			href: "/maracas/light",
@@ -29,16 +25,6 @@ const Page = () => {
 						</div>
 					);
 				})}
-			</div>
-			<div>
-				<RangeSlider
-					min={0}
-					max={100}
-					value={sliderValue}
-					onChange={(value) => setSliderValue(value)}
-					label='Volume'
-					id='volumeSlider'
-				/>
 			</div>
 		</div>
 	);

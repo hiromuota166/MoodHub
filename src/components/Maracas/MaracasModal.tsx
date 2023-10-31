@@ -9,7 +9,7 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 } from "@chakra-ui/react";
-import RangeSlider from "./RangeSlider/RangeSlider";
+import RangeSlider from "../RangeSlider/RangeSlider";
 import VolumeButton from "./VolumeButton";
 
 interface MaracasModalProps {
@@ -39,7 +39,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 	return (
 		<>
 			<button onClick={onOpen} className='rounded-3xl shadow-boxOut p-4 px-6 bg-background'>
-				設定
+				マラカス設定
 			</button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />

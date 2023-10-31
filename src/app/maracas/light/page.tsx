@@ -2,8 +2,8 @@
 import useSoundEvents from "@/customhooks/useSoundEvents";
 import Image from "next/image";
 import { useState } from "react";
-import MaracasModal from "@/components/MaracasModal";
-import VolumeButton from "@/components/VolumeButton";
+import MaracasModal from "@/components/Maracas/MaracasModal";
+import VolumeButton from "@/components/Maracas/VolumeButton";
 
 const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";

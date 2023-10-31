@@ -1,5 +1,5 @@
 "use client";
-import Show3dObj from "@/components/Show3dObj"; 
+import Show3dObj from "@/components/Maracas/Show3dObj"; 
 const Page = () => {
     return (
         <div>
