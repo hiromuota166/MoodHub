@@ -76,10 +76,9 @@ const MaracasModal = (props: MaracasModalProps) => {
 						/>
 					</ModalBody>
 					<ModalFooter>
-						<Button colorScheme='blue' mr={3} onClick={onClose}>
+						<button className="bg-background rounded-2xl shadow-boxOut p-4 pt-2 text-lg" onClick={onClose}>
 							Close
-						</Button>
-						<Button variant='ghost'>Secondary Action</Button>
+						</button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

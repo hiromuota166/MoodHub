@@ -8,12 +8,13 @@ import { useThreeAnimation } from "@/customhooks/threeCustomhooks/useThreeAnimat
 
 interface Show3dObjProps {
 	mode: "normal" | "special";
+	feverMode: boolean;
 }
 
 const Show3dObj = (props: Show3dObjProps) => {
-	const { mode } = props;
+	const { mode, feverMode } = props;
 	const memoizedMode = useMemo(() => mode, [mode]);
-
+	const momoizedFeverMode = useMemo(() => feverMode, [feverMode]);
 	const { mountRef, renderer, scene } = useThreeScene();
 	const camera = useThreeCamera();
 	const { directionalLights, ambientLight, pointLights, pointLightsUpdate, lightUpdateCounter } =
@@ -27,7 +28,7 @@ const Show3dObj = (props: Show3dObjProps) => {
 		};
 	}, [directionalLights, ambientLight, pointLights, pointLightsUpdate]);
 	useThreeModel(scene, memoizedMode);
-	const { setFeverMode, feverMode } = useThreeAnimation(scene, camera, renderer, lights, lightUpdateCounter);
+	useThreeAnimation(scene, camera, renderer, lights, lightUpdateCounter, momoizedFeverMode);
 
 	useEffect(() => {
 		if (renderer === null) return;
@@ -45,12 +46,6 @@ const Show3dObj = (props: Show3dObjProps) => {
 
 	return (
 		<div ref={mountRef} className='absolute top-0 left-0 w-full h-full'>
-			<button
-				className={`absolute top-0 left-0 ${feverMode ? "text-background" : "text-font"} `}
-				onClick={() => setFeverMode(!feverMode)}
-			>
-				start {feverMode ? "normal" : "fever"} Mode
-			</button>
 		</div>
 	);
 };

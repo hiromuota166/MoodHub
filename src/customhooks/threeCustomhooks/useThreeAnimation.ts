@@ -16,9 +16,9 @@ export const useThreeAnimation = (
 				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
 		}
 		| undefined,
-	lightUpdateCounter: number
+	lightUpdateCounter: number,
+	feverMode: boolean
 ) => {
-	const [feverMode, setFeverMode] = useState(false);
 
 	useEffect(() => {
 		if (!scene || !renderer || !lights || !camera) return;
@@ -64,8 +64,4 @@ export const useThreeAnimation = (
 		};
 	}, [feverMode, scene, camera, renderer, lights, lightUpdateCounter, lightUpdateCounter]);
 
-	return {
-		setFeverMode,
-		feverMode,
-	};
 };

@@ -1,12 +1,9 @@
-"use client";
-import Show3dObj from "@/components/Maracas/Show3dObj"; 
+import MaracasController from "@/components/Maracas/MaracasController";
+
 const Page = () => {
-    return (
-        <div>
-            <div>スペシャルマラカス</div>
-            <Show3dObj mode="special" />
-        </div>
-    )
-}
+	return (
+		<MaracasController mode="special"/>
+	);
+};
 
 export default Page;
