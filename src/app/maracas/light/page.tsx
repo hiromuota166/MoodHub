@@ -2,12 +2,18 @@
 import useSoundEvents from "@/customhooks/useSoundEvents";
 import Image from "next/image";
 import { useState } from "react";
+import MaracasModal from "@/components/MaracasModal";
+
 const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";
 	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
 	const [shakeInterval, setShakeInterval] = useState(100); // シェイクのインターバル
 
-	const { playSound, isDevicemotionPermissionGranted, requestDeviceMotion } = useSoundEvents(ausioPath, shakeThreshold, shakeInterval);
+	const { playSound, isDevicemotionPermissionGranted, requestDeviceMotion } = useSoundEvents(
+		ausioPath,
+		shakeThreshold,
+		shakeInterval
+	);
 
 	const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setShakeInterval(Number(event.target.value)); // スライダーの値をステートにセット
@@ -21,8 +27,14 @@ const Page = () => {
 		<div>
 			<div>light maracas</div>
 			<div>
-				{!isDevicemotionPermissionGranted || true ? <button onClick={requestDeviceMotion}>Enable Motion</button> : <></>}
-
+				<MaracasModal />
+			</div>
+			<div>
+				{!isDevicemotionPermissionGranted || true ? (
+					<button onClick={requestDeviceMotion}>Enable Motion</button>
+				) : (
+					<></>
+				)}
 			</div>
 			<div>
 				<input type='range' min='0' max='300' step='10' value={shakeInterval} onChange={handleSliderChange} />
