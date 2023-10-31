@@ -51,9 +51,11 @@ const Page = () => {
 			</div>
 			<div>
 				{!isDevicemotionPermissionGranted ? (
-					<button onClick={requestDeviceMotion} className='rounded-3xl shadow-boxOut p-4 m-4'>
-						マラカスをはじめる
-					</button>
+					<div className="absolute top-0 left-0 h-screen w-screen bg-background">
+						<button onClick={requestDeviceMotion} className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-3xl shadow-boxOut p-4 m-4'>
+							ここをクリックしてマラカスをはじめる
+						</button>
+					</div>
 				) : (
 					<></>
 				)}

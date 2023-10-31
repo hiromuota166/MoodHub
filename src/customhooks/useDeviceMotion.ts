@@ -1,9 +1,17 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import requestDeviceMotionPermission from "@/functions/requestDeviceMotionPermission";
 
 const useDeviceMotion = (threshold: number = 20) => {
 	const [acceleration, setAcceleration] = useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
 	const [isDevicemotionPermissionGranted, setIsDevicemotionPermissionGranted] = useState(false);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			requestDeviceMotionPermission().then((permission) => {
+				setIsDevicemotionPermissionGranted(permission);
+			});
+		}
+	}, []);
 
 	const requestDeviceMotion = useCallback(async () => {
 		const permission = await requestDeviceMotionPermission();
