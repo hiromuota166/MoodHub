@@ -30,34 +30,6 @@ const CreateRoom = () => {
 	const [createRoom, { data, loading, error }] = useMutation<RoomResponse>(CREATE_ROOM_MUTATION);
 	const [roomName, setRoomName] = useState<string>("");
 
-	// <<<<<<< HEAD
-	// 	const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-	// 		e.preventDefault();
-	// 		const userId = makeUID();
-	// 		try {
-	// 			await createRoom({
-	// 				variables: {
-	// 					room: {
-	// 						userId,
-	// 						roomName,
-	// 					},
-	// 				},
-	// 			}).then((res) => {
-	// 				console.log(res.data?.createRoom.roomId);
-	// 				const roomId = res.data?.createRoom.roomId;
-	// 				// 処理が完了した後にページ遷移
-	// 				const url = `/init-room?roomID=${roomId}&userID=${userId}`;
-	// 				router.push(url);
-	// 			});
-	// 		} catch (err) {
-	// 			console.error(err);
-	// 		}
-	// 	};
-	// 	return (
-	// 		<NavigateButton href={"/maracas"} label={"ルーム作成"} onClick={(e) => handleClick(e, "/maracas")} linkDisabled/>
-	// 	);
-	// };
-	// =======
 	const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
 		e.preventDefault();
 		const userId = makeUID();
@@ -81,13 +53,6 @@ const CreateRoom = () => {
 		}
 	};
 	return (
-		// <a
-		//     href="/target-page"
-		//     onClick={(e) => handleClick(e, '/target-page')}>
-		//     <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
-		//     {loading ? <IsLoading /> : <h2>ルーム作成</h2>}
-		//     </div>
-		// </a>
 		<>
 			{loading ? (
 				<IsLoading />
