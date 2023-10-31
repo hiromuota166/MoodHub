@@ -30,7 +30,6 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, value, step = 1, on
 				onChange={handleChange}
 				id={id}
 				className='range-style'
-				// className='rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-128'
 			/>
 		</div>
 	);

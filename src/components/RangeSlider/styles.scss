@@ -4,7 +4,7 @@
 	box-sizing: border-box;
 }
 
-$primary: #D6E5E3;
+$primary: #d6e5e3;
 
 input[type="range"] {
 	-webkit-appearance: none;
@@ -27,14 +27,14 @@ input[type="range"] {
 	padding: 1rem;
 	background: $primary;
 	border-radius: 10px;
-	box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.90);
+	box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.9);
 
 	@mixin track-style {
 		display: flex;
 		align-items: center;
 		height: 1.25rem;
 		border-radius: 10px;
-		box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.90) inset;
+		box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.9) inset;
 	}
 
 	@mixin thumb-style {
@@ -45,7 +45,7 @@ input[type="range"] {
 		background-color: $primary;
 		background-image: linear-gradient(-45deg, rgba(white, 0.8), transparent);
 		border-radius: 50%;
-		box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.90);
+		box-shadow: 2px 2px 5px rgba(161, 172, 170, 0.9);
 	}
 	&::-webkit-slider-runnable-track {
 		@include track-style;
@@ -60,3 +60,4 @@ input[type="range"] {
 		@include thumb-style;
 	}
 }
+
