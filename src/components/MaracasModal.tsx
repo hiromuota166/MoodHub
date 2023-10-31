@@ -10,12 +10,15 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import RangeSlider from "./RangeSlider/RangeSlider";
+import VolumeButton from "./VolumeButton";
 
 interface MaracasModalProps {
 	MaracasSensitivity: number;
 	handleMaracasSensitivityChange: (value: number) => void;
 	MaracasVibrationIntensity: number;
 	handleMaracasVibrationIntensityChange: (value: number) => void;
+	isMuted: boolean;
+	toggleMute: () => void;
 	Volume: number;
 	handleVolumeChange: (value: number) => void;
 	handleMaracasSoundSwitch: () => void;
@@ -26,6 +29,8 @@ const MaracasModal = (props: MaracasModalProps) => {
 		handleMaracasSensitivityChange,
 		MaracasVibrationIntensity,
 		handleMaracasVibrationIntensityChange,
+		isMuted,
+		toggleMute,
 		Volume,
 		handleVolumeChange,
 		handleMaracasSoundSwitch,
@@ -59,6 +64,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 							label='マラカスの振動強度'
 							id='volumeSlider'
 						/>
+						<VolumeButton Volume={Volume} isMuted={isMuted} handleToggleMute={toggleMute} />
 						<RangeSlider
 							min={0}
 							max={1}

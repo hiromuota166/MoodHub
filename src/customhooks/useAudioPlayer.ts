@@ -50,23 +50,26 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 	};
 
 	// ミュートする関数
-	const mute = () => {
+	const mute = useCallback(() => {
 		if (!gainNode.current) return;
 		gainNode.current.gain.value = 0;
+		setVolume(0);
 		setIsMuted(true);
-	};
+	}, []);
 
 	// アンミュートする関数
-	const unmute = () => {
+	const unmute = useCallback(() => {
 		if (!gainNode.current) return;
-		gainNode.current.gain.value = 1; // アンミュート時のデフォルト音量
+		const defaultVolume = gainNode.current.gain.defaultValue;
+		gainNode.current.gain.value = defaultVolume; // アンミュート時のデフォルト音量
+		setVolume(defaultVolume);
 		setIsMuted(false);
-	};
+	}, [])
 
 	// ミュートの状態を切り替える関数
-	const toggleMute = () => {
+	const toggleMute = useCallback(() => {
 		isMuted ? unmute() : mute();
-	};
+	}, [isMuted, mute, unmute]);
 
 	// 音声を再生する関数
 	const playSound = useCallback(() => {

@@ -3,6 +3,7 @@ import useSoundEvents from "@/customhooks/useSoundEvents";
 import Image from "next/image";
 import { useState } from "react";
 import MaracasModal from "@/components/MaracasModal";
+import VolumeButton from "@/components/VolumeButton";
 
 const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";
@@ -34,12 +35,15 @@ const Page = () => {
 	return (
 		<div>
 			<div>軽量マラカス</div>
-			<div className="m-4">
+			<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute}/>
+			<div className='m-4'>
 				<MaracasModal
 					MaracasSensitivity={shakeInterval}
 					handleMaracasSensitivityChange={handleMaracasSensitivityChange}
 					MaracasVibrationIntensity={shakeThreshold}
 					handleMaracasVibrationIntensityChange={handleMaracasVibrationIntensityChange}
+					isMuted={isMuted}
+					toggleMute={toggleMute}
 					Volume={volume}
 					handleVolumeChange={adjustVolume}
 					handleMaracasSoundSwitch={toggleMute}
@@ -47,7 +51,9 @@ const Page = () => {
 			</div>
 			<div>
 				{!isDevicemotionPermissionGranted ? (
-					<button onClick={requestDeviceMotion} className="rounded-3xl shadow-boxOut p-4 m-4">マラカスをはじめる</button>
+					<button onClick={requestDeviceMotion} className='rounded-3xl shadow-boxOut p-4 m-4'>
+						マラカスをはじめる
+					</button>
 				) : (
 					<></>
 				)}
