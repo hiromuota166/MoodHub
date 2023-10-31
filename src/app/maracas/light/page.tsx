@@ -63,7 +63,7 @@ const Page = () => {
 
 			<div className='w-[60%] h-[60%] m-auto'>
 				<button onClick={playSound}>
-					<Image src={"/music_maracas.webp"} alt='マラカスの画像' width={400} height={382} layout='responsive'></Image>
+					<Image src={"/music_maracas.webp"} alt='マラカスの画像' width={400} height={382} layout='responsive' loading="eager"></Image>
 				</button>
 			</div>
 		</div>
