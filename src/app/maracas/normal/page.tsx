@@ -3,7 +3,7 @@ import Show3dObj from "@/components/Show3dObj";
 const Page = () => {
     return (
         <div>
-            <div>normal maracas</div>
+            <div>ノーマルマラカス</div>
             <Show3dObj mode="normal" />
         </div>
     )

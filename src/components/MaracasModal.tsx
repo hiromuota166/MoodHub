@@ -33,8 +33,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<>
-			<Button onClick={onOpen}>設定</Button>
-
+			<button onClick={onOpen} className="rounded-3xl shadow-boxOut p-4 px-6 bg-background">設定</button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -47,7 +46,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 							step={10}
 							value={MaracasSensitivity}
 							onChange={handleMaracasSensitivityChange}
-							label='マラカスの感度設定'
+							label='マラカスの感度'
 							id='volumeSlider'
 						/>
 						<RangeSlider
@@ -55,7 +54,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 							max={30}
 							value={MaracasVibrationIntensity}
 							onChange={handleMaracasVibrationIntensityChange}
-							label='マラカスの振動強度設定'
+							label='マラカスの振動強度'
 							id='volumeSlider'
 						/>
 						<RangeSlider
@@ -64,7 +63,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 							step={0.1}
 							value={DeviceVolume}
 							onChange={handleDeviceVolumeChange}
-							label='デバイス全体の音量設定'
+							label='マラカスの音量'
 							id='volumeSlider'
 						/>
 					</ModalBody>

@@ -38,8 +38,8 @@ const Page = () => {
 
 	return (
 		<div>
-			<div>light maracas</div>
-			<div>
+			<div>軽量マラカス</div>
+			<div className="m-4">
 				<MaracasModal
 					MaracasSensitivity={shakeInterval}
 					handleMaracasSensitivityChange={handleMaracasSensitivityChange}
@@ -50,24 +50,14 @@ const Page = () => {
 					handleMaracasSoundSwitch={toggleMute}
 				/>
 			</div>
-			{/* <div>
+			<div>
 				{!isDevicemotionPermissionGranted || true ? (
-					<button onClick={requestDeviceMotion}>Enable Motion</button>
+					<button onClick={requestDeviceMotion} className="rounded-3xl shadow-boxOut p-4 m-4">マラカスをはじめる</button>
 				) : (
 					<></>
 				)}
 			</div>
-			<div>
-				<input type='range' min='0' max='300' step='10' value={shakeInterval} onChange={handleSliderChange} />
-				<p>shankeInterval: Current Value: {shakeInterval}</p>
-			</div>
-			<div>
-				<input type='range' min='0' max='30' value={shakeThreshold} onChange={handleThresholdChange} />
-				<p>Shake Power threshold: Current Value: {shakeThreshold}</p>
-			</div>
-			<div>
-				<button onClick={playSound}>Play Sound</button>
-			</div> */}
+
 			<div className='w-[60%] h-[60%] m-auto'>
 				<button onClick={playSound}>
 					<Image src={"/music_maracas.webp"} alt='マラカスの画像' width={400} height={382} layout='responsive'></Image>
