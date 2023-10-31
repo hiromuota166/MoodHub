@@ -6,30 +6,51 @@ import MaracasModal from "@/components/MaracasModal";
 
 const Page = () => {
 	const ausioPath = "/maracas-sound.mp3";
-	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
 	const [shakeInterval, setShakeInterval] = useState(100); // シェイクのインターバル
+	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
+	const [DeviceVolume, setDeviceVolume] = useState(1); // デバイス全体の音量
 
-	const { playSound, isDevicemotionPermissionGranted, requestDeviceMotion } = useSoundEvents(
-		ausioPath,
-		shakeThreshold,
-		shakeInterval
-	);
+	const {
+		loadingState,
+		playSound,
+		reloadAudio,
+		adjustVolume,
+		mute,
+		unmute,
+		toggleMute,
+		isMuted,
+		isDevicemotionPermissionGranted,
+		requestDeviceMotion,
+	} = useSoundEvents(ausioPath, shakeThreshold, shakeInterval);
 
-	const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setShakeInterval(Number(event.target.value)); // スライダーの値をステートにセット
+	const handleMaracasSensitivityChange = (value: number) => {
+		setShakeInterval(value); // スライダーの値をステートにセット
 	};
 
-	const handleThresholdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setShakeThreshold(Number(event.target.value)); // スライダーの値をステートにセット
+	const handleMaracasVibrationIntensityChange = (value: number) => {
+		setShakeThreshold(value); // スライダーの値をステートにセット
 	};
+
+	const handleDeviceVolumeChange = (value: number) => {
+		setDeviceVolume(value); // スライダーの値をステートにセット
+		adjustVolume(value)
+	}
 
 	return (
 		<div>
 			<div>light maracas</div>
 			<div>
-				<MaracasModal />
+				<MaracasModal
+					MaracasSensitivity={shakeInterval}
+					handleMaracasSensitivityChange={handleMaracasSensitivityChange}
+					MaracasVibrationIntensity={shakeThreshold}
+					handleMaracasVibrationIntensityChange={handleMaracasVibrationIntensityChange}
+					DeviceVolume={DeviceVolume}
+					handleDeviceVolumeChange={handleDeviceVolumeChange}
+					handleMaracasSoundSwitch={toggleMute}
+				/>
 			</div>
-			<div>
+			{/* <div>
 				{!isDevicemotionPermissionGranted || true ? (
 					<button onClick={requestDeviceMotion}>Enable Motion</button>
 				) : (
@@ -46,9 +67,11 @@ const Page = () => {
 			</div>
 			<div>
 				<button onClick={playSound}>Play Sound</button>
-			</div>
+			</div> */}
 			<div className='w-[60%] h-[60%] m-auto'>
-				<Image src={"/music_maracas.webp"} alt='マラカスの画像' width={400} height={382} layout='responsive'></Image>
+				<button onClick={playSound}>
+					<Image src={"/music_maracas.webp"} alt='マラカスの画像' width={400} height={382} layout='responsive'></Image>
+				</button>
 			</div>
 		</div>
 	);
