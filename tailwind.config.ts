@@ -20,7 +20,9 @@ const config: Config = {
 		},
 		colors: {
 			background: "#D6E5E3",
+			darkbackground: "#183D4D",
 			font: "#6B7271",
+			darkfont: "#E0E0E0",
 			alart: "EE2E31",
 			black: colors.black,
 			white: colors.white,

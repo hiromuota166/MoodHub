@@ -4,12 +4,12 @@ import { Zen_Kaku_Gothic_New } from "next/font/google";
 import Header from "@/components/Header";
 import { ApolloWrapper } from "@/lib/apollo-provider";
 import { Providers } from "./providers";
+import { AuthProvider } from "@/context/auth";
 
 const zenkakugothicnew = Zen_Kaku_Gothic_New({
 	weight: "400",
 	subsets: ["latin"],
 });
-import { AuthProvider } from "@/context/auth";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang='en'>
+		<html lang='en' suppressHydrationWarning>
 			<body className={`${zenkakugothicnew.className}`}>
 				<AuthProvider>
 					<ApolloWrapper>
 						<Providers>
 							<Header />
-							<main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12  bg-background'>{children}</main>
+							<main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12  bg-background dark:bg-darkbackground dark:text-darkfont'>{children}</main>
 						</Providers>
 					</ApolloWrapper>
 				</AuthProvider>
