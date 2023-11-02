@@ -52,19 +52,13 @@ const config: StorybookConfig = {
 	docs: {
 		autodocs: "tag",
 	},
-	webpackFinal: async (config, { configType }) => {
-		// `configType`には 'DEVELOPMENT' または 'PRODUCTION' が入ります
-		// 'PRODUCTION'はビルド時に、'DEVELOPMENT'は開発時のストーリーブック起動時に設定されます。
-
-		// エイリアスの設定を追加
+	webpackFinal: async (config) => {
 		if (config.resolve) {
 			config.resolve.alias = {
 				...config.resolve.alias,
-				"@": path.resolve(__dirname, "../src"), // 通常は`../src`が正しいパスですが、プロジェクトに応じて調整してください。
+				"@": path.resolve(__dirname, "../src"),
 			};
 		}
-
-		// カスタマイズした設定を返します
 		return config;
 	},
 };
