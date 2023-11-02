@@ -5,17 +5,17 @@ import { useState } from "react";
 import { makeUID } from "@/functions/makeUID";
 import NavigateButton from "./NavigateButton";
 import IsLoading from "./IsLoading";
+export const CREATE_ROOM_MUTATION = gql`
+	mutation CreateARoom($room: CreateRoom!) {
+		createRoom(room: $room) {
+			roomId
+			userId
+			name
+		}
+	}
+`;
 const CreateRoom = () => {
 	const router = useRouter();
-	const CREATE_ROOM_MUTATION = gql`
-		mutation CreateARoom($room: CreateRoom!) {
-			createRoom(room: $room) {
-				roomId
-				userId
-				name
-			}
-		}
-	`;
 
 	interface RoomResponse {
 		createRoom: Room;

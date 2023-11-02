@@ -25,7 +25,7 @@ const VolumeButton: React.FC<VolumeButtonProps> = memo(
 		// Volumeをモードに変換し、メモ化
 		const volumeMode = useMemo(() => getVolumeMode(Volume, isMuted), [Volume, isMuted]);
 		return (
-			<button onClick={handleToggleMute}>
+			<button onClick={handleToggleMute} className="p-4 shadow-boxOut rounded-3xl">
 				{volumeMode === "mute" && <Image src={mute} alt='消音画像'></Image>}
 				{volumeMode === "low" && <Image src={low} alt='小音量画像'></Image>}
 				{(volumeMode === "high" || volumeMode === undefined) && <Image src={high} alt='大音量画像'></Image>}

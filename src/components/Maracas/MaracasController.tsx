@@ -41,10 +41,10 @@ const MaracasController = (props: MaracasControllerProps) => {
 	};
 	return (
 		<div>
-			<div className='absolute top-0 right-0 w-fit z-10'>
-				<div>{modeText}マラカス</div>
-				<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />
-				<div className='m-4'>
+			<div className='absolute bottom-24 right-0 md-top-8 md-right-8 w-fit z-10'>
+				<div className='block md-flex'>
+					<h2 className='my-auto mx-2 p-4 shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
+					<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />
 					<MaracasModal
 						MaracasSensitivity={shakeInterval}
 						handleMaracasSensitivityChange={handleMaracasSensitivityChange}

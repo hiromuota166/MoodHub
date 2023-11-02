@@ -12,6 +12,8 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import RangeSlider from "../RangeSlider/RangeSlider";
+import SettingsImg from "@/../public/settings.svg";
+import Image from "next/image";
 
 interface MaracasModalProps {
 	MaracasSensitivity: number;
@@ -39,8 +41,8 @@ const MaracasModal = (props: MaracasModalProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<>
-			<button onClick={onOpen} className='rounded-3xl shadow-boxOut p-4 px-6 bg-background'>
-				マラカス設定
+			<button onClick={onOpen} className='rounded-3xl shadow-boxOut p-4 sm-bg-white'>
+				<Image src={SettingsImg} alt="マラカス設定モーダルを開くアイコン"/><span className="hidden md-block">マラカス設定</span>
 			</button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
