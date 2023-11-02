@@ -1,14 +1,27 @@
+"use client";
 import NightImg from "@/../public/night-mode.svg";
 import DayImg from "@/../public/day-mode.svg";
 import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
-interface NightModeSwitchProps {
-	isNightMode: boolean;
-	toggleNightMode: () => void;
-}
+const NightModeSwitch = () => {
+	const [mounted, setMounted] = useState(false);
+	const { theme, setTheme } = useTheme();
+	const isNightMode = theme === "dark";
 
-const NightModeSwitch = (props: NightModeSwitchProps) => {
-	const { isNightMode, toggleNightMode } = props;
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return null;
+	}
+
+	const toggleNightMode = () => {
+		setTheme(theme === "light" ? "dark" : "light");
+	};
+
 	return (
 		<div>
 			<button onClick={toggleNightMode} className='p-4 shadow-boxOut rounded-3xl bg-background'>
@@ -20,3 +33,4 @@ const NightModeSwitch = (props: NightModeSwitchProps) => {
 };
 
 export default NightModeSwitch;
+

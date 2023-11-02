@@ -46,7 +46,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 				<div className='flex md:block justify-between'>
 					<div className='flex justify-center md:justify-end gap-2 my-2 mr-2'>
 						<h2 className='p-4 px-2 w-fit shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
-						<NightModeSwitch isNightMode={feverMode} toggleNightMode={() => setFeverMode((prev) => !prev)} />
+						<NightModeSwitch />
 					</div>
 					<div className='flex justify-center md:justify-end gap-2 my-2 mr-2'>
 						<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />

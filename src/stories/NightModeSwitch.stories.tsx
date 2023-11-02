@@ -5,7 +5,6 @@ const meta = {
 	title: "Components/NightModeSwitch",
 	component: NightModeSwitch,
     args: {
-        toggleNightMode: () => {},
         isNightMode: true,
     },
 } satisfies Meta<typeof NightModeSwitch>;
