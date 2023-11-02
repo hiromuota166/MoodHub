@@ -41,21 +41,25 @@ const MaracasController = (props: MaracasControllerProps) => {
 	};
 	return (
 		<div>
-			<div className='absolute bottom-24 right-0 md-top-8 md-right-8 w-fit z-10'>
-				<div className='block md-flex'>
-					<h2 className='my-auto mx-2 p-4 shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
-					<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />
-					<MaracasModal
-						MaracasSensitivity={shakeInterval}
-						handleMaracasSensitivityChange={handleMaracasSensitivityChange}
-						MaracasVibrationIntensity={shakeThreshold}
-						handleMaracasVibrationIntensityChange={handleMaracasVibrationIntensityChange}
-						isMuted={isMuted}
-						toggleMute={toggleMute}
-						Volume={volume}
-						handleVolumeChange={adjustVolume}
-						handleMaracasSoundSwitch={toggleMute}
-					/>
+			<div className='absolute bottom-24 right-0 md-top-8 md-right-8 w-full z-10'>
+				<div className='flex md:block justify-between'>
+					<div className='flex justify-center md:justify-end gap-2 my-2 mr-2'>
+						<h2 className='p-4 px-2 w-fit shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
+					</div>
+					<div className='flex justify-center md:justify-end gap-2 my-2 mr-2'>
+						<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />
+						<MaracasModal
+							MaracasSensitivity={shakeInterval}
+							handleMaracasSensitivityChange={handleMaracasSensitivityChange}
+							MaracasVibrationIntensity={shakeThreshold}
+							handleMaracasVibrationIntensityChange={handleMaracasVibrationIntensityChange}
+							isMuted={isMuted}
+							toggleMute={toggleMute}
+							Volume={volume}
+							handleVolumeChange={adjustVolume}
+							handleMaracasSoundSwitch={toggleMute}
+						/>
+					</div>
 				</div>
 			</div>
 			{!isDevicemotionPermissionGranted ? (
