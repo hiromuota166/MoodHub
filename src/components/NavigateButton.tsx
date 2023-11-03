@@ -17,7 +17,7 @@ const NavigateButton = (props: NavigationButtonProps) => {
 					onClick(e);
 				}}
 			>
-				<div className='block bg-background text-font text-xl m-2 p-8 py-10 w-fit rounded-3xl shadow-boxOut'>
+				<div className='block text-xl m-2 p-8 py-10 w-fit rounded-3xl shadow-boxOut'>
 					{label}
 				</div>
 			</a>
@@ -26,7 +26,7 @@ const NavigateButton = (props: NavigationButtonProps) => {
 		<Link
 			href={href}
 			onClick={() => onClick}
-			className='block bg-background text-font text-xl m-2 p-8 py-10 w-fit rounded-3xl shadow-boxOut'
+			className='block text-xl m-2 p-8 py-10 w-fit rounded-3xl shadow-boxOut'
 			aria-disabled
 		>
 			{label}

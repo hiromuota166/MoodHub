@@ -13,7 +13,7 @@ export const NightModeToggleButton = (props: NightModeToggleButtonProps) => {
 	const { colorMode, onToggle } = props;
 	return (
 		<div>
-			<button onClick={onToggle} className='p-4 shadow-boxOut rounded-3xl bg-background'>
+			<button onClick={onToggle} className='p-4 shadow-boxOut rounded-3xl'>
 				{colorMode === "dark" && <Image src={NightImg} alt='夜モード画像' />}
 				{colorMode === "light" && <Image src={DayImg} alt='昼モード画像' />}
 			</button>

@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<body className={`${zenkakugothicnew.className}`}>
+			<body className={`${zenkakugothicnew.className} bg-background dark:bg-darkbackground text-font dark:text-darkfont`}>
 				<AuthProvider>
 					<ApolloWrapper>
 						<Providers>
 							<Header />
-							<main className='min-h-screen   bg-background dark:bg-darkbackground dark:text-darkfont'>
+							<main className='min-h-screen '>
 								<div className='md:max-w-[60%] max-w-[90%] m-auto p-12'>{children}</div>
 							</main>
 						</Providers>
