@@ -10,6 +10,7 @@ import {
 	useDisclosure,
 	Box,
 	Text,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import RangeSlider from "../RangeSlider/RangeSlider";
 import SettingButton from "../SettingButton";
@@ -38,12 +39,15 @@ const MaracasModal = (props: MaracasModalProps) => {
 		handleMaracasSoundSwitch,
 	} = props;
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const bg = useColorModeValue('#D6E5E3', '#183D4D');
+	const fontColor = useColorModeValue('#6B7271', '#E0E0E0');
+
 	return (
 		<>
 			<SettingButton onOpen={onOpen} title="マラカス設定" />
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent bg="#D6E5E3">
+				<ModalContent bg={bg} color={fontColor}>
 					<ModalHeader>マラカス設定</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
@@ -78,7 +82,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 						</Box>
 					</ModalBody>
 					<ModalFooter>
-						<button className='bg-background rounded-2xl shadow-boxOut p-4 pt-2 text-lg' onClick={onClose}>
+						<button className='rounded-2xl shadow-boxOut p-4 pt-2 text-lg' onClick={onClose}>
 							Close
 						</button>
 					</ModalFooter>
