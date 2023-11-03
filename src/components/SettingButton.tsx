@@ -11,7 +11,6 @@ const SettingButton = (props: SettingButtonProps) => {
 	return (
 		<button onClick={onOpen} className='flex rounded-3xl shadow-boxOut p-4 gap-1'>
 			<Image src={SettingsImg} alt={`${title}設定モーダルを開くアイコン`} className="m-auto " />
-			<span className='hidden md:flex text-lg m-auto '>{title}</span>
 		</button>
 	);
 };
