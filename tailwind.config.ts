@@ -50,7 +50,6 @@ const config: Config = {
 			rose: colors.rose,
 		},
 	},
-	plugins: [],
 	darkMode: 'class',
 };
 export default config;

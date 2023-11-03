@@ -24,7 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<ApolloWrapper>
 						<Providers>
 							<Header />
-							<main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12  bg-background dark:bg-darkbackground dark:text-darkfont'>{children}</main>
+							<main className='min-h-screen   bg-background dark:bg-darkbackground dark:text-darkfont'>
+								<div className='md:max-w-[60%] max-w-[90%] m-auto p-12'>{children}</div>
+							</main>
 						</Providers>
 					</ApolloWrapper>
 				</AuthProvider>
