@@ -4,7 +4,7 @@ import { useState } from "react";
 import RoomNameModal from "./RoomNameModal";
 
 const ShowRoomName = () => {
-  const [roomName, setRoomName] = useState("");
+  const [roomName, setRoomName] = useState("ひまわりの部屋");
 
   const handleRoomNameChange = (newName: string) => {
     setRoomName(newName);

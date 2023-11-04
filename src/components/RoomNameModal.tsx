@@ -34,30 +34,36 @@ const RoomNameModal:React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
             width={30}
             height={30}
             alt="Description"
-            className="w-10 mr-3"
+            className="w-10 mr-2   m-2"
           />
         </button>
       </div>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader></ModalHeader>
-          <ModalBody>
-            <Input
-              type="text"
-              onChange={handleInputChange}
-              placeholder="ルームネームを入れよう"
-            />
-          </ModalBody>
+  <ModalOverlay />
+  <ModalContent>
+    <form onSubmit={(e) => {
+      e.preventDefault(); // デフォルトのフォーム送信を防ぐ
+      onClose();         // モーダルを閉じる関数を実行
+    }}>
+      <ModalHeader></ModalHeader>
+      <ModalBody>
+        <Input
+          type="text"
+          onChange={handleInputChange}
+          placeholder="例: ひまわりの部屋"
+        />
+      </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              決定
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ModalFooter>
+        <Button colorScheme="blue" mr={3} type="submit">
+          決定
+        </Button>
+      </ModalFooter>
+    </form>
+  </ModalContent>
+</Modal>
+
     </>
   );
 };
