@@ -7,14 +7,14 @@ import { gql, useMutation } from "@apollo/client";
 const RoomInButton = () => {
 
     const JOIN_ROOM_MUTATION = gql`
-  mutation JoinARoom($join: JoinRoom!) {
-    joinRoom(join: $join) {
-      roomId
-      userId
-      name
-    }
-  }
-`;
+        mutation joinRoom($join: JoinRoomInput!) {
+            joinRoom(input: $join) {
+                roomId
+                userId
+                name
+            }
+        }
+    `;
     interface RoomResponse {
         joinRoom: Room;
     }
@@ -58,11 +58,15 @@ const RoomInButton = () => {
             <h2 className="mx-2">ルームID入力</h2>
             <form onSubmit={onSubmit} className="flex h-10">
                 <input
+                    title="ルームID入力欄"
                     type="number"
                     className="bg-background rounded-tl-2xl rounded-bl-2xl shadow-boxIn"
                     name="roomId"
                 />
-                <button type="submit" className="w-12 rounded-tr-2xl rounded-br-2xl shadow-boxOut">
+                <button 
+                    title="ルーム入室ボタン"
+                    type="submit"  
+                    className="w-12 rounded-tr-2xl rounded-br-2xl shadow-boxOut">
                     <Image
                         src="/submit_triangle.svg"
                         alt="フォーム入力用の画像"
