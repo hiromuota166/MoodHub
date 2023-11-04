@@ -15,13 +15,14 @@ interface SongListProps {
 };
 
 const SongList = (props: SongListProps) => {
+  const { userID, roomId } = props;
   const songs = useSongByRoomId(props.roomId);
   const songNames = songs ? songs.map((song) => song.songName) : [];
 
   return (
     <>
-      <ModalWhole userId={props.userID} />
-      <ShowRoomID roomID={String(props.roomId)} />
+      <ModalWhole userId={userID} />
+      <ShowRoomID roomID={String(roomId)} />
       <NeumourList listItems={songNames} />
     </>
   );
