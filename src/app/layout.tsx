@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Zen_Kaku_Gothic_New } from 'next/font/google'
 import Header from '@/components/Header'
-import { ApolloWrapper } from '@/lib/apollo-provider'
+import { ApolloWrapper } from '@/lib/apollo/apollo-provider'
 const zenkakugothicnew = Zen_Kaku_Gothic_New({
   weight: "400",
   subsets: ['latin']
