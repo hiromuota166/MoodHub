@@ -1,7 +1,4 @@
 "use client";
-
-import React, { Suspense } from "react";
-import useSongByRoomId from "@/lib/useSongByRoomId";
 import NeumourList from "@/components/NeumorList";
 import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
@@ -11,12 +8,10 @@ import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 import { Song } from "@/lib/apollo/gql/graphql";
 
 interface SongListProps {
-	roomId: number;
-	userID: number;
 	songsData: { song: Song[] } | undefined;
 }
 
-const SongList = ({ roomId, userID, songsData }: SongListProps) => {
+const SongList = ({ songsData }: SongListProps) => {
 	if (!songsData) return <p>曲がありません。</p>;
 	const songs = songsData.song;
 	const songNames = songs.map((song) => song.songName);
@@ -56,7 +51,21 @@ const Page = () => {
 		<>
 			<ModalWhole userId={numericUserID} />
 			<ShowRoomID roomID={String(numericRoomID)} />
-			{Song.loading ? <IsLoading /> : <SongList roomId={numericRoomID} userID={numericUserID} songsData={Song.data} />}
+			{getUserState.loading ? (
+				<IsLoading />
+			) : (
+				<>
+					<p>ルームネーム: {getUserState.data?.getMembers.roomName}</p>
+					<p>ユーザーリスト:</p>
+					<ul>
+						{getUserState.data?.getMembers.members?.map((member, i) => {
+							console.log(member);
+							return <li key={i}>{member}</li>;
+						})}
+					</ul>
+				</>
+			)}
+			{Song.loading ? <IsLoading /> : <SongList songsData={Song.data} />}
 		</>
 	);
 };
