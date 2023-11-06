@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import React, { Suspense } from "react";
 import useSongByRoomId from "@/lib/useSongByRoomId";
@@ -8,51 +7,58 @@ import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
+import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
+import { Song } from "@/lib/apollo/gql/graphql";
 
 interface SongListProps {
-  roomId: number;
-  userID: number;
-};
+	roomId: number;
+	userID: number;
+	songsData: { song: Song[] } | undefined;
+}
 
-const SongList = (props: SongListProps) => {
-  const { userID, roomId } = props;
-  const songs = useSongByRoomId(props.roomId);
-  const songNames = songs ? songs.map((song) => song.songName) : [];
-
-  return (
-    <>
-      <ModalWhole userId={userID} />
-      <ShowRoomID roomID={String(roomId)} />
-      <NeumourList listItems={songNames} />
-    </>
-  );
+const SongList = ({ roomId, userID, songsData }: SongListProps) => {
+	if (!songsData) return <p>曲がありません。</p>;
+	const songs = songsData.song;
+	const songNames = songs.map((song) => song.songName);
+	return (
+		<>
+			<NeumourList listItems={songNames} />
+		</>
+	);
 };
 
 const Page = () => {
-  const searchParams = useSearchParams();
+	const searchParams = useSearchParams();
 
-  // クエリパラメータを取得
-  const roomID = searchParams.get("roomID");
-  const userID = searchParams.get("userID");
-  // クエリがまだ利用できない場合のハンドリング
-  if (!roomID || !userID) {
-    return <IsLoading />;
-  }
-  if (typeof roomID !== "string" || typeof userID !== "string") {
-    return <p>ルームIDまたはユーザーIDが不正です。</p>;
-  }
-  if (!roomID) {
-    return (
-      <Suspense fallback={<IsLoading />}>
-        <SongList roomId={Number(roomID)} userID={Number(userID)} />
-      </Suspense>
-    );
-  }
-  return (
-    <Suspense fallback={<IsLoading />}>
-      <SongList roomId={Number(roomID)} userID={Number(userID)} />
-    </Suspense>
-  );
+	const roomID = searchParams.get("roomID");
+	const userID = searchParams.get("userID");
+	const numericRoomID = Number(roomID);
+	const numericUserID = Number(userID);
+
+	const {
+		updateCategoriesState,
+		registerUserState,
+		Song,
+		getUserState,
+		handleUserRegistration,
+		handleUpdateCategories,
+	} = useMusicRecommendPageData(numericUserID, numericRoomID);
+
+	if (isNaN(numericRoomID) || isNaN(numericUserID)) {
+		return <p>ルームIDまたはユーザーIDが不正です。</p>;
+	}
+
+	if (Song.error) {
+		return <p>エラーが発生しました。やり直してください。</p>;
+	}
+
+	return (
+		<>
+			<ModalWhole userId={numericUserID} />
+			<ShowRoomID roomID={String(numericRoomID)} />
+			{Song.loading ? <IsLoading /> : <SongList roomId={numericRoomID} userID={numericUserID} songsData={Song.data} />}
+		</>
+	);
 };
 
 export default Page;

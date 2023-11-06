@@ -2,13 +2,7 @@ import { useCallback, useEffect } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
 import { Register } from "@/lib/apollo/gql/graphql";
 
-interface MusicRecommendPageDataProps {
-	userID?: number;
-	roomID?: number;
-}
-
-const useMusicRecommendPageData = (props: MusicRecommendPageDataProps) => {
-	const { userID, roomID } = props;
+const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 	const {
 		updateCategoriesFunc,
 		updateCategoriesState,
@@ -17,14 +11,15 @@ const useMusicRecommendPageData = (props: MusicRecommendPageDataProps) => {
 		Song,
 		getUserFunc,
 		getUserState,
-	} = useApolloQuery();
-
+	} = useApolloQuery(userID, roomID);
 	//ルームに居るユーザのデータを取得する関数
 	const getUser = useCallback(
 		async (roomId: number) => {
 			await getUserFunc({
 				variables: {
-					roomId: roomId,
+					input: {
+						roomId: roomId,
+					},
 				},
 			});
 		},
