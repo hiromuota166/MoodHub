@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
-import { get } from "http";
+import { Register } from "@/lib/apollo/gql/graphql";
 
 interface MusicRecommendPageDataProps {
 	userID?: number;
@@ -19,18 +19,6 @@ const useMusicRecommendPageData = (props: MusicRecommendPageDataProps) => {
 		getUserState,
 	} = useApolloQuery();
 
-	const { error: songError, loading: songLoading, data: songData, refetch: songRefetch } = Song;
-	const { error: getUserError, loading: getUserLoading, data: getUserData } = getUserState;
-	const {
-		error: updateCategoriesError,
-		loading: updateCategoriesLoading,
-		data: updateCategoriesData,
-	} = updateCategoriesState;
-	const { error: registerUserError, loading: registerUserLoading, data: registerUserData } = registerUserState;
-
-	const [registerUserStateDate, setRegisterUserStateDate] = useState<typeof registerUserData>(registerUserData);
-	const [categories, setCategories] = useState<string[]>([]);
-
 	//ルームに居るユーザのデータを取得する関数
 	const getUser = useCallback(
 		async (roomId: number) => {
@@ -43,62 +31,74 @@ const useMusicRecommendPageData = (props: MusicRecommendPageDataProps) => {
 		[getUserFunc]
 	);
 
-    //ルームidを取得するときにユーザのデータを取得する副作用
+	//ルームidを取得するときにユーザのデータを取得する副作用
 	useEffect(() => {
 		if (roomID) getUser(roomID);
 	}, [roomID, getUser]);
 
-	//ユーザのデータを登録する関数
-	const registerUser = async (userData: typeof registerUserData) => {
-		setRegisterUserStateDate(userData);
-		if (registerUserData) {
-			updateUserDataQuery(userData);
-		} else {
-			registerUserQuery(userData);
-		}
-	};
+	// ユーザー登録のGraphQLのクエリ関数
+	const registerUserQuery = useCallback(
+		async (userData: Register) => {
+			await registerUserFunc({
+				variables: {
+					...userData,
+					userId: userID,
+				},
+			});
+		},
+		[userID, registerUserFunc]
+	);
 
-	//ユーザのGraphQLのデータを登録する関数
-	const registerUserQuery = async (userData: typeof registerUserData) => {
-		await registerUserFunc({
-			variables: {
-				userId: userID,
-				categories: userData?.categories,
-				userName: userData?.userName,
-				gender: userData?.gender,
-				age: userData?.age,
-			},
-		});
-	};
+	// ユーザー情報更新のGraphQLのクエリ関数
+	const updateUserQuery = useCallback(
+		async (userData: Register) => {
+			await updateCategoriesFunc({
+				variables: {
+					...userData,
+					userId: userID,
+				},
+			});
+		},
+		[userID, updateCategoriesFunc]
+	);
 
-	//ユーザのGraphQLのデータを更新する関数
-	const updateUserDataQuery = async (userData: typeof registerUserData) => {
-		await registerUserFunc({
-			variables: {
-				userName: userData?.userName,
-			},
-		});
-	};
+	// ユーザー登録または更新を判断する関数
+	const handleUserRegistration = useCallback(
+		async (userData: Register) => {
+			if (!userData) return;
 
+			if (registerUserState.data) {
+				// 既にユーザー情報がある場合は更新
+				await updateUserQuery(userData);
+			} else {
+				// ユーザー情報がない場合は登録
+				await registerUserQuery(userData);
+			}
+		},
+		[registerUserState.data, registerUserQuery, updateUserQuery]
+	);
 	//カテゴリのデータを更新する関数
-	const updateCategories = async (categories: string[], userName: string, gender?: string, age?: string) => {
+	const handleUpdateCategories = async (categories: string[]) => {
 		//ここにローカルストレージにカテゴリを保存する処理を後で追加する
 
-		setCategories([...categories]);
-		await updateCategoriesQuery(categories);
-		//カテゴリを更新したら、曲のデータを更新する
-		await songRefetch();
-	};
-
-	//カテゴリののGraphQLのデータを更新する関数
-	const updateCategoriesQuery = async (categories: string[]) => {
 		await updateCategoriesFunc({
 			variables: {
 				categories: categories,
 				userId: userID,
 			},
 		});
+		await Song.refetch();
 	};
 
-	return { songError, songLoading, songData, songRefetch, getUserError, getUserLoading, getUserData };
+	return {
+		updateCategoriesState,
+		registerUserState,
+		Song,
+		getUserState,
+		handleUserRegistration,
+		handleUpdateCategories,
+	};
 };
+
+export default useMusicRecommendPageData;
+
