@@ -13,13 +13,15 @@ import {
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 
 interface RoomNameModalProps {
   onRoomNameChange: (newName: string) => void;
 }
 
-const RoomNameModal:React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
+const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
+  const [inputValue, setInputValue] = React.useState("");
+  
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     onRoomNameChange(event.target.value);
   };
@@ -40,30 +42,35 @@ const RoomNameModal:React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
       </div>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-  <ModalOverlay />
-  <ModalContent>
-    <form onSubmit={(e) => {
-      e.preventDefault(); // デフォルトのフォーム送信を防ぐ
-      onClose();         // モーダルを閉じる関数を実行
-    }}>
-      <ModalHeader></ModalHeader>
-      <ModalBody>
-        <Input
-          type="text"
-          onChange={handleInputChange}
-          placeholder="例: ひまわりの部屋"
-        />
-      </ModalBody>
+        <ModalOverlay />
+        <ModalContent>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault(); // デフォルトのフォーム送信を防ぐ
+              onRoomNameChange(inputValue); // 親コンポーネントの関数を実行 
+              onClose(); // モーダルを閉じる関数を実行
+            }}
+          >
+            <ModalHeader></ModalHeader>
+            <ModalBody>
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="例: ひまわりの部屋"
+              />
+            </ModalBody>
 
-      <ModalFooter>
-        <Button colorScheme="blue" mr={3} type="submit">
-          決定
-        </Button>
-      </ModalFooter>
-    </form>
-  </ModalContent>
-</Modal>
-
+            <ModalFooter>
+              <Button colorScheme="gray" mr={3} onClick={onClose}>
+                キャンセル
+              </ Button>
+              <Button colorScheme="blue" mr={3} type="submit">
+                決定
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
