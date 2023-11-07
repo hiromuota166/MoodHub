@@ -21,7 +21,7 @@ const JOIN_ROOM = gql`
 
 const UPDATE_CATEGORIES = gql`
 	mutation UpdateCategories($userId: Int!, $categories: [String!]!) {
-		updateCategory(update: { userId: $userId, categories: $categories }) {
+		updateCaategory(update: { userId: $userId, categories: $categories }) {
 			userId
 			categories
 			userName

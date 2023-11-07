@@ -21,6 +21,8 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 						roomId: roomId,
 					},
 				},
+			}).catch((err) => {
+				console.error(err);
 			});
 		},
 		[getUserFunc]
@@ -37,11 +39,12 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 			await registerUserFunc({
 				variables: {
 					...userData,
-					userId: userID,
 				},
+			}).catch((err) => {
+				console.error(err);
 			});
 		},
-		[userID, registerUserFunc]
+		[registerUserFunc]
 	);
 
 	// ユーザー情報更新のGraphQLのクエリ関数
@@ -50,11 +53,12 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 			await updateCategoriesFunc({
 				variables: {
 					...userData,
-					userId: userID,
 				},
+			}).catch((err) => {
+				console.error(err);
 			});
 		},
-		[userID, updateCategoriesFunc]
+		[updateCategoriesFunc]
 	);
 
 	// ユーザー登録または更新を判断する関数
@@ -72,8 +76,22 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 		},
 		[registerUserState.data, registerUserQuery, updateUserQuery]
 	);
+
 	//カテゴリのデータを更新する関数
 	const handleUpdateCategories = async (categories: string[]) => {
+		if (registerUserState.data === undefined) {
+			if (!userID) return;
+			const userData: Register = {
+				userId: userID,
+				categories: categories,
+				userName: "山田歌郎",
+			};
+			handleUserRegistration(userData);
+			if (!roomID) return;
+			await Song.refetch();
+			return;
+		}
+
 		//ここにローカルストレージにカテゴリを保存する処理を後で追加する
 
 		await updateCategoriesFunc({
@@ -81,7 +99,10 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 				categories: categories,
 				userId: userID,
 			},
+		}).catch((err) => {
+			console.error(err);
 		});
+		if (!roomID) return;
 		await Song.refetch();
 	};
 
@@ -96,4 +117,3 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 };
 
 export default useMusicRecommendPageData;
-

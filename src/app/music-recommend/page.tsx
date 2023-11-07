@@ -49,7 +49,7 @@ const Page = () => {
 
 	return (
 		<>
-			<ModalWhole userId={numericUserID} />
+			<ModalWhole userId={numericUserID} roomId={numericRoomID}/>
 			<ShowRoomID roomID={String(numericRoomID)} />
 			{getUserState.loading ? (
 				<IsLoading />
