@@ -1,6 +1,7 @@
 "use client";
 import { useAuth } from "@/context/auth";
 import { login, logout } from "@/lib/auth";
+import { auth } from "@/lib/firebase";
 import { useEffect, useState } from "react";
 
 type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
@@ -24,6 +25,9 @@ export default function GoogleLoginBtn() {
     login()
       .then(() => {
         setLoginState("LOGGED_IN");
+        const user = auth.currentUser;
+
+        console.log(user);
       })
       .catch((error) => {
         console.error(error?.code);
