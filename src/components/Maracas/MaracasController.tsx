@@ -44,7 +44,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 	};
 	return (
 		<div>
-			<div className='absolute bottom-24 right-0 md-top-8 md-right-8 w-full z-10'>
+			<div className='absolute bottom-2 right-0 md-top-8 md-right-8 w-full z-10'>
 				<div className='flex md:block justify-between'>
 					<div className='flex flex-col md:flex-row md:justify-end gap-2 my-2 mr-2'>
 						<h2 className='mt-auto p-4 px-2 w-fit h-fit shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
