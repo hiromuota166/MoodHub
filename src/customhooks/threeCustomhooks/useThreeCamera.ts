@@ -1,20 +1,33 @@
-// useThreeCamera.ts
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const useThreeCamera = () => {
-	const [camera, setCamera] = useState<THREE.PerspectiveCamera | null>(null);
 	const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
 
 	useEffect(() => {
-		// cameraが未初期化の場合のみ初期化
+		// カメラの初期化
 		if (!cameraRef.current) {
 			const newCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 			newCamera.position.set(0, 0, 5);
 			cameraRef.current = newCamera;
-			setCamera(newCamera); // 状態を更新して再レンダリングをトリガーする
 		}
+
+		// リサイズイベントハンドラー
+		const onResize = () => {
+			if (cameraRef.current) {
+				cameraRef.current.aspect = window.innerWidth / window.innerHeight;
+				cameraRef.current.updateProjectionMatrix();
+			}
+		};
+
+		// イベントリスナーを設定
+		window.addEventListener("resize", onResize);
+
+		// クリーンアップ関数
+		return () => {
+			window.removeEventListener("resize", onResize);
+		};
 	}, []);
 
-	return camera; // useStateで管理されているcameraを返す
+	return cameraRef.current;
 };
