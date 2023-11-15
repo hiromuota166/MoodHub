@@ -43,18 +43,22 @@ const useSoundEvents = (audioPath: string, shakeThreshold: number = 20, shakeInt
 	);
 
 	useEffect(() => {
-		window.addEventListener("touchstart", handleTouch);
+		if (!isMuted) {
+			window.addEventListener("touchstart", handleTouch);
+		}
 		return () => {
 			window.removeEventListener("touchstart", handleTouch);
 		};
-	}, [handleTouch]);
+	}, [handleTouch, isMuted]);
 
 	useEffect(() => {
-		window.addEventListener("touchmove", handleSwipe);
+		if (!isMuted) {
+			window.addEventListener("touchmove", handleSwipe);
+		}
 		return () => {
 			window.removeEventListener("touchmove", handleSwipe);
 		};
-	}, [handleSwipe]);
+	}, [handleSwipe, isMuted]);
 
 	useEffect(() => {
 		if (isDevicemotionPermissionGranted) {
