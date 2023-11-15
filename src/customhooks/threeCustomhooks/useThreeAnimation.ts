@@ -1,6 +1,4 @@
-"use client";
-// useThreeAnimation.ts
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -19,49 +17,62 @@ export const useThreeAnimation = (
 	lightUpdateCounter: number,
 	feverMode: boolean
 ) => {
+	useEffect(() => {
+		if (!scene || !renderer || !camera) return;
+
+		// OrbitControlsの初期化
+		const controls = new OrbitControls(camera, renderer.domElement);
+
+		return () => {
+			controls.dispose(); // OrbitControlsのクリーンアップ
+		};
+	}, [scene, camera, renderer]);
 
 	useEffect(() => {
-		if (!scene || !renderer || !lights || !camera) return;
+		if (!scene || !renderer || !camera || !lights) return;
 		const { directionalLights, ambientLight, pointLights, pointLightsUpdate } = lights;
-		const controls = new OrbitControls(camera, renderer.domElement);
-		let animationFrameId: number;
-		if (!directionalLights || !ambientLight || !pointLights) {
-			return;
-		}
 
-		const animate = () => {
+		if (!directionalLights || !ambientLight || !pointLights) return;
+
+		let animationFrameId: number = 0;
+
+		const updateRender = () => {
 			if (feverMode) {
-				directionalLights.forEach((directionalLight) => {
-					directionalLight.intensity = 0.1;
-				});
+				directionalLights.forEach((light) => (light.intensity = 0.1));
 				ambientLight.intensity = 0;
 				scene.background = new THREE.Color("#000"); // 背景色を設定
 				pointLights.forEach((pointLight) => {
-					const newPointLight = pointLightsUpdate(pointLight);
-					scene.add(newPointLight);
+					pointLightsUpdate(pointLight);
+					pointLight.visible = true;
 				});
 			} else {
 				scene.background = new THREE.Color("#D6E5E3"); // 背景色を設定
-				directionalLights.forEach((directionalLight) => {
-					directionalLight.intensity = 3;
-				});
-				ambientLight.intensity = 0;
-				pointLights.forEach((pointLight) => {
-					scene.remove(pointLight);
-				});
+				directionalLights.forEach((light) => (light.intensity = 3));
+				ambientLight.intensity = 1;
+				pointLights.forEach((pointLight) => (pointLight.visible = false));
 			}
-
 			renderer.render(scene, camera);
-			controls.update();
+		};
+
+		const animate = () => {
+			console.log("animate");
+			updateRender();
 			animationFrameId = requestAnimationFrame(animate);
 		};
 
-		animate();
+		if (feverMode) {
+			animate();
+		} else {
+			cancelAnimationFrame(animationFrameId); // アニメーションのキャンセル
+			updateRender();
+			window.addEventListener("touchmove", updateRender);
+			window.addEventListener("wheel", updateRender);
+		}
 
 		return () => {
 			cancelAnimationFrame(animationFrameId); // アニメーションのキャンセル
-			controls.dispose(); // OrbitControlsのクリーンアップ
+			window.removeEventListener("touchmove", updateRender);
+			window.removeEventListener("wheel", updateRender);
 		};
-	}, [feverMode, scene, camera, renderer, lights, lightUpdateCounter, lightUpdateCounter]);
-
+	}, [feverMode, scene, camera, renderer, lights]); // 依存関係を指定
 };
