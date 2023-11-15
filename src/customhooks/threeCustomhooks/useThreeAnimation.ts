@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -12,11 +12,12 @@ export const useThreeAnimation = (
 				ambientLight: THREE.AmbientLight | null;
 				pointLights: THREE.PointLight[] | null;
 				pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
-		}
+		  }
 		| undefined,
 	lightUpdateCounter: number,
 	feverMode: boolean
 ) => {
+	const isDraggingRef = useRef(false);
 	useEffect(() => {
 		if (!scene || !renderer || !camera) return;
 
@@ -60,6 +61,20 @@ export const useThreeAnimation = (
 			animationFrameId = requestAnimationFrame(animate);
 		};
 
+		const handleMouseDown = () => {
+			isDraggingRef.current = true;
+		};
+
+		const handleMouseUp = () => {
+			isDraggingRef.current = false;
+		};
+
+		const handleMouseMove = () => {
+			if (isDraggingRef.current) {
+				updateRender();
+			}
+		};
+
 		if (feverMode) {
 			animate();
 		} else {
@@ -67,12 +82,18 @@ export const useThreeAnimation = (
 			updateRender();
 			window.addEventListener("touchmove", updateRender);
 			window.addEventListener("wheel", updateRender);
+			window.addEventListener("mousedown", handleMouseDown);
+			window.addEventListener("mousemove", handleMouseMove);
+			window.addEventListener("mouseup", handleMouseUp);
 		}
 
 		return () => {
 			cancelAnimationFrame(animationFrameId); // アニメーションのキャンセル
 			window.removeEventListener("touchmove", updateRender);
 			window.removeEventListener("wheel", updateRender);
+			window.removeEventListener("mousedown", handleMouseDown);
+			window.removeEventListener("mousemove", handleMouseMove);
+			window.removeEventListener("mouseup", handleMouseUp);
 		};
 	}, [feverMode, scene, camera, renderer, lights]); // 依存関係を指定
 };
