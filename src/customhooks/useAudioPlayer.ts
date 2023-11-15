@@ -7,6 +7,7 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 	const gainNode = useRef<GainNode | null>(null);
 	const [isMuted, setIsMuted] = useState(false);
 	const [volume, setVolume] = useState(0);
+	const lastVolumeRef = useRef(volume); // ミュート前の音量を保存するためのref
 
 	// 音声ファイルを読み込む関数
 	const loadAudio = async (audioFilePath: string) => {
@@ -42,29 +43,31 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 		if (!gainNode.current) return;
 		gainNode.current.gain.value = volume;
 		setVolume(volume);
-		if (volume === 0) {
-			setIsMuted(true);
-		} else {
-			setIsMuted(false);
+		// ミュート状態を更新
+		setIsMuted(volume === 0);
+		// 音量が0でない場合、現在の音量を保存
+		if (volume > 0) {
+			lastVolumeRef.current = volume;
 		}
 	};
 
 	// ミュートする関数
 	const mute = useCallback(() => {
 		if (!gainNode.current) return;
+		lastVolumeRef.current = volume; // 現在の音量を保存
 		gainNode.current.gain.value = 0;
 		setVolume(0);
 		setIsMuted(true);
-	}, []);
+	}, [volume]);
 
 	// アンミュートする関数
 	const unmute = useCallback(() => {
 		if (!gainNode.current) return;
-		const defaultVolume = gainNode.current.gain.defaultValue;
-		gainNode.current.gain.value = defaultVolume; // アンミュート時のデフォルト音量
-		setVolume(defaultVolume);
+		const lastVolume = lastVolumeRef.current; // 保存された音量を取得
+		gainNode.current.gain.value = lastVolume; // アンミュート時のデフォルト音量
+		setVolume(lastVolume);
 		setIsMuted(false);
-	}, [])
+	}, []);
 
 	// ミュートの状態を切り替える関数
 	const toggleMute = useCallback(() => {
