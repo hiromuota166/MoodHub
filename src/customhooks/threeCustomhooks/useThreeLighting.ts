@@ -2,15 +2,20 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-const createDirectionalLight = (
-	scene: THREE.Scene,
-	color: number,
-	intensity: number,
-	position: { x: number; y: number; z: number }
-) => {
+const createDirectionalLight = (color: number, intensity: number, position: { x: number; y: number; z: number }) => {
 	const light = new THREE.DirectionalLight(color, intensity);
 	light.position.set(position.x, position.y, position.z);
-	scene.add(light);
+	return light;
+};
+
+const createPointLight = (
+	color: number,
+	intensity: number,
+	position: { x: number; y: number; z: number },
+	index: number
+) => {
+	const light = new THREE.PointLight(color, 0, 50);
+	light.position.set(5 * Math.sin(index), 5 * Math.cos(index), 5 * Math.sin(index) * Math.cos(index));
 	return light;
 };
 
@@ -33,47 +38,37 @@ const shuffleArray = (array: number[]) => {
 };
 
 export const useThreeLighting = (scene: THREE.Scene | null) => {
-	const directionalLightsRef = useRef<THREE.DirectionalLight[]>([]);
-	const pointLightsRef = useRef<THREE.PointLight[]>([]);
-	const ambientLightRef = useRef<THREE.AmbientLight | null>(null);
+	const colors = [0xd50000, 0x00ff00, 0x0000ff, 0xcccc00, 0xcc00cc, 0x00ffff, 0xe57300, 0x660066, 0x666600, 0x008080];
+	const ambientLightRef = useRef(new THREE.AmbientLight(0x404040, 90));
+	const pointLightsRef = useRef<THREE.PointLight[]>(
+		shuffleArray(colors).map((color, idx) => createPointLight(color, 0, setLightPosition(idx * 36, 5, 0), idx))
+	);
+	const directionalLightsRef = useRef([
+		createDirectionalLight(0xffffff, 3, { x: 0, y: 5, z: 50 }),
+		createDirectionalLight(0xa0a0a0, 0.1, setLightPosition(0, 40, -15)),
+		createDirectionalLight(0xa0a0a0, 0.1, setLightPosition(120, 40, -15)),
+		createDirectionalLight(0xa0a0a0, 0.1, setLightPosition(-120, 40, -15)),
+	]);
 	const [lightUpdateCounter, setLightUpdateCounter] = useState(0);
 
 	useEffect(() => {
 		if (!scene) return;
-
-		const light1Position = setLightPosition(0, 40, -15);
-		const light2Position = setLightPosition(120, 40, -15);
-		const light3Position = setLightPosition(-120, 40, -15);
-		const lightIntensity = 0.1;
-		const newDirectionalLights = [
-			createDirectionalLight(scene, 0xffffff, 3, { x: 0, y: 5, z: 50 }),
-			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light1Position),
-			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light2Position),
-			createDirectionalLight(scene, 0xa0a0a0, lightIntensity, light3Position),
-		];
-
-		const newAmbientLight = new THREE.AmbientLight(0x404040, 90);
-		scene.add(newAmbientLight);
-		const colors = [0xd50000, 0x00ff00, 0x0000ff, 0xcccc00, 0xcc00cc, 0x00ffff, 0xe57300, 0x660066, 0x666600, 0x008080];
-		const newPointLights: THREE.PointLight[] = [];
-		shuffleArray(colors).forEach((color, idx) => {
-			const light = new THREE.PointLight(color, 0, 50);
-			light.position.set(5 * Math.sin(idx), 5 * Math.cos(idx), 5 * Math.sin(idx) * Math.cos(idx));
-			scene.add(light);
-			newPointLights.push(light);
-		});
+		// シーンへのライトの追加
+		const ambientLight = ambientLightRef.current;
+		const directionalLights = directionalLightsRef.current;
+		const pointLights = pointLightsRef.current;
+		scene.add(ambientLight);
+		directionalLights.forEach((light) => scene.add(light));
+		pointLights.forEach((light) => scene.add(light));
 
 		// ライトの参照を保存
-		directionalLightsRef.current = newDirectionalLights;
-		pointLightsRef.current = newPointLights;
-		ambientLightRef.current = newAmbientLight;
 		setLightUpdateCounter((prev) => prev + 1);
 
 		// Cleanup: シーンからライトを削除する
 		return () => {
-			newDirectionalLights.forEach((light) => scene.remove(light));
-			newPointLights.forEach((light) => scene.remove(light));
-			if (newAmbientLight) scene.remove(newAmbientLight);
+			scene.remove(ambientLight);
+			directionalLights.forEach((light) => scene.remove(light));
+			pointLights.forEach((light) => scene.remove(light));
 		};
 	}, [scene]); // この useEffect は scene が変わるたびに実行されます。
 

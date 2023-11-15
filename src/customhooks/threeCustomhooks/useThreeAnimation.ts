@@ -56,7 +56,6 @@ export const useThreeAnimation = (
 		};
 
 		const animate = () => {
-			console.log("animate");
 			updateRender();
 			animationFrameId = requestAnimationFrame(animate);
 		};
@@ -95,5 +94,5 @@ export const useThreeAnimation = (
 			window.removeEventListener("mousemove", handleMouseMove);
 			window.removeEventListener("mouseup", handleMouseUp);
 		};
-	}, [feverMode, scene, camera, renderer, lights]); // 依存関係を指定
+	}, [feverMode, scene, camera, renderer, lights, lightUpdateCounter]); // 依存関係を指定
 };
