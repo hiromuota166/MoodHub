@@ -25,6 +25,7 @@ interface MaracasModalProps {
 	Volume: number;
 	handleVolumeChange: (value: number) => void;
 	handleMaracasSoundSwitch: () => void;
+	colorMode: "dark" | "light";
 }
 const MaracasModal = (props: MaracasModalProps) => {
 	const {
@@ -37,6 +38,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 		Volume,
 		handleVolumeChange,
 		handleMaracasSoundSwitch,
+		colorMode,
 	} = props;
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const bg = useColorModeValue('#D6E5E3', '#183D4D');
@@ -44,7 +46,7 @@ const MaracasModal = (props: MaracasModalProps) => {
 
 	return (
 		<>
-			<SettingButton onOpen={onOpen} title="マラカス設定" />
+			<SettingButton onOpen={onOpen} title="マラカス設定" colorMode={colorMode}/>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent bg={bg} color={fontColor}>

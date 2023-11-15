@@ -17,7 +17,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 	const modeText = mode === "normal" ? "ノーマル" : mode === "special" ? "スペシャル" : "軽量";
 	const [shakeInterval, setShakeInterval] = useState(80); // シェイクのインターバル
 	const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
-	const { colorMode } = useCustomColorMode();
+	const { colorMode, toggleColorMode } = useCustomColorMode();
 	const feverMode = colorMode === "dark" ? true : false;
 
 	const ausioPath = "/maracas-sound.mp3";
@@ -51,12 +51,12 @@ const MaracasController = (props: MaracasControllerProps) => {
 					</div>
 					<div className='grid grid-cols-2 md:flex md:justify-end gap-2 my-2 mr-2'>
 						<div className='col-start-2'>
-							<NightModeSwitch />
+							<NightModeSwitch colorMode={colorMode} onToggle={toggleColorMode} />
 						</div>
-						<div className="w-fit">
-							<VolumeButton Volume={volume} isMuted={isMuted} handleToggleMute={toggleMute} />
+						<div className='w-fit'>
+							<VolumeButton Volume={volume} isMuted={isMuted} colorMode={colorMode} handleToggleMute={toggleMute} />
 						</div>
-						<div className="w-fit">
+						<div className='w-fit'>
 							<MaracasModal
 								MaracasSensitivity={shakeInterval}
 								handleMaracasSensitivityChange={handleMaracasSensitivityChange}
@@ -65,6 +65,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 								isMuted={isMuted}
 								toggleMute={toggleMute}
 								Volume={volume}
+								colorMode={colorMode}
 								handleVolumeChange={adjustVolume}
 								handleMaracasSoundSwitch={toggleMute}
 							/>
@@ -92,4 +93,3 @@ const MaracasController = (props: MaracasControllerProps) => {
 };
 
 export default MaracasController;
-

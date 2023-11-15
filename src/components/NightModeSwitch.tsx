@@ -4,12 +4,12 @@ import DayImg from "@/../public/day-mode.svg";
 import Image from "next/image";
 import { useCustomColorMode } from "@/customhooks/useCustomColorMode";
 
-interface NightModeToggleButtonProps {
+interface NightModeSwitchProps {
 	colorMode: "dark" | "light";
 	onToggle: () => void;
 }
 
-export const NightModeToggleButton = (props: NightModeToggleButtonProps) => {
+export const NightModeSwitch = (props: NightModeSwitchProps) => {
 	const { colorMode, onToggle } = props;
 	return (
 		<div>
@@ -21,11 +21,6 @@ export const NightModeToggleButton = (props: NightModeToggleButtonProps) => {
 	);
 };
 
-const NightModeSwitch = () => {
-	const { colorMode, toggleColorMode } = useCustomColorMode();
-
-	return <NightModeToggleButton colorMode={colorMode} onToggle={toggleColorMode} />;
-};
 
 export default NightModeSwitch;
 
