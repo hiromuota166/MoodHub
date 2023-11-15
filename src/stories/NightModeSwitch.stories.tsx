@@ -1,17 +1,17 @@
 import { StoryObj, Meta } from "@storybook/react";
-import { NightModeToggleButton } from "@/components/NightModeSwitch";
+import { NightModeSwitch } from "@/components/NightModeSwitch";
 
 const meta = {
 	title: "Components/NightModeToggleButton",
-	component: NightModeToggleButton,
+	component: NightModeSwitch,
 	args: {
 		colorMode: "light",
 		onToggle: () => {},
 	},
-} satisfies Meta<typeof NightModeToggleButton>;
+} satisfies Meta<typeof NightModeSwitch>;
 
 export default meta;
-type Story = StoryObj<typeof NightModeToggleButton>;
+type Story = StoryObj<typeof NightModeSwitch>;
 
 export const IsDayMode: Story = {
 	args: {
