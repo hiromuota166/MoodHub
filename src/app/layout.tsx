@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<ApolloWrapper>
 						<Providers>
 							<Header />
-							<main className='min-h-screen '>
+							<main className='h-[calc(100dvh-5rem)]'>
 								<div className='md:max-w-[60%] max-w-[90%] m-auto p-12'>{children}</div>
 							</main>
 						</Providers>
