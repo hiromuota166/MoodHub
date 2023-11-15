@@ -14,10 +14,16 @@ const useDeviceMotion = (threshold: number = 20) => {
 	}, []);
 
 	const requestDeviceMotion = useCallback(async () => {
-		const permission = await requestDeviceMotionPermission();
-		setIsDevicemotionPermissionGranted(permission);
-		return permission;
-	}, []);
+		console.log("requestDeviceMotion", isDevicemotionPermissionGranted);
+		if (isDevicemotionPermissionGranted) {
+			setIsDevicemotionPermissionGranted((prev) => !prev);
+			return !isDevicemotionPermissionGranted;
+		} else {
+			const permission = await requestDeviceMotionPermission();
+			setIsDevicemotionPermissionGranted(permission);
+			return permission;
+		}
+	}, [isDevicemotionPermissionGranted]);
 
 	// 加速度の大きさを計算して、閾値を超えているか判定する関数
 	const detectAcceleration = useCallback(

@@ -3,6 +3,7 @@ import useSoundEvents from "@/customhooks/useSoundEvents";
 import { useState } from "react";
 import LightMaracas from "./LightMaracas";
 import VolumeButton from "./VolumeButton";
+import SensorButton from "./SensorButton";
 import MaracasModal from "./MaracasModal";
 import Show3dObj from "./Show3dObj";
 import NightModeSwitch from "../NightModeSwitch";
@@ -50,7 +51,10 @@ const MaracasController = (props: MaracasControllerProps) => {
 						<h2 className='mt-auto p-4 px-2 w-fit h-fit shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
 					</div>
 					<div className='grid grid-cols-2 md:flex md:justify-end gap-2 my-2 mr-2'>
-						<div className='col-start-2'>
+						<div className='w-fit'>
+							<SensorButton colorMode={colorMode} handleToggleSensor={requestDeviceMotion} sensorOn={isDevicemotionPermissionGranted} />
+						</div>
+						<div className=''>
 							<NightModeSwitch colorMode={colorMode} onToggle={toggleColorMode} />
 						</div>
 						<div className='w-fit'>
@@ -73,7 +77,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 					</div>
 				</div>
 			</div>
-			{!isDevicemotionPermissionGranted ? (
+			{/* {!isDevicemotionPermissionGranted ? (
 				<div className='absolute top-0 left-0 h-screen w-screen'>
 					<button
 						onClick={requestDeviceMotion}
@@ -84,7 +88,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 				</div>
 			) : (
 				<></>
-			)}
+			)} */}
 			{mode === "light" && <LightMaracas />}
 			{mode === "normal" && <Show3dObj mode='normal' feverMode={feverMode} />}
 			{mode === "special" && <Show3dObj mode='special' feverMode={feverMode} />}
