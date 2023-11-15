@@ -8,7 +8,6 @@ const LightMaracas = () => {
 				alt='マラカスの画像'
 				width={400}
 				height={382}
-				layout='responsive'
 				loading='eager'
 			></Image>
 		</div>
