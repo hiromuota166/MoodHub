@@ -5,9 +5,9 @@ const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const audioBufferRef = useRef<AudioBuffer | null>(null);
 	const gainNode = useRef<GainNode | null>(null);
-	const [isMuted, setIsMuted] = useState(false);
 	const [volume, setVolume] = useState(0);
-	const lastVolumeRef = useRef(volume); // ミュート前の音量を保存するためのref
+	const [isMuted, setIsMuted] = useState(volume === 0);
+	const lastVolumeRef = useRef(1); // ミュート前の音量を保存するためのref
 
 	// 音声ファイルを読み込む関数
 	const loadAudio = async (audioFilePath: string) => {
