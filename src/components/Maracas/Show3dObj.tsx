@@ -28,7 +28,7 @@ const Show3dObj = (props: Show3dObjProps) => {
 			pointLightsUpdate,
 		};
 	}, [directionalLights, ambientLight, pointLights, pointLightsUpdate]);
-	const { modelLoadingState } = useThreeModel(scene, memoizedMode);
+	const { modelLoadingState } = useThreeModel(scene, camera, renderer, memoizedMode);
 	useThreeAnimation(scene, camera, renderer, lights, lightUpdateCounter, momoizedFeverMode);
 
 	useEffect(() => {

@@ -9,12 +9,17 @@ export enum ModelLoadingState {
 	Error,
 }
 
-export const useThreeModel = (scene: THREE.Scene | null, mode: "normal" | "special") => {
+export const useThreeModel = (
+	scene: THREE.Scene | null,
+	camera: THREE.Camera | null,
+	renderer: THREE.WebGLRenderer | null,
+	mode: "normal" | "special"
+) => {
 	const modelRef = useRef<THREE.Object3D | null>(null);
 	const loadingStateRef = useRef<ModelLoadingState>(ModelLoadingState.Idle);
 
 	useEffect(() => {
-		if (!scene) return;
+		if (!scene || !camera || !renderer) return;
 
 		const loader = new GLTFLoader();
 		loadingStateRef.current = ModelLoadingState.Loading;
@@ -27,6 +32,7 @@ export const useThreeModel = (scene: THREE.Scene | null, mode: "normal" | "speci
 					model.position.set(0, 1.7, 0);
 					model.scale.set(1.8, 1.8, 1.8);
 					scene.add(model);
+					renderer.render(scene, camera);
 					modelRef.current = model;
 					loadingStateRef.current = ModelLoadingState.Loaded;
 				},
