@@ -2,9 +2,10 @@
 import { useEffect, useMemo } from "react";
 import { useThreeScene } from "@/customhooks/threeCustomhooks/useThreeScene";
 import { useThreeLighting } from "@/customhooks/threeCustomhooks/useThreeLighting";
-import { useThreeModel } from "@/customhooks/threeCustomhooks/useThreeModel";
+import { useThreeModel, ModelLoadingState } from "@/customhooks/threeCustomhooks/useThreeModel";
 import { useThreeCamera } from "@/customhooks/threeCustomhooks/useThreeCamera";
 import { useThreeAnimation } from "@/customhooks/threeCustomhooks/useThreeAnimation";
+import IsLoading from "../IsLoading";
 
 interface Show3dObjProps {
 	mode: "normal" | "special";
@@ -27,7 +28,7 @@ const Show3dObj = (props: Show3dObjProps) => {
 			pointLightsUpdate,
 		};
 	}, [directionalLights, ambientLight, pointLights, pointLightsUpdate]);
-	useThreeModel(scene, memoizedMode);
+	const { modelLoadingState } = useThreeModel(scene, memoizedMode);
 	useThreeAnimation(scene, camera, renderer, lights, lightUpdateCounter, momoizedFeverMode);
 
 	useEffect(() => {
@@ -45,8 +46,16 @@ const Show3dObj = (props: Show3dObjProps) => {
 	}, [renderer, mountRef]);
 
 	return (
-		<div ref={mountRef} className='absolute top-0 left-0 w-full h-full'>
-		</div>
+		<>
+			{(modelLoadingState === ModelLoadingState.Loading || modelLoadingState === ModelLoadingState.Idle) && (
+				<div className='absolute top-0 left-0 w-full h-full'>
+					<div className='flex justify-center items-center h-full'>
+						<IsLoading />
+					</div>
+				</div>
+			)}
+			<div ref={mountRef} className='absolute top-0 left-0 w-full h-full' />
+		</>
 	);
 };
 
