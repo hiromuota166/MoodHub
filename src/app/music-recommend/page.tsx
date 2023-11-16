@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import React, { Suspense } from "react";
 import useSongByRoomId from "@/lib/useSongByRoomId";
@@ -12,7 +11,7 @@ import IsLoading from "@/components/IsLoading";
 interface SongListProps {
   roomId: number;
   userID: number;
-};
+}
 
 const SongList = (props: SongListProps) => {
   const songs = useSongByRoomId(props.roomId);

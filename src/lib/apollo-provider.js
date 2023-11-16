@@ -19,11 +19,11 @@ function makeClient() {
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
-          new SSRMultipartLink({
-            stripDefer: true,
-          }),
-          httpLink,
-        ])
+            new SSRMultipartLink({
+              stripDefer: true,
+            }),
+            httpLink,
+          ])
         : httpLink,
   });
 }
@@ -31,9 +31,7 @@ function makeClient() {
 export function ApolloWrapper({ children }) {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
-      <ChakraProvider>
-      {children}
-      </ChakraProvider>
+      <ChakraProvider>{children}</ChakraProvider>
     </ApolloNextAppProvider>
   );
 }

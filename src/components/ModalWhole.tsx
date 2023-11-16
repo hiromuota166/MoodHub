@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import ModalWrap from "./modal";
 import ModalButton from "./ModalButton";
-import Image from 'next/image';
+import Image from "next/image";
 import { getFromLocalStorage } from "@/functions/crudLoculStrage";
 import { gql, useMutation } from "@apollo/client";
 
@@ -21,14 +21,14 @@ const ModalCss = {
   },
 };
 
-
 const REGISTER_MUTATION = gql`
-mutation Register($regist: Register!) {
-  register(regist: $regist) {
-    userId
-    categories
+  mutation Register($regist: Register!) {
+    register(regist: $regist) {
+      userId
+      categories
+    }
   }
-}`;
+`;
 
 interface Props {
   default?: boolean;
@@ -41,13 +41,13 @@ const ModalWhole = (props: Props) => {
   const [registerMutation] = useMutation(REGISTER_MUTATION);
 
   const handleDone = async () => {
-    console.log("done")
+    console.log("done");
     // setIsOpen(false)
-    const genreList = getFromLocalStorage("genre")
-    const eraList = getFromLocalStorage("era")
-    const notNullgenreList = genreList ? genreList : []
-    const notNulleraList = eraList ? eraList : []
-    const categories = [...notNullgenreList, ...notNulleraList]
+    const genreList = getFromLocalStorage("genre");
+    const eraList = getFromLocalStorage("era");
+    const notNullgenreList = genreList ? genreList : [];
+    const notNulleraList = eraList ? eraList : [];
+    const categories = [...notNullgenreList, ...notNulleraList];
     try {
       if (categories.length === 0) {
         throw new Error("No categories selected");
@@ -61,12 +61,11 @@ const ModalWhole = (props: Props) => {
         },
       });
 
-      console.log('Joined room with data:', data);
+      console.log("Joined room with data:", data);
     } catch (error) {
-      console.error('Error joining room:', error);
+      console.error("Error joining room:", error);
     }
-
-  }
+  };
 
   return (
     <div className="relative">
@@ -76,7 +75,8 @@ const ModalWhole = (props: Props) => {
           width={500}
           height={500}
           alt="Description"
-          className="ml-80 w-10 mt-5" />
+          className="ml-80 w-10 mt-5"
+        />
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
         <div className="text-3xl flex justify-center py-10">ジャンルを選択</div>

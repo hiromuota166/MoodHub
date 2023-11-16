@@ -34,8 +34,12 @@ export default function GoogleLoginBtn() {
 
   return (
     <div>
-      {loginState === "NOT_LOGGED_IN" && <button onClick={signIn}>ログイン</button>}
-      {loginState === "LOGGED_IN" && <button onClick={logout}>ログアウト</button>}
+      {loginState === "NOT_LOGGED_IN" && (
+        <button onClick={signIn}>ログイン</button>
+      )}
+      {loginState === "LOGGED_IN" && (
+        <button onClick={logout}>ログアウト</button>
+      )}
       {loginState === "LOGIN_FAILED" && <p>{error}</p>}
     </div>
   );

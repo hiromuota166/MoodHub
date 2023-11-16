@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { User } from "@/types/user";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "@firebase/firestore";

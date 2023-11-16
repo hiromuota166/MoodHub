@@ -1,9 +1,14 @@
-import { gql, ApolloClient, InMemoryCache, useSuspenseQuery } from "@apollo/client";
+import {
+  gql,
+  ApolloClient,
+  InMemoryCache,
+  useSuspenseQuery,
+} from "@apollo/client";
 
 interface Song {
-    songName: string;
-    categories: string[];
-  }
+  songName: string;
+  categories: string[];
+}
 
 const GET_SONG_BY_ROOM_ID = gql`
   query GetSongByRoomId($roomId: Int!) {
@@ -16,12 +21,11 @@ const GET_SONG_BY_ROOM_ID = gql`
 
 const useSongByRoomId = (roomId: number) => {
   const { data } = useSuspenseQuery<{ song: Song[] }>(GET_SONG_BY_ROOM_ID, {
-    variables: { roomId }
+    variables: { roomId },
   });
   console.log(data.song);
 
   return data?.song;
 };
-
 
 export default useSongByRoomId;
