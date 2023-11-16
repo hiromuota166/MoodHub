@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 "use client";
 import { useRouter } from "next/navigation";
 import { gql, useMutation } from "@apollo/client";
