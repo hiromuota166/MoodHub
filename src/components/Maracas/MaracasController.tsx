@@ -8,6 +8,7 @@ import MaracasModal from "./MaracasModal";
 import Show3dObj from "./Show3dObj";
 import NightModeSwitch from "../NightModeSwitch";
 import { useCustomColorMode } from "@/customhooks/useCustomColorMode";
+import MaracasSelectMenu from "./MaracasSelectMenu";
 
 interface MaracasControllerProps {
 	mode: "normal" | "special" | "light";
@@ -48,11 +49,15 @@ const MaracasController = (props: MaracasControllerProps) => {
 			<div className='absolute bottom-2 right-0 md-top-8 md-right-8 w-full z-10'>
 				<div className='flex md:block justify-between'>
 					<div className='flex flex-col md:flex-row md:justify-end gap-2 my-2 mr-2'>
-						<h2 className='mt-auto p-4 px-2 w-fit h-fit shadow-boxOut rounded-3xl'>{modeText}マラカス</h2>
+						<MaracasSelectMenu modeText={modeText} />
 					</div>
 					<div className='grid grid-cols-2 md:flex md:justify-end gap-2 my-2 mr-2'>
 						<div className='w-fit'>
-							<SensorButton colorMode={colorMode} handleToggleSensor={requestDeviceMotion} sensorOn={isDevicemotionPermissionGranted} />
+							<SensorButton
+								colorMode={colorMode}
+								handleToggleSensor={requestDeviceMotion}
+								sensorOn={isDevicemotionPermissionGranted}
+							/>
 						</div>
 						<div className=''>
 							<NightModeSwitch colorMode={colorMode} onToggle={toggleColorMode} />
