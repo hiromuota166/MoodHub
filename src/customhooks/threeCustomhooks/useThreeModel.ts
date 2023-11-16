@@ -51,7 +51,7 @@ export const useThreeModel = (
 				scene.remove(modelRef.current);
 			}
 		};
-	}, [scene, mode]);
+	}, [scene, mode, camera, renderer]);
 
 	return {
 		modelLoadingState: loadingStateRef.current,
