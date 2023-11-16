@@ -1,23 +1,28 @@
 {
   "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "next/core-web-vitals",
     "plugin:storybook/recommended",
-    "plugin:react/recommended",
     "prettier"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     },
     "plugins": [
       "prettier",
-      "react",
       "@typescript-eslint",
       "react-hooks"
     ],
+    "root": true,
     "rules": {
+      "react/react-in-jsx-scope": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": [
         "warn",
@@ -26,7 +31,6 @@
         }
       ],
       "prettier/prettier": "error",
-      "react/react-in-jsx-scope": "off",
       "import/order": [
         "error",
         {
