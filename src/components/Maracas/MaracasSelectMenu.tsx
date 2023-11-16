@@ -24,6 +24,7 @@ const MaracasSelectMenu = (props: MaracasSelectMenuProps) => {
 				border={fontColor}
 				shadow={"2px 2px 5px rgba(161, 172, 170, 0.90)"}
 				borderRadius={"1.5rem"}
+				height={"fit-content"}
 			>
 				<h2 className='py-4 px-2'>{modeTextState}</h2>
 			</MenuButton>
@@ -36,9 +37,12 @@ const MaracasSelectMenu = (props: MaracasSelectMenuProps) => {
 			>
 				{menuTextList.map((text, i) => (
 					<MenuItem key={i} onClick={() => setModeTextState(text)} background={bg}>
-						<Link href={menuTextLink[i]}>{text}</Link>
+						<Link href={menuTextLink[i]}>{text}マラカス</Link>
 					</MenuItem>
 				))}
+				<MenuItem onClick={() => setModeTextState("トップページ")} background={bg}>
+					<Link href={"/"}>トップページ</Link>
+				</MenuItem>
 			</MenuList>
 		</Menu>
 	);
