@@ -16,7 +16,7 @@ export default function GoogleLoginBtn() {
     } else if (loginState !== "LOGGING_IN") {
       setLoginState("NOT_LOGGED_IN");
     }
-  }, [user]);
+  }, [user, loginState]);
 
   const signIn = () => {
     setLoginState("LOGGING_IN");
