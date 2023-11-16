@@ -11,12 +11,8 @@ export default function GoogleLoginBtn() {
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    if (user) {
-      setLoginState("LOGGED_IN");
-    } else if (loginState !== "LOGGING_IN") {
-      setLoginState("NOT_LOGGED_IN");
-    }
-  }, [user, loginState]);
+    setLoginState(user ? "LOGGED_IN" : "NOT_LOGGED_IN");
+  }, [user]);
 
   const signIn = () => {
     setLoginState("LOGGING_IN");
