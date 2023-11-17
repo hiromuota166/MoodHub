@@ -14,7 +14,7 @@
     "lint:ci": "eslint './**/*.{ts,tsx}' --max-warnings 0"
   },
   "lint-staged": {
-    "*.{js,vue,ts,tsx}": [
+    "*.{js,ts,tsx}": [
       "eslint --fix"
     ]
   },
