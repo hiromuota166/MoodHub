@@ -9,7 +9,9 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006i -s public",
     "build-storybook": "storybook build -s public",
-    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'"
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'",
+    "format:ci": "prettier -l './**/*.{js,jsx,ts,tsx,css,scss}'",
+    "lint:ci": "eslint './**/*.{ts,tsx}' --max-warnings 0"
   },
   "lint-staged": {
     "*.{js,vue,ts,tsx}": [
