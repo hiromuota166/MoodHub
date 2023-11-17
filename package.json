@@ -11,11 +11,6 @@
     "build-storybook": "storybook build -s public",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format"
-    }
-  },
   "lint-staged": {
     "*.{js,vue,ts,tsx}": [
       "eslint --fix"
