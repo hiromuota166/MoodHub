@@ -37,12 +37,14 @@ function RandomColorButton(props: iRandomColorButton) {
         >
           {name}
           {isClicked ? (
-            <Image src={"/done.svg"} alt="Done Icon" />
+            <Image src={"/done.svg"} alt="Done Icon" width={32} height={32} />
           ) : (
             <Image
               className="origin-center rotate-45 w-5"
               src={"/close.svg"}
               alt="Close Icon"
+              width={32}
+              height={32}
             />
           )}
         </button>
