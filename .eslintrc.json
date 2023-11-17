@@ -12,10 +12,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "plugins": [
-      "prettier",
-      "react-hooks"
-    ],
+    "plugins": ["prettier", "react-hooks"],
     "root": true,
     "rules": {
       "react/react-in-jsx-scope": "off",
