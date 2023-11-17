@@ -1,14 +1,10 @@
-"use client"
-import NeumourList from "@/components/NeumorList"
-import ShowRoomID from "@/components/ShowRoomID"
-import React from "react"
-import ModalWhole from "./ModalWhole";
-
-
+"use client";
+import NeumourList from "@/components/NeumorList";
+import ShowRoomID from "@/components/ShowRoomID";
+import React from "react";
 
 const Music = () => {
-  const userList = ["tom",'tom'] 
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+  const userList = ["tom", "tom"];
   return (
     <>
       {/* <ModalWhole/> */}
@@ -16,6 +12,6 @@ const Music = () => {
       <NeumourList listItems={userList} />
     </>
   );
-}
+};
 
-export default Music
+export default Music;
