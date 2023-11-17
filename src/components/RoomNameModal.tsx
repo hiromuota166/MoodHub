@@ -13,18 +13,16 @@ import {
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 interface RoomNameModalProps {
+  // eslint-disable-next-line no-unused-vars
   onRoomNameChange: (newName: string) => void;
 }
 
 const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
   const [inputValue, setInputValue] = React.useState("");
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onRoomNameChange(event.target.value);
-  };
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

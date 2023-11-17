@@ -3,6 +3,7 @@ import { makeUID } from "@/functions/makeUID";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { gql, useMutation } from "@apollo/client";
+import React from "react";
 
 const RoomInButton = () => {
   const JOIN_ROOM_MUTATION = gql`
@@ -24,8 +25,7 @@ const RoomInButton = () => {
     name: string;
   }
   const router = useRouter();
-  const [joinRoom, { data, loading, error }] =
-    useMutation<RoomResponse>(JOIN_ROOM_MUTATION);
+  const [joinRoom] = useMutation<RoomResponse>(JOIN_ROOM_MUTATION);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -54,7 +54,7 @@ const RoomInButton = () => {
     }
   };
   return (
-    <div className="bg-background text-font text-lg text-3xl m-auto mt-12 mb-24 p-8 py-10 w-fit rounded-3xl shadow-boxOut">
+    <div className="bg-background text-font text-lg m-auto mt-12 mb-24 p-8 py-10 w-fit rounded-3xl shadow-boxOut">
       <h2 className="mx-2">ルームID入力</h2>
       <form onSubmit={onSubmit} className="flex h-10">
         <input

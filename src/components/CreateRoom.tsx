@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { makeUID } from "@/functions/makeUID";
 import IsLoading from "./IsLoading";
+import React from "react";
 
 const CreateRoom = () => {
   const router = useRouter();
@@ -27,14 +28,11 @@ const CreateRoom = () => {
     name: string;
   }
 
-  const [createRoom, { data, loading, error }] =
+  const [createRoom, { loading }] =
     useMutation<RoomResponse>(CREATE_ROOM_MUTATION);
-  const [roomName, setRoomName] = useState<string>("");
+  const [roomName] = useState<string>("");
 
-  const handleClick = async (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
+  const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const userId = makeUID();
     try {
@@ -57,8 +55,8 @@ const CreateRoom = () => {
     }
   };
   return (
-    <a href="/target-page" onClick={(e) => handleClick(e, "/target-page")}>
-      <div className="bg-background text-font text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
+    <a href="/target-page" onClick={(e) => handleClick(e)}>
+      <div className="bg-background text-font text-xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
         {loading ? <IsLoading /> : <h2>ルーム作成</h2>}
       </div>
     </a>

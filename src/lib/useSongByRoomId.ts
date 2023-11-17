@@ -1,9 +1,4 @@
-import {
-  gql,
-  ApolloClient,
-  InMemoryCache,
-  useSuspenseQuery,
-} from "@apollo/client";
+import { gql, useSuspenseQuery } from "@apollo/client";
 
 interface Song {
   songName: string;

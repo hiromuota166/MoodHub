@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import close from "../../public/close.svg";
-import done from "../../public/done.svg";
 
 interface iRandomColorButton {
   name: string;
@@ -17,7 +15,7 @@ function RandomColorButton(props: iRandomColorButton) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const toggleColors = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setIsClicked(!isClicked);
     onClick && onClick(event); //propsから渡されたonClickを呼ぶ
@@ -39,11 +37,11 @@ function RandomColorButton(props: iRandomColorButton) {
         >
           {name}
           {isClicked ? (
-            <Image src={done} alt="Done Icon" />
+            <Image src={"/done.svg"} alt="Done Icon" />
           ) : (
             <Image
               className="origin-center rotate-45 w-5"
-              src={close}
+              src={"/close.svg"}
               alt="Close Icon"
             />
           )}

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 function ModalOpen() {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [, setIsOpen] = React.useState(false);
   return (
     <div>
       <button onClick={() => setIsOpen(true)}>Open Modal</button>

@@ -2,15 +2,6 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 
 const useApolloQuery = () => {
-  const GET_SONG = gql`
-    query Song($songName: String!) {
-      song(keyword: $songName) {
-        songName
-        category
-      }
-    }
-  `;
-
   const JOIN_ROOM = gql`
     mutation JoinRoom($userId: Int!, $roomId: Int!) {
       joinRoom(join: { userId: $userId, roomId: $roomId }) {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import ModalWrap from "./modal";
 import ModalButton from "./ModalButton";
@@ -79,11 +79,11 @@ const ModalWhole = (props: Props) => {
         />
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
-        <div className="text-3xl flex justify-center py-10">ジャンルを選択</div>
+        <div className="text-xl flex justify-center py-10">ジャンルを選択</div>
         <div className="">
           <ModalWrap type="genre" />
         </div>
-        <div className="text-3xl flex justify-center py-10">年代を選択</div>
+        <div className="text-xl flex justify-center py-10">年代を選択</div>
         <div className="">
           <ModalWrap type="era" />
         </div>
