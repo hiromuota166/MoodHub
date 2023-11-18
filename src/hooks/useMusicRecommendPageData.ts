@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
-import { Register } from "@/lib/apollo/gql/graphql";
+import { Register, UpdateCategories } from "@/lib/apollo/gql/graphql";
 
 const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
   const {
@@ -9,38 +9,17 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
     registerUserFunc,
     registerUserState,
     Song,
-    getUserFunc,
-    getUserState,
+    RoomMembers
   } = useApolloQuery(userID, roomID);
-  //ルームに居るユーザのデータを取得する関数
-  const getUser = useCallback(
-    async (roomId: number) => {
-      await getUserFunc({
-        variables: {
-          input: {
-            roomId: roomId,
-          },
-        },
-      }).catch((err) => {
-        console.error(err);
-      });
-    },
-    [getUserFunc]
-  );
-
-  //ルームidを取得するときにユーザのデータを取得する副作用
-  useEffect(() => {
-    if (roomID) getUser(roomID);
-  }, [roomID, getUser]);
 
   // ユーザー登録のGraphQLのクエリ関数
   const registerUserQuery = useCallback(
     async (userData: Register) => {
-      await registerUserFunc({
-        variables: {
-          ...userData,
+      await registerUserFunc(
+        {
+          variables: userData
         },
-      }).catch((err) => {
+      ).catch((err) => {
         console.error(err);
       });
     },
@@ -49,7 +28,11 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 
   // ユーザー情報更新のGraphQLのクエリ関数
   const updateUserQuery = useCallback(
-    async (userData: Register) => {
+    async (userId: number, categories: string[]) => {
+      const userData: UpdateCategories = {
+        userId: userId,
+        categories: categories,
+      };
       await updateCategoriesFunc({
         variables: {
           ...userData,
@@ -68,7 +51,7 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 
       if (registerUserState.data) {
         // 既にユーザー情報がある場合は更新
-        await updateUserQuery(userData);
+        await updateUserQuery(userData.userId, userData.categories);
       } else {
         // ユーザー情報がない場合は登録
         await registerUserQuery(userData);
@@ -84,7 +67,7 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
       const userData: Register = {
         userId: userID,
         categories: categories,
-        userName: "山田歌郎",
+        userName: "moody山田",
       };
       handleUserRegistration(userData);
       if (!roomID) return;
@@ -110,7 +93,7 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
     updateCategoriesState,
     registerUserState,
     Song,
-    getUserState,
+    RoomMembers,
     handleUserRegistration,
     handleUpdateCategories,
   };

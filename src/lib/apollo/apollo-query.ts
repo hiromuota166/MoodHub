@@ -21,7 +21,7 @@ const JOIN_ROOM = gql`
 
 const UPDATE_CATEGORIES = gql`
   mutation UpdateCategories($userId: Int!, $categories: [String!]!) {
-    updateCaategory(update: { userId: $userId, categories: $categories }) {
+    updateCategory(update: { userId: $userId, categories: $categories }) {
       userId
       categories
       userName
@@ -35,9 +35,9 @@ const REGISTER_USER = gql`
   mutation Register(
     $userId: Int!
     $categories: [String!]!
-    $userName: String!
-    $gender: String
-    $age: Int
+    $userName: String = null
+    $gender: String = null
+    $age: Int = null
   ) {
     register(
       regist: {
@@ -67,8 +67,8 @@ const GET_SONG = gql`
 `;
 
 const GET_USER = gql`
-  mutation GetMembers($input: GetRoomMembers!) {
-    getMembers(members: $input) {
+  query GetMembers($roomId: Int!) {
+    getMembers(roomId: $roomId) {
       roomName
       members
     }

@@ -35,7 +35,7 @@ export type Mutation = {
   __typename?: "Mutation";
   createRoom: Room;
   joinRoom: Room;
-  updateCaategory: RegisterComplete;
+  updateCategory: RegisterComplete;
   register: RegisterComplete;
   getMembers: RoomMembers;
 };
@@ -48,7 +48,7 @@ export type MutationJoinRoomArgs = {
   join: JoinRoom;
 };
 
-export type MutationUpdateCaategoryArgs = {
+export type MutationUpdateCategoryArgs = {
   update: UpdateCategories;
 };
 

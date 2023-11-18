@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
 import { makeUID } from "@/functions/makeUID";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,7 @@ const useRoomInButton = () => {
     try {
       const joinedRoomId = await joinRoom(userId, roomId);
       if (joinedRoomId) {
-        navigateToRoom(joinedRoomId, userId);
+        navigateToRoom(userId, joinedRoomId);
       } else {
         console.error("No room ID returned after joining the room.");
       }

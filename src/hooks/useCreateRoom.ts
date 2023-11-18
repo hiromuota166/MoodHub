@@ -2,6 +2,7 @@ import { useState } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
 import { makeUID } from "@/functions/makeUID";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 const useCreateRoom = () => {
   const { createRoomFunc, createRoomState } = useApolloQuery();
@@ -10,7 +11,6 @@ const useCreateRoom = () => {
 
   const handleClick = async (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
   ) => {
     e.preventDefault();
     const userId = makeUID();

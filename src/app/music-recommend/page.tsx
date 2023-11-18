@@ -31,7 +31,7 @@ const Page = () => {
   const numericRoomID = Number(roomID);
   const numericUserID = Number(userID);
 
-  const { Song, getUserState } = useMusicRecommendPageData(
+  const { Song, RoomMembers } = useMusicRecommendPageData(
     numericUserID,
     numericRoomID
   );
@@ -48,14 +48,14 @@ const Page = () => {
     <>
       <ModalWhole userId={numericUserID} roomId={numericRoomID} />
       <ShowRoomID roomID={String(numericRoomID)} />
-      {getUserState.loading ? (
+      {RoomMembers.loading ? (
         <IsLoading />
       ) : (
         <>
-          <p>ルームネーム: {getUserState.data?.getMembers.roomName}</p>
+          <p>ルームネーム: {RoomMembers.data?.getMembers.roomName}</p>
           <p>ユーザーリスト:</p>
           <ul>
-            {getUserState.data?.getMembers.members?.map((member, i) => {
+            {RoomMembers.data?.getMembers.members?.map((member, i) => {
               console.log(member);
               return <li key={i}>{member}</li>;
             })}
