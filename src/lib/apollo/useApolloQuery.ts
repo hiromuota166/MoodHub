@@ -26,12 +26,10 @@ const useApolloQuery = (userID?: number, roomID?: number) => {
     variables: { roomId: roomID },
     skip: !roomID,
   });
-  const RoomMembers = useQuery<{ getMembers: RoomMembers }>(
-    GET_USER, {
-      variables: { roomId: roomID },
-      skip: !roomID,
-    }
-  );
+  const RoomMembers = useQuery<{ getMembers: RoomMembers }>(GET_USER, {
+    variables: { roomId: roomID },
+    skip: !roomID,
+  });
   return {
     joinRoomFunc,
     joinRoomState,
@@ -42,7 +40,7 @@ const useApolloQuery = (userID?: number, roomID?: number) => {
     registerUserFunc,
     registerUserState,
     Song,
-    RoomMembers
+    RoomMembers,
   };
 };
 

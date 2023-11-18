@@ -9,17 +9,15 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
     registerUserFunc,
     registerUserState,
     Song,
-    RoomMembers
+    RoomMembers,
   } = useApolloQuery(userID, roomID);
 
   // ユーザー登録のGraphQLのクエリ関数
   const registerUserQuery = useCallback(
     async (userData: Register) => {
-      await registerUserFunc(
-        {
-          variables: userData
-        },
-      ).catch((err) => {
+      await registerUserFunc({
+        variables: userData,
+      }).catch((err) => {
         console.error(err);
       });
     },

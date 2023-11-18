@@ -9,9 +9,7 @@ const useCreateRoom = () => {
   const [roomName, setRoomName] = useState<string>("");
   const router = useRouter();
 
-  const handleClick = async (
-    e: React.MouseEvent<HTMLAnchorElement>,
-  ) => {
+  const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const userId = makeUID();
     try {
