@@ -20,16 +20,20 @@ const Page = () => {
     return <p>ルームIDまたはユーザーIDが不正です。</p>;
   }
 
-    const userList = ["入室できました！"]
-    // const userList = ["john", "jane", "james", "judy", "jake"]
-    return (
-        <>
-            <ModalWhole default={false} userId={Number(userID)} roomId={Number(roomID)} />
-            <ShowRoomID roomID={roomID} />
-            <NeumourList listItems={userList} />
-            <LongButton text="曲を探す" />
-        </>
-    );
-}
+  const userList = ["入室できました！"];
+  // const userList = ["john", "jane", "james", "judy", "jake"]
+  return (
+    <>
+      <ModalWhole
+        default={false}
+        userId={Number(userID)}
+        roomId={Number(roomID)}
+      />
+      <ShowRoomID roomID={roomID} />
+      <NeumourList listItems={userList} />
+      <LongButton text="曲を探す" />
+    </>
+  );
+};
 
 export default Page;
