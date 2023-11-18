@@ -13,7 +13,7 @@ interface SongListProps {
 }
 
 const SongList = ({ songsData }: SongListProps) => {
-  if (!songsData) return <p>曲がありません。</p>;
+  if (!songsData || songsData.song.length === 0) return <p>曲がありません。</p>;
   const songs = songsData.song;
   const songNames = songs.map((song) => song.songName);
   return (
@@ -40,10 +40,6 @@ const Page = () => {
     return <p>ルームIDまたはユーザーIDが不正です。</p>;
   }
 
-  if (Song.error) {
-    return <p>エラーが発生しました。やり直してください。</p>;
-  }
-
   return (
     <>
       <ModalWhole userId={numericUserID} roomId={numericRoomID} />
@@ -56,12 +52,17 @@ const Page = () => {
           <p>ユーザーリスト:</p>
           <ul>
             {RoomMembers.data?.getMembers.members?.map((member, i) => {
-              console.log(member);
               return <li key={i}>{member}</li>;
             })}
           </ul>
         </>
       )}
+      {Song.error ? (
+        <>
+          <p>曲のエラーが発生しました。やり直してください。</p>
+          <p>{Song.error.toString()}</p>
+        </>
+      ) : null}
       {Song.loading ? <IsLoading /> : <SongList songsData={Song.data} />}
     </>
   );
