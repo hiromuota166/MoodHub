@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
@@ -7,11 +7,10 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { ChakraProvider } from "@chakra-ui/react";
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "https://mood-hub-v2.onrender.com/graphql",
+    uri: "https://mood-hub.onrender.com/graphql",
   });
 
   return new NextSSRApolloClient({
@@ -28,10 +27,12 @@ function makeClient() {
   });
 }
 
-export function ApolloWrapper({ children }) {
+const ApolloWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
-      <ChakraProvider>{children}</ChakraProvider>
+      {children}
     </ApolloNextAppProvider>
   );
-}
+};
+
+export { ApolloWrapper };

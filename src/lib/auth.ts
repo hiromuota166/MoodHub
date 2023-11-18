@@ -7,7 +7,7 @@ import {
   UserCredential,
   //ユーザーをログアウトさせるために必要
   signOut,
-} from 'firebase/auth';
+} from "firebase/auth";
 import { auth } from "./firebase";
 
 //Firebaseにログインするための関数loginを定義

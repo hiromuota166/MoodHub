@@ -9,10 +9,18 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006i -s public",
     "build-storybook": "storybook build -s public",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'",
+    "format:ci": "prettier -l './**/*.{js,jsx,ts,tsx,css,scss}'",
+    "lint:ci": "eslint './**/*.{ts,tsx}' --max-warnings 0"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "dependencies": {
-    "@apollo/client": "^3.8.0-rc.2",
+    "@apollo/client": "3.8.0-rc.2",
     "@apollo/experimental-nextjs-app-support": "^0.4.2",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
@@ -22,7 +30,6 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
-    "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.5.0",
     "framer-motion": "^10.16.4",
@@ -36,6 +43,8 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/client-preset": "4.1.0",
+    "@graphql-codegen/introspection": "4.0.0",
     "@storybook/addon-essentials": "^7.4.1",
     "@storybook/addon-interactions": "^7.4.1",
     "@storybook/addon-links": "^7.4.1",
@@ -45,11 +54,15 @@
     "@storybook/react": "^7.4.1",
     "@storybook/testing-library": "^0.2.1",
     "@types/react-modal": "^3.16.1",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "encoding": "^0.1.13",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-storybook": "^0.6.13",
+    "husky": "^8.0.3",
+    "prettier": "^3.1.0",
     "storybook": "^7.4.1",
-    "typescript": "^5.2.2",
-    "@graphql-codegen/introspection": "4.0.0",
-    "@graphql-codegen/client-preset": "4.1.0"
+    "typescript": "^5.2.2"
   }
 }

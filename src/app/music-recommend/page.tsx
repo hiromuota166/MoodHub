@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import NeumourList from "@/components/NeumorList";
 import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
@@ -31,12 +32,8 @@ const Page = () => {
 	const numericUserID = Number(userID);
 
 	const {
-		updateCategoriesState,
-		registerUserState,
 		Song,
 		getUserState,
-		handleUserRegistration,
-		handleUpdateCategories,
 	} = useMusicRecommendPageData(numericUserID, numericRoomID);
 
 	if (isNaN(numericRoomID) || isNaN(numericUserID)) {

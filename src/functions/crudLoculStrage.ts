@@ -1,7 +1,7 @@
 // ローカルストレージにデータを追加する関数
 const addToLocalStorage = (key: "genre" | "era", value: string[]): void => {
   try {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem(key, JSON.stringify(value));
     }
   } catch (error) {
@@ -12,11 +12,10 @@ const addToLocalStorage = (key: "genre" | "era", value: string[]): void => {
 // ローカルストレージからデータを取得する関数
 const getFromLocalStorage = (key: "genre" | "era"): string[] | null => {
   try {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const storedData = localStorage.getItem(key);
       return storedData ? JSON.parse(storedData) : null;
-    }
-    else {
+    } else {
       return null;
     }
   } catch (error) {
@@ -28,7 +27,7 @@ const getFromLocalStorage = (key: "genre" | "era"): string[] | null => {
 // ローカルストレージからデータを削除する関数
 const removeFromLocalStorage = (key: "genre" | "era"): void => {
   try {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(key);
     }
   } catch (error) {
@@ -43,12 +42,12 @@ const testLocalStorageFunctions = (): void => {
   addToLocalStorage("era", ["80s", "90s"]);
 
   // データの取得
-  console.log(getFromLocalStorage("genre"));  // ["rock", "pop"]
-  console.log(getFromLocalStorage("era"));    // ["80s", "90s"]
+  console.log(getFromLocalStorage("genre")); // ["rock", "pop"]
+  console.log(getFromLocalStorage("era")); // ["80s", "90s"]
 
   // データの削除
   removeFromLocalStorage("genre");
-  console.log(getFromLocalStorage("genre"));  // null
+  console.log(getFromLocalStorage("genre")); // null
 };
 
 testLocalStorageFunctions();
