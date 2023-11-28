@@ -7,7 +7,6 @@ import {
   addToLocalStorage,
   getFromLocalStorage,
 } from "@/functions/crudLoculStrage";
-import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 import RandomColorButton from "./Genrebutton";
 
 const ModalCss = {
@@ -26,8 +25,8 @@ const ModalCss = {
 
 interface Props {
   default?: boolean;
-  userId: number;
-  roomId: number;
+  // eslint-disable-next-line no-unused-vars
+  handleUpdateCategories:(categories: string[]) => void;
 }
 
 const genreList = [
@@ -86,9 +85,9 @@ interface Selections {
 }
 
 const ModalWhole = (props: Props) => {
-  const { userId, roomId } = props;
+  const { handleUpdateCategories } = props;
   const [modalIsOpen, setIsOpen] = useState(props.default ? true : false);
-  const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
+  // const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
   const initEraList = getFromLocalStorage("era");
   const initGenreList = getFromLocalStorage("genre");
   const initialSelections = createInitialSelections(
@@ -114,7 +113,6 @@ const ModalWhole = (props: Props) => {
     addToLocalStorage("genre", currentSelections.genres);
     // 合成されたカテゴリの配列を作成
     const categories = [...currentSelections.eras, ...currentSelections.genres];
-    console.log(categories);
     if (categories.length === 0) {
       alert("少なくとも一つは選択してください");
       return;
@@ -124,7 +122,7 @@ const ModalWhole = (props: Props) => {
     try {
       await handleUpdateCategories(categories);
     } catch (error) {
-      console.error("Error joining room:", error);
+      console.error("Error updating categories:", error);
     }
   };
 

@@ -1,26 +1,44 @@
 "use client";
-import React, { Suspense } from "react";
-import useSongByRoomId from "@/lib/useSongByRoomId";
+import React, { Suspense, useState } from "react";
 import NeumourList from "@/components/NeumorList";
 import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
+import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 
 interface SongListProps {
-  roomId: number;
+  roomID: number;
   userID: number;
 }
 
 const SongList = (props: SongListProps) => {
-  const songs = useSongByRoomId(props.roomId);
+  const {userID, roomID} = props;
+  const [loading, setloading] = useState(true);
+  const { Song, handleUpdateCategories } = useMusicRecommendPageData(userID, roomID);
+  const error = Song.error;
+  const songs = Song.data?.song;
   const songNames = songs ? songs.map((song) => song.songName) : [];
+
+  const handleModalUpdate = (categories: string[]) => {
+    setloading(true);
+    handleUpdateCategories(categories)
+    .then(() => {
+      setloading(false);
+    });
+  };
 
   return (
     <>
-      <ModalWhole userId={props.userID} default={true} roomId={props.roomId} />
-      <ShowRoomID roomID={String(props.roomId)} />
-      <NeumourList listItems={songNames} />
+      <ModalWhole default={true} handleUpdateCategories={handleModalUpdate} />
+      <ShowRoomID roomID={String(roomID)} />
+      {loading ? (
+        <IsLoading />
+      ) : error ? (
+        <p>error</p>
+      ) : (
+        <NeumourList listItems={songNames} />
+      )}
     </>
   );
 };
@@ -41,13 +59,13 @@ const Page = () => {
   if (!roomID) {
     return (
       <Suspense fallback={<IsLoading />}>
-        <SongList roomId={Number(roomID)} userID={Number(userID)} />
+        <SongList roomID={Number(roomID)} userID={Number(userID)} />
       </Suspense>
     );
   }
   return (
     <Suspense fallback={<IsLoading />}>
-      <SongList roomId={Number(roomID)} userID={Number(userID)} />
+      <SongList roomID={Number(roomID)} userID={Number(userID)} />
     </Suspense>
   );
 };
