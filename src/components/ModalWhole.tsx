@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
 import Modal from "react-modal";
-import ModalWrap from "./modal";
 import ModalButton from "./ModalButton";
 import Image from "next/image";
-import { getFromLocalStorage } from "@/functions/crudLoculStrage";
+import {
+  addToLocalStorage,
+  getFromLocalStorage,
+} from "@/functions/crudLoculStrage";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
+import RandomColorButton from "./Genrebutton";
 
 const ModalCss = {
   overlay: {
@@ -27,31 +30,118 @@ interface Props {
   roomId: number;
 }
 
+const genreList = [
+  "カラオケソング",
+  "ヒットソング",
+  "青春",
+  "平成",
+  "令和",
+  "昭和",
+  "ボーカロイド",
+  "HIPHOP",
+  "恋愛",
+  "アイドルグループ",
+  "ジャニーズ",
+  "KPOP男性グループ",
+  "KPOP女性グループ",
+  "JPOP",
+  "卒業",
+];
+
+const eraList = ["10代", "20代", "30代", "40代", "50代", "60代"];
+
+const getSelectedCategories = (
+  selections: Selections
+): { eras: string[]; genres: string[] } => {
+  const selectedEras = Object.entries(selections.eras)
+    .filter(([, isSelected]) => isSelected)
+    .map(([era]) => era);
+
+  const selectedGenres = Object.entries(selections.genres)
+    .filter(([, isSelected]) => isSelected)
+    .map(([genre]) => genre);
+
+  return { eras: selectedEras, genres: selectedGenres };
+};
+
+const createInitialSelections = (
+  eraList: string[],
+  genreList: string[]
+): Selections => {
+  const initialEras = eraList.reduce(
+    (acc, era) => ({ ...acc, [era]: true }),
+    {}
+  );
+  const initialGenres = genreList.reduce(
+    (acc, genre) => ({ ...acc, [genre]: true }),
+    {}
+  );
+
+  return { eras: initialEras, genres: initialGenres };
+};
+
+interface Selections {
+  eras: { [key: string]: boolean };
+  genres: { [key: string]: boolean };
+}
+
 const ModalWhole = (props: Props) => {
   const { userId, roomId } = props;
   const [modalIsOpen, setIsOpen] = useState(props.default ? true : false);
   const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
+  const initEraList = getFromLocalStorage("era");
+  const initGenreList = getFromLocalStorage("genre");
+  const initialSelections = createInitialSelections(
+    initEraList ? initEraList : [],
+    initGenreList ? initGenreList : [],
+  );
+  const [selections, setSelections] = useState(initialSelections);
+  const colors = ["#6835FF", "#496AE8", "#FF60A8", "#07BFBC"];
+
+  const handleGenreClick = (category: "eras" | "genres", name: string) => {
+    setSelections((prevSelections) => ({
+      ...prevSelections,
+      [category]: {
+        ...prevSelections[category],
+        [name]: !prevSelections[category][name],
+      },
+    }));
+  };
 
   const handleDone = async () => {
+    const currentSelections = getSelectedCategories(selections);
+    addToLocalStorage("era", currentSelections.eras);
+    addToLocalStorage("genre", currentSelections.genres);
+    // 合成されたカテゴリの配列を作成
+    const categories = [...currentSelections.eras, ...currentSelections.genres];
+    console.log(categories);
+    if (categories.length === 0) {
+      alert("少なくとも一つは選択してください");
+      return;
+    }
     setIsOpen(false);
-    const genreList = getFromLocalStorage("genre");
-    const eraList = getFromLocalStorage("era");
-    const notNullgenreList = genreList ? genreList : [];
-    const notNulleraList = eraList ? eraList : [];
-    const categories = [...notNullgenreList, ...notNulleraList];
+    
     try {
-      if (categories.length === 0) {
-        throw new Error("No categories selected");
-      }
       await handleUpdateCategories(categories);
     } catch (error) {
       console.error("Error joining room:", error);
     }
   };
 
+  const handleOpen = () => {
+    const eraList = getFromLocalStorage("era");
+    const genreList = getFromLocalStorage("genre");
+    const initialSelections = createInitialSelections(
+      eraList ? eraList : [],
+      genreList ? genreList : [],
+    );
+    setSelections({...initialSelections});
+    setIsOpen(true);
+  }
+
   return (
     <div className="relative">
-      <button title="isBtn" onClick={() => setIsOpen(true)}>
+      <button title="isBtn" onClick={handleOpen}>
         <Image
           src="/filter.svg"
           width={500}
@@ -62,12 +152,32 @@ const ModalWhole = (props: Props) => {
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
         <div className="text-3xl flex justify-center py-10">ジャンルを選択</div>
-        <div className="">
-          <ModalWrap type="genre" />
+        <div className="flex flex-wrap ">
+          {genreList.map((genre, i) => {
+            return (
+              <RandomColorButton
+                key={i}
+                name={genre}
+                color={colors[i % 4]}
+                selected={selections.genres[genre]}
+                onClick={() => handleGenreClick("genres", genre)}
+              />
+            );
+          })}
         </div>
         <div className="text-3xl flex justify-center py-10">年代を選択</div>
-        <div className="">
-          <ModalWrap type="era" />
+        <div className="flex flex-wrap ">
+          {eraList.map((era, i) => {
+            return (
+              <RandomColorButton
+                key={i}
+                name={era}
+                color={colors[i % 4]}
+                selected={selections.eras[era]}
+                onClick={() => handleGenreClick("eras", era)}
+              />
+            );
+          })}
         </div>
         {/* ここからフッターがわり */}
         <div

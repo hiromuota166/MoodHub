@@ -18,7 +18,6 @@ const useSongByRoomId = (roomId: number) => {
   const { data } = useSuspenseQuery<{ song: Song[] }>(GET_SONG_BY_ROOM_ID, {
     variables: { roomId },
   });
-  console.log(data.song);
 
   return data?.song;
 };
