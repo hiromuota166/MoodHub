@@ -10,6 +10,7 @@ const zenkakugothicnew = Zen_Kaku_Gothic_New({
   subsets: ["latin"],
 });
 import { AuthProvider } from "@/context/auth";
+import { ChakraProvider } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "MoodHub | みんなの曲を共有・検索",
@@ -27,10 +28,12 @@ export default function RootLayout({
       <body className={`${zenkakugothicnew.className} bg-background`}>
         <AuthProvider>
           <ApolloWrapper>
-            <Header />
-            <main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12"'>
-              {children}
-            </main>
+            <ChakraProvider>
+              <Header />
+              <main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12"'>
+                {children}
+              </main>
+            </ChakraProvider>
           </ApolloWrapper>
         </AuthProvider>
       </body>

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { Suspense } from "react";
 import useSongByRoomId from "@/lib/useSongByRoomId";
 import NeumourList from "@/components/NeumorList";
@@ -19,7 +18,7 @@ const SongList = (props: SongListProps) => {
 
   return (
     <>
-      <ModalWhole userId={props.userID} default={true} />
+      <ModalWhole userId={props.userID} default={true} roomId={props.roomId}/>
       <ShowRoomID roomID={String(props.roomId)} />
       <NeumourList listItems={songNames} />
     </>

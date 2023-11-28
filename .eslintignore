@@ -12,3 +12,6 @@ bin/
 obj/
 out/
 .next/
+
+# graphql codegen
+src/lib/apollo/gql/*
