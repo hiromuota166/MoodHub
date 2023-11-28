@@ -40,11 +40,9 @@ const testLocalStorageFunctions = (): void => {
   // データの追加
   // addToLocalStorage("genre", ["rock", "pop"]);
   // addToLocalStorage("era", ["80s", "90s"]);
-
   // データの取得
   // console.log(getFromLocalStorage("genre")); // ["rock", "pop"]
   // console.log(getFromLocalStorage("era")); // ["80s", "90s"]
-
   // データの削除
   // removeFromLocalStorage("genre");
   // console.log(getFromLocalStorage("genre")); // null

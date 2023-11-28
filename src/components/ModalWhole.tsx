@@ -93,7 +93,7 @@ const ModalWhole = (props: Props) => {
   const initGenreList = getFromLocalStorage("genre");
   const initialSelections = createInitialSelections(
     initEraList ? initEraList : [],
-    initGenreList ? initGenreList : [],
+    initGenreList ? initGenreList : []
   );
   const [selections, setSelections] = useState(initialSelections);
   const colors = ["#6835FF", "#496AE8", "#FF60A8", "#07BFBC"];
@@ -120,7 +120,7 @@ const ModalWhole = (props: Props) => {
       return;
     }
     setIsOpen(false);
-    
+
     try {
       await handleUpdateCategories(categories);
     } catch (error) {
@@ -133,11 +133,11 @@ const ModalWhole = (props: Props) => {
     const genreList = getFromLocalStorage("genre");
     const initialSelections = createInitialSelections(
       eraList ? eraList : [],
-      genreList ? genreList : [],
+      genreList ? genreList : []
     );
-    setSelections({...initialSelections});
+    setSelections({ ...initialSelections });
     setIsOpen(true);
-  }
+  };
 
   return (
     <div className="relative">
