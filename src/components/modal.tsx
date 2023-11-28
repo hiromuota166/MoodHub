@@ -16,9 +16,6 @@ function ModalWrap(props: Props) {
     "カラオケソング",
     "ヒットソング",
     "青春",
-    "10代",
-    "20代",
-    "。。。70代",
     "平成",
     "令和",
     "昭和",
@@ -51,7 +48,6 @@ function ModalWrap(props: Props) {
 
   const colors = ["#6835FF", "#496AE8", "#FF60A8", "#07BFBC"];
   useEffect(() => {
-    console.log(selectedGenres);
     addToLocalStorage(type, selectedGenres);
   }, [selectedGenres, type]);
   return (

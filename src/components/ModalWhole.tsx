@@ -33,6 +33,7 @@ const ModalWhole = (props: Props) => {
   const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
 
   const handleDone = async () => {
+    setIsOpen(false)
     const genreList = getFromLocalStorage("genre");
     const eraList = getFromLocalStorage("era");
     const notNullgenreList = genreList ? genreList : [];
@@ -76,8 +77,8 @@ const ModalWhole = (props: Props) => {
           <div>
             <ModalButton name="Back" onClick={() => setIsOpen(false)} />
           </div>
-          <div onClick={handleDone}>
-            <ModalButton name="Done" onClick={() => setIsOpen(false)} />
+          <div>
+            <ModalButton name="Done" onClick={handleDone} />
           </div>
         </div>
       </Modal>

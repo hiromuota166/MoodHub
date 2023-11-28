@@ -18,7 +18,7 @@ const SongList = (props: SongListProps) => {
 
   return (
     <>
-      <ModalWhole userId={props.userID} default={true} roomId={props.roomId}/>
+      <ModalWhole userId={props.userID} default={true} roomId={props.roomId} />
       <ShowRoomID roomID={String(props.roomId)} />
       <NeumourList listItems={songNames} />
     </>
