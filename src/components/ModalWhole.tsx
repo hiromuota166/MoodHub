@@ -26,7 +26,7 @@ const ModalCss = {
 interface Props {
   default?: boolean;
   // eslint-disable-next-line no-unused-vars
-  handleUpdateCategories:(categories: string[]) => void;
+  handleUpdateCategories: (categories: string[]) => void;
 }
 
 const genreList = [

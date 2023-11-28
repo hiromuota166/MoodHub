@@ -13,17 +13,19 @@ interface SongListProps {
 }
 
 const SongList = (props: SongListProps) => {
-  const {userID, roomID} = props;
+  const { userID, roomID } = props;
   const [loading, setloading] = useState(true);
-  const { Song, handleUpdateCategories } = useMusicRecommendPageData(userID, roomID);
+  const { Song, handleUpdateCategories } = useMusicRecommendPageData(
+    userID,
+    roomID
+  );
   const error = Song.error;
   const songs = Song.data?.song;
   const songNames = songs ? songs.map((song) => song.songName) : [];
 
   const handleModalUpdate = (categories: string[]) => {
     setloading(true);
-    handleUpdateCategories(categories)
-    .then(() => {
+    handleUpdateCategories(categories).then(() => {
       setloading(false);
     });
   };
