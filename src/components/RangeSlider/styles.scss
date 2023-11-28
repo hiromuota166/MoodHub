@@ -1,77 +1,76 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-$primary: #D6E5E3;
-$darker: #183D4D;
+$primary: #d6e5e3;
+$darker: #183d4d;
 $boxshadow: 2px 2px 5px rgba(161, 172, 170, 0.9);
 
 input[type="range"] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	&:focus {
-		outline: none;
-	}
-	&::-webkit-slider-thumb {
-		-webkit-appearance: none;
-	}
-	&::-moz-range-thumb {
-		border: none;
-	}
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  &::-moz-range-thumb {
+    border: none;
+  }
 }
 
 .range-style {
-	width: 100%;
-	height: 3rem;
-	padding: 1rem;
-	border-radius: 10px;
-	box-shadow: $boxshadow;
+  width: 100%;
+  height: 3rem;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: $boxshadow;
 
-	@mixin track-style {
-		display: flex;
-		align-items: center;
-		height: 1.25rem;
-		border-radius: 10px;
-		box-shadow: $boxshadow inset;
-	}
+  @mixin track-style {
+    display: flex;
+    align-items: center;
+    height: 1.25rem;
+    border-radius: 10px;
+    box-shadow: $boxshadow inset;
+  }
 
-	@mixin thumb-style {
-		position: relative;
-		top: -50%;
-		width: 2.5rem;
-		height: 2.5rem;
-		background-color: $primary;
-		background-image: linear-gradient(-45deg, $primary, transparent);
-		border-radius: 50%;
-		box-shadow: $boxshadow;
-	}
-	&::-webkit-slider-runnable-track {
-		@include track-style;
-	}
-	&::-webkit-slider-thumb {
-		@include thumb-style;
-	}
-	&::-moz-range-track {
-		@include track-style;
-	}
-	&::-moz-range-thumb {
-		@include thumb-style;
-	}
+  @mixin thumb-style {
+    position: relative;
+    top: -50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: $primary;
+    background-image: linear-gradient(-45deg, $primary, transparent);
+    border-radius: 50%;
+    box-shadow: $boxshadow;
+  }
+  &::-webkit-slider-runnable-track {
+    @include track-style;
+  }
+  &::-webkit-slider-thumb {
+    @include thumb-style;
+  }
+  &::-moz-range-track {
+    @include track-style;
+  }
+  &::-moz-range-thumb {
+    @include thumb-style;
+  }
 }
 
 .darker {
-
-	@mixin thumb-style {
-		background-color: $darker;
-		background-image: linear-gradient(-45deg, $darker, transparent);
-	}
-	&::-webkit-slider-thumb {
-		@include thumb-style;
-	}
-	&::-moz-range-thumb {
-		@include thumb-style;
-	}
+  @mixin thumb-style {
+    background-color: $darker;
+    background-image: linear-gradient(-45deg, $darker, transparent);
+  }
+  &::-webkit-slider-thumb {
+    @include thumb-style;
+  }
+  &::-moz-range-thumb {
+    @include thumb-style;
+  }
 }

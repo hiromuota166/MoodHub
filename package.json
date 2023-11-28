@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006 -s public",
     "build-storybook": "storybook build -s public",
     "codegen": "graphql-codegen --config codegen.ts",
-    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'",
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css,scss}'",
     "format:ci": "prettier -l './**/*.{js,jsx,ts,tsx,css,scss}'",
     "lint:ci": "eslint './**/*.{ts,tsx}' --max-warnings 0"
   },
