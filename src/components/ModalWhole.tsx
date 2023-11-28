@@ -87,7 +87,6 @@ interface Selections {
 const ModalWhole = (props: Props) => {
   const { handleUpdateCategories } = props;
   const [modalIsOpen, setIsOpen] = useState(props.default ? true : false);
-  // const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
   const initEraList = getFromLocalStorage("era");
   const initGenreList = getFromLocalStorage("genre");
   const initialSelections = createInitialSelections(
