@@ -21,7 +21,6 @@ const Page = () => {
   }
 
   const userList = ["入室できました！"];
-  // const userList = ["john", "jane", "james", "judy", "jake"]
   return (
     <>
       <ModalWhole default={false} handleUpdateCategories={() => {}} />
