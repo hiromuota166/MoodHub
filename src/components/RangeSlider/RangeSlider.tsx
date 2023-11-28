@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { useCustomColorMode } from "@/customhooks/useCustomColorMode";
 import "./styles.scss";
+import React from "react";
+
 interface RangeSliderProps {
   min: number;
   max: number;

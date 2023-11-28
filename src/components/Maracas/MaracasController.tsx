@@ -25,12 +25,7 @@ const MaracasController = (props: MaracasControllerProps) => {
 
   const ausioPath = "/maracas-sound.mp3";
   const {
-    loadingState,
-    playSound,
-    reloadAudio,
     adjustVolume,
-    mute,
-    unmute,
     toggleMute,
     isMuted,
     volume,

@@ -11,6 +11,7 @@ export const useThreeAnimation = (
         directionalLights: THREE.DirectionalLight[] | null;
         ambientLight: THREE.AmbientLight | null;
         pointLights: THREE.PointLight[] | null;
+        // eslint-disable-next-line no-unused-vars
         pointLightsUpdate: (pointLight: THREE.PointLight) => THREE.PointLight;
       }
     | undefined,

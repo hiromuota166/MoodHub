@@ -1,8 +1,10 @@
 import Link from "next/link";
+import React from "react";
 
 interface NavigationButtonProps {
   href: string;
   label: string;
+  // eslint-disable-next-line no-unused-vars
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   linkDisabled?: boolean;
 }

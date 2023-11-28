@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 import {
-  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -33,11 +33,8 @@ const MaracasModal = (props: MaracasModalProps) => {
     handleMaracasSensitivityChange,
     MaracasVibrationIntensity,
     handleMaracasVibrationIntensityChange,
-    isMuted,
-    toggleMute,
     Volume,
     handleVolumeChange,
-    handleMaracasSoundSwitch,
     colorMode,
   } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();

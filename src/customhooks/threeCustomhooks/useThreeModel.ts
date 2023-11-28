@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";

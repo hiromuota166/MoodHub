@@ -2,7 +2,6 @@
 import NightImg from "@/../public/night-mode.svg";
 import DayImg from "@/../public/day-mode.svg";
 import Image from "next/image";
-import { useCustomColorMode } from "@/customhooks/useCustomColorMode";
 
 interface NightModeSwitchProps {
   colorMode: "dark" | "light";
