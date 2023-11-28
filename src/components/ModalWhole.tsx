@@ -33,7 +33,7 @@ const ModalWhole = (props: Props) => {
   const { handleUpdateCategories } = useMusicRecommendPageData(userId, roomId);
 
   const handleDone = async () => {
-    setIsOpen(false)
+    setIsOpen(false);
     const genreList = getFromLocalStorage("genre");
     const eraList = getFromLocalStorage("era");
     const notNullgenreList = genreList ? genreList : [];
