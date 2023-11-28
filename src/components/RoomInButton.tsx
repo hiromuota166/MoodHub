@@ -33,7 +33,7 @@ const RoomInButton = () => {
         };
         const roomId = Number(target.roomId.value);
         const userId = makeUID();
-        if (userId === null || roomId === null) return;
+        if (userId === null || roomId === null) return; 
         try {
             await joinRoom({
                 variables: {
@@ -46,7 +46,7 @@ const RoomInButton = () => {
                 console.log(res.data?.joinRoom.roomId);
                 const roomId = res.data?.joinRoom.roomId;
                 // 処理が完了した後にページ遷移
-                const url = `/init-room?roomID=${roomId}&userID=${userId}`;
+                const url = `/music-recommend?roomID=${roomId}`;
                 router.push(url);
             })
         } catch (err) {

@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from 'react';
 import { makeUID } from '@/functions/makeUID';
 import IsLoading from './IsLoading';
+import { auth } from '@/lib/firebase';
 
 const CreateRoom = () => {
     const router = useRouter();
@@ -31,30 +32,40 @@ const CreateRoom = () => {
     const [roomName, setRoomName] = useState<string>("");
 
     const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        //ログインしていたらルーム作成ページへ遷移
         e.preventDefault();
-        const userId = makeUID();
-        try {
-            await createRoom({
-                variables: {
-                    room: {
-                        userId,
-                        roomName
+        if (auth.currentUser != null) {
+            const userId = makeUID();
+            try {
+                await createRoom({
+                    variables: {
+                        room: {
+                            userId,
+                            roomName
+                        }
                     }
-                }
-            }).then((res) => {
-                console.log(res.data?.createRoom.roomId);
-                const roomId = res.data?.createRoom.roomId;
-                // 処理が完了した後にページ遷移
-                const url = `/init-room?roomID=${roomId}&userID=${userId}`;
-                router.push(url);
-            });
-        } catch (err) {
-            console.error(err);
+                }).then((res) => {
+                    console.log(res.data?.createRoom.roomId);
+                    const roomId = res.data?.createRoom.roomId;
+                    // 処理が完了した後にページ遷移
+                    const url = `/music-recommend?roomID=${roomId}`;
+                    router.push(url);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+            return;
+        } else {
+            //ログインしていなかったらアラートを出してそのままのページに留まる
+            alert("ログインしてください");
+            const url = `/`;
+            router.push(url);
+            return;
         }
     }
     return (
         <a 
-            href="/target-page" 
+            href="/" 
             onClick={(e) => handleClick(e, '/target-page')}>
             <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
             {loading ? <IsLoading /> : <h2>ルーム作成</h2>}

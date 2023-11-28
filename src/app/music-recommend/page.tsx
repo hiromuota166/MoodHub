@@ -8,6 +8,7 @@ import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
+import { auth } from "@/lib/firebase";
 
 interface SongListProps {
   roomId: number;
@@ -32,7 +33,10 @@ const Page = () => {
 
   // クエリパラメータを取得
   const roomID = searchParams.get("roomID");
-  const userID = searchParams.get("userID");
+  // const userID = searchParams.get("userID");
+  // ユーザーIDはログイン機能を実装したら取得する
+  const userID = auth.currentUser?.uid;
+
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {
     return <IsLoading />;
