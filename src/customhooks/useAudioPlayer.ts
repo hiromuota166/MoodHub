@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 
-const useAudioPlayer = (audioFilePath: string = "/maracas-sound.mp3") => {
+const useAudioPlayer = (audioFilePath: string = "/sound/maracas-sound.mp3") => {
   const [loadingState, setLoadingState] = useState<
     "init" | "loading" | "loaded" | "error"
   >("init");

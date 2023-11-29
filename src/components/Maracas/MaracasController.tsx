@@ -23,7 +23,6 @@ const MaracasController = (props: MaracasControllerProps) => {
   const { colorMode, toggleColorMode } = useCustomColorMode();
   const feverMode = colorMode === "dark" ? true : false;
 
-  const ausioPath = "/maracas-sound.mp3";
   const {
     adjustVolume,
     toggleMute,
@@ -31,7 +30,10 @@ const MaracasController = (props: MaracasControllerProps) => {
     volume,
     isDevicemotionPermissionGranted,
     requestDeviceMotion,
-  } = useSoundEvents(ausioPath, shakeThreshold, shakeInterval);
+    audioFiles,
+    audioFile,
+    setAudioFile,
+  } = useSoundEvents(shakeThreshold, shakeInterval);
 
   const handleMaracasSensitivityChange = (value: number) => {
     setShakeInterval(value); // スライダーの値をステートにセット
@@ -83,6 +85,9 @@ const MaracasController = (props: MaracasControllerProps) => {
                 colorMode={colorMode}
                 handleVolumeChange={adjustVolume}
                 handleMaracasSoundSwitch={toggleMute}
+                audioFiles={audioFiles}
+                audioFile={audioFile}
+                setAudioFile={setAudioFile}
               />
             </div>
           </div>

@@ -1,12 +1,27 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useAudioPlayer from "./useAudioPlayer";
 import useDeviceMotion from "./useDeviceMotion";
 
+export interface AudioFile {
+  name: string; // 画面に表示される名前
+  path: string; // 音声ファイルのパス
+}
+
 const useSoundEvents = (
-  audioPath: string,
   shakeThreshold: number = 20,
   shakeInterval: number = 200
 ) => {
+  const audioFiles: AudioFile[] = [
+    { name: "マラカス", path: "/sound/maracas-sound.mp3" },
+    { name: "タンバリン", path: "/sound/tambourine.mp3" },
+    { name: "拍手", path: "/sound/clap.mp3" },
+    { name: "パフパフ", path: "/sound/pafu.mp3" },
+    { name: "ボイン", path: "/sound/boyon.mp3" },
+    { name: "チリン", path: "/sound/chin.mp3" },
+    { name: "鳩時計", path: "/sound/birdClock.mp3" },
+    { name: "ドラ", path: "/sound/DaLuo.mp3" },
+  ];
+  const [audioFile, setAudioFile] = useState<AudioFile>(audioFiles[0]);
   const {
     loadingState,
     playSound,
@@ -17,7 +32,7 @@ const useSoundEvents = (
     toggleMute,
     isMuted,
     volume,
-  } = useAudioPlayer(audioPath);
+  } = useAudioPlayer(audioFile.path);
   const {
     requestDeviceMotion,
     isDevicemotionPermissionGranted,
@@ -97,6 +112,9 @@ const useSoundEvents = (
     volume,
     isDevicemotionPermissionGranted,
     requestDeviceMotion,
+    audioFiles,
+    audioFile,
+    setAudioFile,
   };
 };
 
