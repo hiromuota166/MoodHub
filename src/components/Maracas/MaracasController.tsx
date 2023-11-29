@@ -1,6 +1,6 @@
 "use client";
 import useSoundEvents from "@/customhooks/useSoundEvents";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LightMaracas from "./LightMaracas";
 import VolumeButton from "./VolumeButton";
 import SensorButton from "./SensorButton";
@@ -22,6 +22,7 @@ const MaracasController = (props: MaracasControllerProps) => {
   const [shakeThreshold, setShakeThreshold] = useState(15); // シェイクの閾値
   const { colorMode, toggleColorMode } = useCustomColorMode();
   const feverMode = colorMode === "dark" ? true : false;
+  const soundref = useRef<HTMLDivElement>(null);
 
   const {
     adjustVolume,
@@ -33,7 +34,7 @@ const MaracasController = (props: MaracasControllerProps) => {
     audioFiles,
     audioFile,
     setAudioFile,
-  } = useSoundEvents(shakeThreshold, shakeInterval);
+  } = useSoundEvents(shakeThreshold, shakeInterval, soundref);
 
   const handleMaracasSensitivityChange = (value: number) => {
     setShakeInterval(value); // スライダーの値をステートにセット
@@ -93,9 +94,11 @@ const MaracasController = (props: MaracasControllerProps) => {
           </div>
         </div>
       </div>
-      {mode === "light" && <LightMaracas />}
-      {mode === "normal" && <Show3dObj mode="normal" feverMode={feverMode} />}
-      {mode === "special" && <Show3dObj mode="special" feverMode={feverMode} />}
+      <div ref={soundref}>
+        {mode === "light" && <LightMaracas />}
+        {mode === "normal" && <Show3dObj mode="normal" feverMode={feverMode} />}
+        {mode === "special" && <Show3dObj mode="special" feverMode={feverMode} />}
+      </div>
     </div>
   );
 };

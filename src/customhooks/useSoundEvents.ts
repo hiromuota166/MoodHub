@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, RefObject } from "react";
 import useAudioPlayer from "./useAudioPlayer";
 import useDeviceMotion from "./useDeviceMotion";
 
@@ -9,7 +9,8 @@ export interface AudioFile {
 
 const useSoundEvents = (
   shakeThreshold: number = 20,
-  shakeInterval: number = 200
+  shakeInterval: number = 200,
+  soundRef: RefObject<HTMLDivElement>
 ) => {
   const audioFiles: AudioFile[] = [
     { name: "マラカス", path: "/sound/maracas-sound.mp3" },
@@ -74,22 +75,26 @@ const useSoundEvents = (
   );
 
   useEffect(() => {
+    const div = soundRef.current;
+    if (!div) return;
     if (!isMuted) {
-      window.addEventListener("touchstart", handleTouch);
+      div.addEventListener("touchstart", handleTouch);
     }
     return () => {
-      window.removeEventListener("touchstart", handleTouch);
+      div.removeEventListener("touchstart", handleTouch);
     };
-  }, [handleTouch, isMuted]);
+  }, [handleTouch, isMuted, soundRef]);
 
   useEffect(() => {
+    const div = soundRef.current;
+    if (!div) return;
     if (!isMuted) {
-      window.addEventListener("touchmove", handleSwipe);
+      div.addEventListener("touchmove", handleSwipe);
     }
     return () => {
-      window.removeEventListener("touchmove", handleSwipe);
+      div.removeEventListener("touchmove", handleSwipe);
     };
-  }, [handleSwipe, isMuted]);
+  }, [handleSwipe, isMuted, soundRef]);
 
   useEffect(() => {
     if (isDevicemotionPermissionGranted) {
