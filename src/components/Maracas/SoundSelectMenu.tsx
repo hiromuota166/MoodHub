@@ -21,7 +21,6 @@ const SoundSelectMenu = (props: SoundSelectMenuProps) => {
   const bg = useColorModeValue("#D6E5E3", "#183D4D");
   const fontColor = useColorModeValue("#6B7271", "#E0E0E0");
 
-
   return (
     <Menu colorScheme={bg}>
       <MenuButton

@@ -29,9 +29,9 @@ interface MaracasModalProps {
   handleVolumeChange: (value: number) => void;
   handleMaracasSoundSwitch: () => void;
   colorMode: "dark" | "light";
-  audioFiles: AudioFile[],
-  audioFile: AudioFile,
-  setAudioFile: Dispatch<SetStateAction<AudioFile>>
+  audioFiles: AudioFile[];
+  audioFile: AudioFile;
+  setAudioFile: Dispatch<SetStateAction<AudioFile>>;
 }
 const MaracasModal = (props: MaracasModalProps) => {
   const {
@@ -94,7 +94,11 @@ const MaracasModal = (props: MaracasModalProps) => {
                 音が鳴らない場合は消音モードをオフにしてください。
               </Text>
             </Box>
-            <SoundSelectMenu audioFiles={audioFiles} audioFile={audioFile} setAudioFile={setAudioFile} />
+            <SoundSelectMenu
+              audioFiles={audioFiles}
+              audioFile={audioFile}
+              setAudioFile={setAudioFile}
+            />
           </ModalBody>
           <ModalFooter>
             <button
