@@ -97,7 +97,9 @@ const MaracasController = (props: MaracasControllerProps) => {
       <div ref={soundref}>
         {mode === "light" && <LightMaracas />}
         {mode === "normal" && <Show3dObj mode="normal" feverMode={feverMode} />}
-        {mode === "special" && <Show3dObj mode="special" feverMode={feverMode} />}
+        {mode === "special" && (
+          <Show3dObj mode="special" feverMode={feverMode} />
+        )}
       </div>
     </div>
   );
