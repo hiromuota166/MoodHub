@@ -26,7 +26,6 @@ export default function GoogleLoginBtn() {
       .then((userCrednetial) => {
         const user = userCrednetial.user;
         setLoginState("LOGGED_IN");
-        console.log(user);
       })
       .catch((error) => {
         console.error(error?.code);
