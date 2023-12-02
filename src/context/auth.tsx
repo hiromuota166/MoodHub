@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { User } from "@/types/user";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "@firebase/firestore";
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             photoUrl: firebaseUser.photoURL || "",
           };
 
-          setDoc(ref, appUser).then(() => {
+          await setDoc(ref, appUser).then(() => {
             setUser(appUser);
           });
         }

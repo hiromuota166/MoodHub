@@ -1,4 +1,4 @@
-// ロームネームを表示するコンポーネント　親コンポーネント
+// ロームネームを表示するコンポーネント 親コンポーネント
 "use client";
 import { useState } from "react";
 import RoomNameModal from "./RoomNameModal";

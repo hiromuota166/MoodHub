@@ -1,35 +1,37 @@
-'use client'
-import { useRouter } from 'next/navigation';
+"use client";
+import { useRouter } from "next/navigation";
 import { gql, useMutation } from "@apollo/client";
 import { useState } from 'react';
 import { makeUID } from '@/functions/makeUID';
 import IsLoading from './IsLoading';
 import { auth } from '@/lib/firebase';
+import React from "react";
 
 const CreateRoom = () => {
-    const router = useRouter();
-    const CREATE_ROOM_MUTATION = gql`
+  const router = useRouter();
+  const CREATE_ROOM_MUTATION = gql`
     mutation CreateARoom($room: CreateRoom!) {
-        createRoom(room: $room) {
+      createRoom(room: $room) {
         roomId
         userId
         name
-        }
+      }
     }
-    `;
+  `;
 
-    interface RoomResponse {
-        createRoom: Room;
-    }
+  interface RoomResponse {
+    createRoom: Room;
+  }
 
-    interface Room {
-        roomId: number;
-        userId: number[];
-        name: string;
-    }
+  interface Room {
+    roomId: number;
+    userId: number[];
+    name: string;
+  }
 
-    const [createRoom, { data, loading, error }] = useMutation<RoomResponse>(CREATE_ROOM_MUTATION);
-    const [roomName, setRoomName] = useState<string>("");
+  const [createRoom, { loading }] =
+    useMutation<RoomResponse>(CREATE_ROOM_MUTATION);
+  const [roomName] = useState<string>("");
 
     const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         //ログインしていたらルーム作成ページへ遷移

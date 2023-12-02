@@ -13,18 +13,16 @@ import {
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 interface RoomNameModalProps {
+  // eslint-disable-next-line no-unused-vars
   onRoomNameChange: (newName: string) => void;
 }
 
 const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
   const [inputValue, setInputValue] = React.useState("");
-  
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onRoomNameChange(event.target.value);
-  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -47,7 +45,7 @@ const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
           <form
             onSubmit={(e) => {
               e.preventDefault(); // デフォルトのフォーム送信を防ぐ
-              onRoomNameChange(inputValue); // 親コンポーネントの関数を実行 
+              onRoomNameChange(inputValue); // 親コンポーネントの関数を実行
               onClose(); // モーダルを閉じる関数を実行
             }}
           >
@@ -63,7 +61,7 @@ const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
             <ModalFooter>
               <Button colorScheme="gray" mr={3} onClick={onClose}>
                 キャンセル
-              </ Button>
+              </Button>
               <Button colorScheme="blue" mr={3} type="submit">
                 決定
               </Button>

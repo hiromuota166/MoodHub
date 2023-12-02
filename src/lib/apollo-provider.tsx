@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
@@ -7,7 +7,6 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { ChakraProvider } from "@chakra-ui/react";
 
 function makeClient() {
   const httpLink = new HttpLink({
@@ -19,21 +18,21 @@ function makeClient() {
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
-          new SSRMultipartLink({
-            stripDefer: true,
-          }),
-          httpLink,
-        ])
+            new SSRMultipartLink({
+              stripDefer: true,
+            }),
+            httpLink,
+          ])
         : httpLink,
   });
 }
 
-export function ApolloWrapper({ children }) {
+const ApolloWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
-      <ChakraProvider>
       {children}
-      </ChakraProvider>
     </ApolloNextAppProvider>
   );
-}
+};
+
+export { ApolloWrapper };
