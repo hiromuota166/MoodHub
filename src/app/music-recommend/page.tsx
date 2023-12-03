@@ -34,11 +34,11 @@ const Page = () => {
 
   const numericUserID = userID ? parseInt(userID, 10) : undefined;
   const numericRoomID = roomID ? parseInt(roomID, 10) : undefined;
-  
+
   const { Song, RoomMembers } = useMusicRecommendPageData(
     numericUserID,
     numericRoomID
-    );
+  );
 
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {

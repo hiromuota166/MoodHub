@@ -4,7 +4,7 @@ import { useAuth } from "@/context/auth";
 import { Avatar, AvatarGroup } from "@chakra-ui/react";
 
 function UserList() {
-  const user = useAuth(); 
+  const user = useAuth();
   return (
     <>
       <AvatarGroup size="md" max={2}>
