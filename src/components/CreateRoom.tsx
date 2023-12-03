@@ -33,7 +33,7 @@ const CreateRoom = () => {
     useMutation<RoomResponse>(CREATE_ROOM_MUTATION);
   const [roomName] = useState<string>("");
 
-    const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         //ログインしていたらルーム作成ページへ遷移
         e.preventDefault();
         if (auth.currentUser != null) {
@@ -68,7 +68,7 @@ const CreateRoom = () => {
     return (
         <a 
             href="/" 
-            onClick={(e) => handleClick(e, '/target-page')}>
+            onClick={(e) => handleClick(e)}>
             <div className="bg-background text-font text-lg text-3xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
             {loading ? <IsLoading /> : <h2>ルーム作成</h2>}
             </div>

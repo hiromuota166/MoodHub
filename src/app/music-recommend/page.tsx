@@ -27,50 +27,55 @@ const SongList = ({ songsData }: SongListProps) => {
 const Page = () => {
   const searchParams = useSearchParams();
 
+  const userID = auth.currentUser?.uid;
   const roomID = searchParams.get("roomID");
   // const userID = searchParams.get("userID");
   // ユーザーIDはログイン機能を実装したら取得する
-  const userID = auth.currentUser?.uid;
+
+  const numericUserID = userID ? parseInt(userID, 10) : undefined;
+  const numericRoomID = roomID ? parseInt(roomID, 10) : undefined;
+  
+  const { Song, RoomMembers } = useMusicRecommendPageData(
+    numericUserID,
+    numericRoomID
+    );
 
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {
     return <IsLoading />;
   }
-  const { Song, RoomMembers } = useMusicRecommendPageData(
-    numericUserID,
-    numericRoomID
-  );
 
-  if (typeof roomID !== "string" || typeof userID !== "string")) {
+  if (typeof roomID !== "string" || typeof userID !== "string") {
     return <p>ルームIDまたはユーザーIDが不正です。</p>;
   }
-
-  return (
-    <>
-      <ModalWhole userId={numericUserID} roomId={numericRoomID} />
-      <ShowRoomID roomID={String(numericRoomID)} />
-      {RoomMembers.loading ? (
-        <IsLoading />
-      ) : (
-        <>
-          <p>ルームネーム: {RoomMembers.data?.getMembers.roomName}</p>
-          <p>ユーザーリスト:</p>
-          <ul>
-            {RoomMembers.data?.getMembers.members?.map((member, i) => {
-              return <li key={i}>{member}</li>;
-            })}
-          </ul>
-        </>
-      )}
-      {Song.error ? (
-        <>
-          <p>曲のエラーが発生しました。やり直してください。</p>
-          <p>{Song.error.toString()}</p>
-        </>
-      ) : null}
-      {Song.loading ? <IsLoading /> : <SongList songsData={Song.data} />}
-    </>
-  );
+  if (numericUserID !== undefined && numericRoomID !== undefined) {
+    return (
+      <>
+        <ModalWhole userId={numericUserID} roomId={numericRoomID} />
+        <ShowRoomID roomID={String(numericRoomID)} />
+        {RoomMembers.loading ? (
+          <IsLoading />
+        ) : (
+          <>
+            <p>ルームネーム: {RoomMembers.data?.getMembers.roomName}</p>
+            <p>ユーザーリスト:</p>
+            <ul>
+              {RoomMembers.data?.getMembers.members?.map((member, i) => {
+                return <li key={i}>{member}</li>;
+              })}
+            </ul>
+          </>
+        )}
+        {Song.error ? (
+          <>
+            <p>曲のエラーが発生しました。やり直してください。</p>
+            <p>{Song.error.toString()}</p>
+          </>
+        ) : null}
+        {Song.loading ? <IsLoading /> : <SongList songsData={Song.data} />}
+      </>
+    );
+  }
 };
 
 export default Page;
