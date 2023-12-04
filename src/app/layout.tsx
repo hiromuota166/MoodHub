@@ -25,13 +25,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${zenkakugothicnew.className} bg-background`}>
+      <body
+        className={`${zenkakugothicnew.className} bg-background dark:bg-darkbackground text-font dark:text-darkfont`}
+      >
         <AuthProvider>
           <ApolloWrapper>
             <ChakraProvider>
               <Header />
-              <main className='min-h-screen md:max-w-[60%] max-w-[90%] m-auto p-12"'>
-                {children}
+              <main className="h-[calc(100dvh-5rem)]">
+                <div className="md:max-w-[60%] max-w-[90%] m-auto">
+                  {children}
+                </div>
               </main>
             </ChakraProvider>
           </ApolloWrapper>

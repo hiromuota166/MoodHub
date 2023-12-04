@@ -5,14 +5,15 @@ import React, { useState } from "react";
 interface iRandomColorButton {
   name: string;
   color: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  selected: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 function RandomColorButton(props: iRandomColorButton) {
-  const { name, color, onClick } = props;
+  const { name, color, selected, onClick } = props;
 
   const initialBackgroundColor = "#f5f5f5";
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(selected);
 
   const toggleColors = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
