@@ -21,14 +21,9 @@ const Page = () => {
   }
 
   const userList = ["入室できました！"];
-  // const userList = ["john", "jane", "james", "judy", "jake"]
   return (
     <>
-      <ModalWhole
-        default={false}
-        userId={Number(userID)}
-        roomId={Number(roomID)}
-      />
+      <ModalWhole default={false} handleUpdateCategories={() => {}} />
       <ShowRoomID roomID={roomID} />
       <NeumourList listItems={userList} />
       <LongButton text="曲を探す" />
