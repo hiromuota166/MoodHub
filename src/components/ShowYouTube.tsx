@@ -34,19 +34,24 @@ const ShowYouTube = (props: ShowYouTubeProps) => {
 
   useEffect(() => {
     const fetchYouTubeVideos = async () => {
-      const apiKey = process.env.YOUTUBE_DATA_API_KEY; 
-      const url = `${process.env.YOUTUBE_DATA_API_URL}/search?part=snippet&q=${encodeURIComponent(query)}&key=${apiKey}`;
-  
+      const apiKey = process.env.YOUTUBE_DATA_API_KEY;
+      const url = `${
+        process.env.YOUTUBE_DATA_API_URL
+      }/search?part=snippet&q=${encodeURIComponent(query)}&key=${apiKey}`;
+
       try {
         const response = await fetch(url);
         const data: YouTubeSearchResponse = await response.json();
-        const ids = data.items.length > 10 ? data.items.slice(0, 10).map(item => item.id.videoId) : data.items.map(item => item.id.videoId);
+        const ids =
+          data.items.length > 10
+            ? data.items.slice(0, 10).map((item) => item.id.videoId)
+            : data.items.map((item) => item.id.videoId);
         setVideoIds(ids);
       } catch (error) {
         console.error("YouTube検索中にエラーが発生しました:", error);
       }
     };
-  
+
     if (query) {
       fetchYouTubeVideos();
     }
@@ -59,12 +64,7 @@ const ShowYouTube = (props: ShowYouTubeProps) => {
   const videoUrl = `https://www.youtube.com/embed/${videoIds[0]}`;
 
   return (
-    <iframe
-      id="ytplayer"
-      width="640"
-      height="360"
-      src={videoUrl}
-    ></iframe>
+    <iframe id="ytplayer" width="640" height="360" src={videoUrl}></iframe>
   );
 };
 
