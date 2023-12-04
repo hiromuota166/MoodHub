@@ -26,7 +26,7 @@ const Page = () => {
     <>
       <ModalWhole
         default={false}
-        userId={Number(userID)}
+        userId={String(userID)}
         roomId={Number(roomID)}
       />
       <ShowRoomID roomID={roomID} />

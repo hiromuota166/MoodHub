@@ -30,9 +30,8 @@ const Page = () => {
   const userID = auth.currentUser?.uid;
   const roomID = searchParams.get("roomID");
   // const userID = searchParams.get("userID");
-  // ユーザーIDはログイン機能を実装したら取得する
-
-  const numericUserID = userID ? parseInt(userID, 10) : undefined;
+  // ユーザーIDをstringとして出す
+  const numericUserID = userID || undefined;
   const numericRoomID = roomID ? parseInt(roomID, 10) : undefined;
 
   const { Song, RoomMembers } = useMusicRecommendPageData(

@@ -23,7 +23,7 @@ const ModalCss = {
 
 interface Props {
   default?: boolean;
-  userId: number;
+  userId: string;
   roomId: number;
 }
 

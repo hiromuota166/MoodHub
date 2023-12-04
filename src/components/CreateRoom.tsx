@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
-import { makeUID } from "@/functions/makeUID";
 import IsLoading from "./IsLoading";
 import { auth } from "@/lib/firebase";
 import React from "react";
@@ -37,7 +36,7 @@ const CreateRoom = () => {
     //ログインしていたらルーム作成ページへ遷移
     e.preventDefault();
     if (auth.currentUser != null) {
-      const userId = makeUID();
+      const userId = auth.currentUser?.uid;
       try {
         await createRoom({
           variables: {
