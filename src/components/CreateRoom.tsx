@@ -56,7 +56,7 @@ const CreateRoom = () => {
   };
   return (
     <a href="/target-page" onClick={(e) => handleClick(e)}>
-      <div className="bg-background text-font text-xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
+      <div className="text-xl m-auto p-8 py-10 w-fit rounded-3xl shadow-boxOut">
         {loading ? <IsLoading /> : <h2>ルーム作成</h2>}
       </div>
     </a>

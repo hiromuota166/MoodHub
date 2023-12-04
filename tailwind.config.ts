@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const colors = require("tailwindcss/colors");
 
 const config: Config = {
   content: [
@@ -20,10 +21,36 @@ const config: Config = {
     },
     colors: {
       background: "#D6E5E3",
+      darkbackground: "#183D4D",
       font: "#6B7271",
+      darkfont: "#E0E0E0",
       alart: "EE2E31",
+      black: colors.black,
+      white: colors.white,
+      gray: colors.gray,
+      emerald: colors.emerald,
+      indigo: colors.indigo,
+      yellow: colors.yellow,
+      stone: colors.stone,
+      zinc: colors.zinc,
+      neutrial: colors.neutral,
+      stale: colors.stale,
+      red: colors.red,
+      orange: colors.orange,
+      amber: colors.amber,
+      lime: colors.lime,
+      green: colors.green,
+      teal: colors.teal,
+      cyan: colors.cyan,
+      sky: colors.sky,
+      blue: colors.blue,
+      violet: colors.violet,
+      fuchsia: colors.fuchsia,
+      purple: colors.purple,
+      pink: colors.pink,
+      rose: colors.rose,
     },
   },
-  plugins: [],
+  darkMode: "class",
 };
 export default config;

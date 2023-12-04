@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { useAuth } from "@/context/auth";
-import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
+import { Avatar, AvatarGroup } from "@chakra-ui/react";
 
 function UserList() {
-  const user = useAuth(); 
+  const user = useAuth();
   return (
     <>
       <AvatarGroup size="md" max={2}>
