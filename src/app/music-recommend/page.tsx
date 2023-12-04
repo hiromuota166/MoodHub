@@ -50,9 +50,7 @@ const Page = () => {
   if (numericUserID !== undefined && numericRoomID !== undefined) {
     return (
       <>
-        <ModalWhole 
-          userId={numericUserID} 
-          roomId={numericRoomID}/>
+        <ModalWhole userId={numericUserID} roomId={numericRoomID} />
         <ShowRoomID roomID={String(numericRoomID)} />
         {RoomMembers.loading ? (
           <IsLoading />

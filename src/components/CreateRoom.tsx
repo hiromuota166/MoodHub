@@ -4,7 +4,7 @@ import React from "react";
 import useCreateRoom from "@/hooks/useCreateRoom";
 
 const CreateRoom = () => {
-  const  { handleClick, createRoomState } = useCreateRoom();
+  const { handleClick, createRoomState } = useCreateRoom();
 
   return (
     <a href="/" onClick={(e) => handleClick(e)}>

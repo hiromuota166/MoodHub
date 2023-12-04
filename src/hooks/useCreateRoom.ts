@@ -13,7 +13,7 @@ const useCreateRoom = () => {
   const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const userId = auth.currentUser?.uid;
-    if(!userId) return window.alert("ログインしてください");
+    if (!userId) return window.alert("ログインしてください");
     try {
       await createRoomFunc({
         variables: {
