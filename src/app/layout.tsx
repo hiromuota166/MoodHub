@@ -16,6 +16,30 @@ export const metadata: Metadata = {
   title: "MoodHub | みんなの曲を共有・検索",
   description:
     "カラオケやパーティーでの音楽の選択に悩むことはもうありません。MoodHubでルームを作成し、参加者の知っている曲を瞬時に検索。一緒の時間をもっと楽しく、もっと盛り上げましょう。",
+  appleWebApp: {
+    capable: true,
+    title: "MoodHub | みんなの曲を共有・検索",
+    statusBarStyle: "black-translucent",
+  },
+  openGraph: {
+    type: "website",
+    title: "MoodHub | みんなの曲を共有・検索",
+    description:
+      "カラオケやパーティーでの音楽の選択に悩むことはもうありません。MoodHubでルームを作成し、参加者の知っている曲を瞬時に検索。一緒の時間をもっと楽しく、もっと盛り上げましょう。",
+    siteName: "MoodHub | みんなの曲を共有・検索",
+    images: [
+      {
+        url: "/MoodHubOGP.png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MoodHub | みんなの曲を共有・検索",
+    description:
+      "カラオケやパーティーでの音楽の選択に悩むことはもうありません。MoodHubでルームを作成し、参加者の知っている曲を瞬時に検索。一緒の時間をもっと楽しく、もっと盛り上げましょう。",
+    images: "/MoodHubOGP.png",
+  },
 };
 
 export default function RootLayout({
