@@ -5,6 +5,8 @@ import { Spinner } from "@chakra-ui/react";
 function IsLoading() {
   return (
     <>
+    <div
+      className="flex justify-center">
       <Spinner
         thickness="4px"
         speed="0.65s"
@@ -12,6 +14,7 @@ function IsLoading() {
         color="teal.400"
         size="xl"
       />
+    </div>
     </>
   );
 }
