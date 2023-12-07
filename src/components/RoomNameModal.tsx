@@ -34,7 +34,7 @@ const RoomNameModal: React.FC<RoomNameModalProps> = ({ onRoomNameChange }) => {
             width={30}
             height={30}
             alt="Description"
-            className="w-10 mr-2   m-2"
+            className="w-10 mr-2 m-2"
           />
         </button>
       </div>
