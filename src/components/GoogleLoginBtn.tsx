@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/auth";
 import { login } from "@/lib/auth";
 import { useEffect, useState } from "react";
-import { Button } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/react";
 
 type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
 
@@ -34,9 +34,8 @@ export default function GoogleLoginBtn() {
   return (
     <div>
       {loginState === "NOT_LOGGED_IN" && (
-        <Button 
-          colorScheme='blackAlpha'
-          onClick={signIn}>ログイン
+        <Button colorScheme="blackAlpha" onClick={signIn}>
+          ログイン
         </Button>
       )}
       {loginState === "LOGIN_FAILED" && <p>{error}</p>}

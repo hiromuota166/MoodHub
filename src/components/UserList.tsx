@@ -1,34 +1,43 @@
-'use client'
+"use client";
 import React, { useEffect } from "react";
-import { Avatar, AvatarGroup, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarGroup,
+  Text,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+} from "@chakra-ui/react";
 import { auth } from "@/lib/firebase";
 import { logout } from "@/lib/auth";
 
 const UserList = () => {
-  const displayName = auth.currentUser?.displayName || '';
+  const displayName = auth.currentUser?.displayName || "";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [avatarUrl, setAvatarUrl] = React.useState<string>('');
+  const [avatarUrl, setAvatarUrl] = React.useState<string>("");
   // もしログインしてない場合、アバターは表示しない
   useEffect(() => {
     const unsubcribe = auth.onAuthStateChanged((user) => {
-      let url: string | null = '';
+      let url: string | null = "";
       if (user) {
         url = user.photoURL;
       }
       if (!url) {
-        url = '';
+        url = "";
       }
-      setAvatarUrl(url)
+      setAvatarUrl(url);
     });
-    return unsubcribe
+    return unsubcribe;
   }, []);
   return (
     <>
       <AvatarGroup size="md" max={2} onClick={onOpen}>
-        <Avatar 
-          src={avatarUrl} 
-        />
+        <Avatar src={avatarUrl} />
         {/* 他のユーザーのアバターもここに追加 */}
       </AvatarGroup>
 
@@ -42,9 +51,9 @@ const UserList = () => {
             <Text fontSize="lg">名前: {displayName}</Text>
             {/* 他のユーザー情報を表示 */}
           </ModalBody>
-          <button 
-            onClick={logout}
-            className="pb-4">ログアウト</button>
+          <button onClick={logout} className="pb-4">
+            ログアウト
+          </button>
         </ModalContent>
       </Modal>
     </>
