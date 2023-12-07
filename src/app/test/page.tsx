@@ -1,12 +1,12 @@
-import IsLoading from '@/components/IsLoading'
-import React from 'react'
+import IsLoading from "@/components/IsLoading";
+import React from "react";
 
 function Page() {
   return (
     <div>
       <IsLoading />
     </div>
-  )
+  );
 }
 
-export default Page
+export default Page;
