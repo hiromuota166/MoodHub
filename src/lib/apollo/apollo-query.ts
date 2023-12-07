@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const CREATE_ROOM = gql`
-  mutation createRoom($userId: Int!, $roomName: String!) {
+  mutation createRoom($userId: String!, $roomName: String!) {
     createRoom(room: { userId: $userId, roomName: $roomName }) {
       roomId
       userId
@@ -11,7 +11,7 @@ const CREATE_ROOM = gql`
 `;
 
 const JOIN_ROOM = gql`
-  mutation JoinRoom($userId: Int!, $roomId: Int!) {
+  mutation JoinRoom($userId: String!, $roomId: Int!) {
     joinRoom(join: { userId: $userId, roomId: $roomId }) {
       userId
       roomId
@@ -20,7 +20,7 @@ const JOIN_ROOM = gql`
 `;
 
 const UPDATE_CATEGORIES = gql`
-  mutation UpdateCategories($userId: Int!, $categories: [String!]!) {
+  mutation UpdateCategories($userId: String!, $categories: [String!]!) {
     updateCategory(update: { userId: $userId, categories: $categories }) {
       userId
       categories
@@ -33,7 +33,7 @@ const UPDATE_CATEGORIES = gql`
 
 const REGISTER_USER = gql`
   mutation Register(
-    $userId: Int!
+    $userId: String!
     $categories: [String!]!
     $userName: String = null
     $gender: String = null
