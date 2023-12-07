@@ -42,7 +42,9 @@ const UserList = () => {
             <Text fontSize="lg">名前: {displayName}</Text>
             {/* 他のユーザー情報を表示 */}
           </ModalBody>
-          <button onClick={logout}>ログアウト</button>
+          <button 
+            onClick={logout}
+            className="pb-4">ログアウト</button>
         </ModalContent>
       </Modal>
     </>
