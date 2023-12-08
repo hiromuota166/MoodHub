@@ -143,7 +143,7 @@ const ModalWhole = (props: Props) => {
           src="/search.svg"
           width={500}
           height={500}
-          alt="Description"
+          alt="検索ボタン"
           className="flex w-10 mt-5 absolute right-0 top-0"
         />
       </button>
