@@ -16,9 +16,7 @@ const ModalCss = {
   content: {
     left: "20px",
     right: "20px",
-    padding: "1rem",
-    marginTop: "100px",
-    marginBottom: "80px",
+    padding : "0px",
     borderRadius: "1rem",
   },
 };
@@ -149,7 +147,7 @@ const ModalWhole = (props: Props) => {
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
         <div className="text-3xl flex justify-center py-10">ジャンルを選択</div>
-        <div className="flex flex-wrap ">
+        <div className="flex flex-wrap p-5">
           {genreList.map((genre, i) => {
             return (
               <RandomColorButton
@@ -163,7 +161,7 @@ const ModalWhole = (props: Props) => {
           })}
         </div>
         <div className="text-3xl flex justify-center py-10">年代を選択</div>
-        <div className="flex flex-wrap ">
+        <div className="flex flex-wrap p-5">
           {eraList.map((era, i) => {
             return (
               <RandomColorButton
@@ -179,7 +177,7 @@ const ModalWhole = (props: Props) => {
         {/* ここからフッターがわり */}
         <div
           id=""
-          className=" bottom-0 w-full flex justify-center z-10 bg-white p-4 left-0"
+          className=" bottom-0 w-full flex justify-center z-10 bg-white p-4 left-0 sticky"
         >
           <div>
             <ModalButton name="Back" onClick={() => setIsOpen(false)} />
