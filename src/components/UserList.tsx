@@ -51,10 +51,7 @@ const UserList = () => {
             <Text fontSize="lg">名前: {displayName}</Text>
             {/* 他のユーザー情報を表示 */}
           </ModalBody>
-          <a 
-            onClick={logout} 
-            className="pb-4"
-            href="/">
+          <a onClick={logout} className="pb-4" href="/">
             ログアウト
           </a>
         </ModalContent>
