@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   AvatarGroup,
@@ -19,7 +19,7 @@ const UserList = () => {
   const displayName = auth.currentUser?.displayName || "";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [avatarUrl, setAvatarUrl] = React.useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   // もしログインしてない場合、アバターは表示しない
   useEffect(() => {
     const unsubcribe = auth.onAuthStateChanged((user) => {
@@ -51,9 +51,12 @@ const UserList = () => {
             <Text fontSize="lg">名前: {displayName}</Text>
             {/* 他のユーザー情報を表示 */}
           </ModalBody>
-          <button onClick={logout} className="pb-4">
+          <a 
+            onClick={logout} 
+            className="pb-4"
+            href="/">
             ログアウト
-          </button>
+          </a>
         </ModalContent>
       </Modal>
     </>
