@@ -11,7 +11,7 @@ const RoomInButton = () => {
         <input
           title="ルームID入力欄"
           type="number"
-          className="bg-background dark:bg-darkbackground rounded-tl-2xl rounded-bl-2xl shadow-boxIn"
+          className="bg-background dark:bg-darkbackground rounded-tl-2xl rounded-bl-2xl shadow-boxIn w-48"
           name="roomId"
         />
         <button
