@@ -16,7 +16,7 @@ const ModalCss = {
   content: {
     left: "20px",
     right: "20px",
-    padding : "0px",
+    padding: "0px",
     borderRadius: "1rem",
   },
 };
