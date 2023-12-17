@@ -1,22 +1,23 @@
-"use client"
-import React,{ useState } from 'react'
-import Image from 'next/image'
-import close from "../../public/close.svg"
-import done from "../../public/done.svg"
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
 
 interface iRandomColorButton {
-  name: string,
-  color: string,
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  name: string;
+  color: string;
+  selected: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function RandomColorButton(props:iRandomColorButton) {
-  const {name, color, onClick} = props
+function RandomColorButton(props: iRandomColorButton) {
+  const { name, color, selected, onClick } = props;
 
-  const initialBackgroundColor = '#f5f5f5';
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const initialBackgroundColor = "#f5f5f5";
+  const [isClicked, setIsClicked] = useState<boolean>(selected);
 
-  const toggleColors = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const toggleColors = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     setIsClicked(!isClicked);
     onClick && onClick(event); //propsから渡されたonClickを呼ぶ
     //配列に名前を加えるようにする
@@ -25,22 +26,34 @@ function RandomColorButton(props:iRandomColorButton) {
 
   return (
     <>
-      <div className='py-2 px-2'>
-        <button 
+      <div className="py-2 px-2">
+        <button
           onClick={toggleColors}
-          className={`px-3 py-1 flex flex-nowrap items-center text-lg`} 
-          style={{ 
+          className={`px-3 py-1 flex flex-nowrap items-center text-lg`}
+          style={{
             backgroundColor: isClicked ? color : initialBackgroundColor,
             color: isClicked ? initialBackgroundColor : color,
-            borderRadius: '16px' }}
-          >
+            borderRadius: "16px",
+          }}
+        >
           {name}
-          {isClicked 
-            ? <Image src={done} alt="Done Icon" /> 
-            : <Image 
-            className='origin-center rotate-45 w-5' 
-            src={close} 
-            alt="Close Icon" />}
+          {isClicked ? (
+            <Image
+              className="w-5"
+              src={"/done.svg"}
+              alt="Done Icon"
+              width={32}
+              height={32}
+            />
+          ) : (
+            <Image
+              className="origin-center rotate-45 w-5"
+              src={"/close.svg"}
+              alt="Close Icon"
+              width={32}
+              height={32}
+            />
+          )}
         </button>
       </div>
     </>

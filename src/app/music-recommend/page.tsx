@@ -1,52 +1,76 @@
-'use client'
-import React, { Suspense } from "react";
-import useSongByRoomId from "@/lib/useSongByRoomId";
+"use client";
+import React, { Suspense, useState } from "react";
 import NeumourList from "@/components/NeumorList";
 import ShowRoomID from "@/components/ShowRoomID";
 import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
+import IsLoading from "@/components/IsLoading";
+import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
+import { useAuth } from "@/context/auth";
 
 interface SongListProps {
-  roomId: number;
-  userID: number;
+  roomID: number;
+  userID: string;
 }
 
-const SongList: React.FC<SongListProps> = ({ roomId, userID }) => {
-  const songs = useSongByRoomId(roomId);
-  const songNames = songs ? songs.map(song => song.songName) : [];
+const SongList = (props: SongListProps) => {
+  const { userID, roomID } = props;
+  const [loading, setloading] = useState(true);
+  const { Song, handleUpdateCategories } = useMusicRecommendPageData(
+    userID,
+    roomID
+  );
+  const error = Song.error;
+  const songs = Song.data?.song;
+  const songNames = songs ? songs.map((song) => song.songName) : [];
+
+  const handleModalUpdate = (categories: string[]) => {
+    setloading(true);
+    handleUpdateCategories(categories).then(() => {
+      setloading(false);
+    });
+  };
 
   return (
     <>
-      <ModalWhole userId={userID} />
-      <ShowRoomID roomID={String(roomId)} />
-      <NeumourList listItems={songNames} />
+      <ModalWhole default={true} handleUpdateCategories={handleModalUpdate} />
+      <ShowRoomID roomID={String(roomID)} />
+      {loading ? (
+        <IsLoading />
+      ) : error ? (
+        <p>error</p>
+      ) : (
+        <NeumourList listItems={songNames} />
+      )}
     </>
   );
 };
 
-
 const Page = () => {
   const searchParams = useSearchParams();
+  const auth = useAuth();
+  let userID = auth?.id;
 
   // クエリパラメータを取得
   const roomID = searchParams.get("roomID");
-  const userID = searchParams.get("userID");
+
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {
-    return <div>Loading...</div>;
+    return <IsLoading />;
   }
   if (typeof roomID !== "string" || typeof userID !== "string") {
-    return <p>ルームIDまたはユーザーIDが不正です。</p>
+    return <p>ルームIDまたはユーザーIDが不正です。</p>;
   }
   if (!roomID) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <SongList roomId={Number(roomID)} userID={Number(userID)} />
-      </Suspense>)
+      <Suspense fallback={<IsLoading />}>
+        <SongList roomID={Number(roomID)} userID={userID} />
+      </Suspense>
+    );
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SongList roomId={Number(roomID)} userID={Number(userID)} />
+    <Suspense fallback={<IsLoading />}>
+      <SongList roomID={Number(roomID)} userID={userID} />
     </Suspense>
   );
 };

@@ -1,0 +1,65 @@
+input CreateRoom {
+  userId: String!
+  roomName: String!
+}
+
+input JoinRoom {
+  userId: String!
+  roomId: Int!
+}
+
+type Mutation {
+  createRoom(room: CreateRoom!): Room!
+  joinRoom(join: JoinRoom!): Room!
+  updateCategory(update: UpdateCategories!): RegisterComplete!
+  register(regist: Register!): RegisterComplete!
+  updateUsername(update: UpdateUserName!): RegisterComplete!
+}
+
+type Query {
+  song(roomId: Int!): [Song!]!
+  getMembers(roomId: Int!): RoomMembers!
+  getUserInfo(userId: String!): RegisterComplete!
+}
+
+input Register {
+  userId: String!
+  categories: [String!]!
+  userName: String = null
+  gender: String = null
+  age: Int = null
+}
+
+type RegisterComplete {
+  userId: String!
+  categories: [String!]!
+  userName: String
+  gender: String
+  age: Int
+}
+
+type Room {
+  roomId: Int!
+  userId: [String!]!
+  name: String!
+}
+
+type RoomMembers {
+  roomName: String!
+  members: [String!]!
+}
+
+type Song {
+  songName: String!
+  categories: [String!]!
+}
+
+input UpdateCategories {
+  userId: String!
+  categories: [String!]!
+}
+
+input UpdateUserName {
+  userId: String!
+  userName: String = null
+}
