@@ -6,10 +6,7 @@ interface NeumourListProps<T> {
   renderItem: (item: T) => ReactNode;
 }
 
-function NeumourList<T>({
-  items,
-  renderItem
-}: NeumourListProps<T>) {
+function NeumourList<T>({ items, renderItem }: NeumourListProps<T>) {
   const render = renderItem;
 
   return (

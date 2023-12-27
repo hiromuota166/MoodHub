@@ -40,8 +40,10 @@ const SongList = (props: SongListProps) => {
       ) : error ? (
         <p>error</p>
       ) : (
-        <NeumourList items={songs}
-          renderItem={(item) => <SongItem song={item} />} />
+        <NeumourList
+          items={songs}
+          renderItem={(item) => <SongItem song={item} />}
+        />
       )}
     </>
   );

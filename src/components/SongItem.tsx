@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
-import ShowSpotify from './ShowSpotify';
-import { Song } from '@/lib/apollo/gql/graphql';
-import IsLoading from './IsLoading';
+import React, { Suspense } from "react";
+import ShowSpotify from "./ShowSpotify";
+import { Song } from "@/lib/apollo/gql/graphql";
+import IsLoading from "./IsLoading";
 
 const SongItem: React.FC<{ song: Song }> = ({ song }) => {
   return (
