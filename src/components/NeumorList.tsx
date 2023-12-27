@@ -1,22 +1,30 @@
-interface NeumorListProps {
-  listItems: string[];
+import { ReactNode } from "react";
+
+interface NeumourListProps<T> {
+  items: T[];
+  // eslint-disable-next-line no-unused-vars
+  renderItem: (item: T) => ReactNode;
 }
 
-const NeumourList = (props: NeumorListProps) => {
-  const { listItems } = props;
+function NeumourList<T>({
+  items,
+  renderItem
+}: NeumourListProps<T>) {
+  const render = renderItem;
+
   return (
     <div className="bg-background  shadow-boxOut my-8 rounded-2xl">
       <ul className="divide-y divide-slate-200">
-        {listItems.map((item, i) => {
+        {items.map((item, i) => {
           return (
             <li key={i} className="p-4 py-4 text-font text-2xl text-center">
-              {item}
+              {render(item)}
             </li>
           );
         })}
       </ul>
     </div>
   );
-};
+}
 
 export default NeumourList;
