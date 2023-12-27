@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ShowYouTube from "@/components/ShowYouTube";
+import ShowYouTube from "@/components/ShowSpotify";
 
 const meta = {
   title: "Components/ShowYouTube",
