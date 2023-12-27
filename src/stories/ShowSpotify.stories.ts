@@ -12,6 +12,6 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    query: "終わりなき旅",
+    trackId: "1flvuaMS27JxpEBL0u2cWc",
   },
 };
