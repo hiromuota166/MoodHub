@@ -14,7 +14,7 @@ function NeumourList<T>({ items, renderItem }: NeumourListProps<T>) {
       <ul className="divide-y divide-slate-200">
         {items.map((item, i) => {
           return (
-            <li key={i} className="p-4 py-4 text-font text-2xl text-center">
+            <li key={i} className="px-4 text-font text-2xl text-center">
               {render(item)}
             </li>
           );
