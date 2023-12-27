@@ -1,8 +1,8 @@
 "use client";
 import { useAuth } from "@/context/auth";
-import { login, logout } from "@/lib/auth";
-import { auth } from "@/lib/firebase";
+import { login } from "@/lib/auth";
 import { useEffect, useState } from "react";
+import { Button } from "@chakra-ui/react";
 
 type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
 
@@ -19,10 +19,9 @@ export default function GoogleLoginBtn() {
     setLoginState("LOGGING_IN");
 
     login()
-      .then(() => {
+      .then((userCrednetial) => {
+        const user = userCrednetial.user;
         setLoginState("LOGGED_IN");
-        const user = auth.currentUser;
-
         console.log(user);
       })
       .catch((error) => {
@@ -35,10 +34,9 @@ export default function GoogleLoginBtn() {
   return (
     <div>
       {loginState === "NOT_LOGGED_IN" && (
-        <button onClick={signIn}>ログイン</button>
-      )}
-      {loginState === "LOGGED_IN" && (
-        <button onClick={logout}>ログアウト</button>
+        <Button colorScheme="blackAlpha" onClick={signIn}>
+          ログイン
+        </Button>
       )}
       {loginState === "LOGIN_FAILED" && <p>{error}</p>}
     </div>

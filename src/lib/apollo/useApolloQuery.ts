@@ -9,7 +9,7 @@ import {
 } from "./apollo-query";
 import { Room, Song, RoomMembers, RegisterComplete } from "./gql/graphql";
 
-const useApolloQuery = (userID?: number, roomID?: number) => {
+const useApolloQuery = (userID?: string, roomID?: number) => {
   const [joinRoomFunc, joinRoomState] = useMutation<{ joinRoom: Room }>(
     JOIN_ROOM
   );

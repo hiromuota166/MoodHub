@@ -31,12 +31,12 @@ export type Scalars = {
 
 export type CreateRoom = {
   roomName: Scalars["String"]["input"];
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
 };
 
 export type JoinRoom = {
   roomId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
 };
 
 export type Mutation = {
@@ -80,7 +80,7 @@ export type QueryGetMembersArgs = {
 };
 
 export type QueryGetUserInfoArgs = {
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
 };
 
 export type QuerySongArgs = {
@@ -91,7 +91,7 @@ export type Register = {
   age?: InputMaybe<Scalars["Int"]["input"]>;
   categories: Array<Scalars["String"]["input"]>;
   gender?: InputMaybe<Scalars["String"]["input"]>;
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
   userName?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -100,7 +100,7 @@ export type RegisterComplete = {
   age?: Maybe<Scalars["Int"]["output"]>;
   categories: Array<Scalars["String"]["output"]>;
   gender?: Maybe<Scalars["String"]["output"]>;
-  userId: Scalars["Int"]["output"];
+  userId: Scalars["String"]["output"];
   userName?: Maybe<Scalars["String"]["output"]>;
 };
 
@@ -108,7 +108,7 @@ export type Room = {
   __typename?: "Room";
   name: Scalars["String"]["output"];
   roomId: Scalars["Int"]["output"];
-  userId: Array<Scalars["Int"]["output"]>;
+  userId: Array<Scalars["String"]["output"]>;
 };
 
 export type RoomMembers = {
@@ -125,11 +125,11 @@ export type Song = {
 
 export type UpdateCategories = {
   categories: Array<Scalars["String"]["input"]>;
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
 };
 
 export type UpdateUserName = {
-  userId: Scalars["Int"]["input"];
+  userId: Scalars["String"]["input"];
   userName?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -142,7 +142,7 @@ export type CreateARoomMutation = {
   createRoom: {
     __typename?: "Room";
     roomId: number;
-    userId: Array<number>;
+    userId: Array<string>;
     name: string;
   };
 };

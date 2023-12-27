@@ -6,10 +6,11 @@ import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
+import { useAuth } from "@/context/auth";
 
 interface SongListProps {
   roomID: number;
-  userID: number;
+  userID: string;
 }
 
 const SongList = (props: SongListProps) => {
@@ -47,10 +48,12 @@ const SongList = (props: SongListProps) => {
 
 const Page = () => {
   const searchParams = useSearchParams();
+  const auth = useAuth();
+  let userID = auth?.id;
 
   // クエリパラメータを取得
   const roomID = searchParams.get("roomID");
-  const userID = searchParams.get("userID");
+
   // クエリがまだ利用できない場合のハンドリング
   if (!roomID || !userID) {
     return <IsLoading />;
@@ -61,13 +64,13 @@ const Page = () => {
   if (!roomID) {
     return (
       <Suspense fallback={<IsLoading />}>
-        <SongList roomID={Number(roomID)} userID={Number(userID)} />
+        <SongList roomID={Number(roomID)} userID={userID} />
       </Suspense>
     );
   }
   return (
     <Suspense fallback={<IsLoading />}>
-      <SongList roomID={Number(roomID)} userID={Number(userID)} />
+      <SongList roomID={Number(roomID)} userID={userID} />
     </Suspense>
   );
 };

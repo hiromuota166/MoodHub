@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
 import { Register, UpdateCategories } from "@/lib/apollo/gql/graphql";
 
-const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
+const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   const {
     updateCategoriesFunc,
     updateCategoriesState,
@@ -26,7 +26,7 @@ const useMusicRecommendPageData = (userID?: number, roomID?: number) => {
 
   // ユーザー情報更新のGraphQLのクエリ関数
   const updateUserQuery = useCallback(
-    async (userId: number, categories: string[]) => {
+    async (userId: string, categories: string[]) => {
       const userData: UpdateCategories = {
         userId: userId,
         categories: categories,

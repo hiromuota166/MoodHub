@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
-import { makeUID } from "@/functions/makeUID";
 import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 
 const useRoomInButton = () => {
   const { joinRoomFunc, joinRoomState } = useApolloQuery();
   const [roomName, setRoomName] = useState<string>("");
   const router = useRouter();
 
-  const joinRoom = async (userId: number, roomId: number) => {
+  const joinRoom = async (userId: string | undefined, roomId: number) => {
     try {
       const response = await joinRoomFunc({
         variables: { userId, roomId },
@@ -20,13 +20,14 @@ const useRoomInButton = () => {
     }
   };
 
-  const navigateToRoom = (userId: number, roomId: number) => {
-    const url = `/init-room?roomID=${roomId}&userID=${userId}`;
+  const navigateToRoom = (userId: string | undefined, roomId: number) => {
+    const url = `/music-recommend?roomID=${roomId}`;
     router.push(url);
   };
 
   const handleJoinRoom = async (roomId: number) => {
-    const userId = makeUID();
+    // ログインした際のauthを取得
+    const userId = auth.currentUser?.uid;
     try {
       const joinedRoomId = await joinRoom(userId, roomId);
       if (joinedRoomId) {
