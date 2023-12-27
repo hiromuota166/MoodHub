@@ -62,6 +62,7 @@ const GET_SONG = gql`
     song(roomId: $roomId) {
       songName
       categories
+      trackId
     }
   }
 `;
