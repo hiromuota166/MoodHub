@@ -15,7 +15,7 @@ const ShowSpotify = (props: ShowSpotifyProps) => {
 
   return (
     <iframe
-      style={{ borderRadius: "1rem", height: "6rem"}}
+      style={{ borderRadius: "1rem", height: "6rem" }}
       src={videoUrl}
       width="100%"
       frameBorder="0"
