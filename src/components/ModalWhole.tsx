@@ -142,7 +142,7 @@ const ModalWhole = (props: Props) => {
           width={500}
           height={500}
           alt="検索ボタン"
-          className="w-10 mt-5 right-0 top-0"
+          className="w-10 mt-5"
         />
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
