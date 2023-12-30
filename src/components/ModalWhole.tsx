@@ -135,14 +135,18 @@ const ModalWhole = (props: Props) => {
   };
 
   return (
-    <div className="relative">
-      <button title="isBtn" onClick={handleOpen}>
+    <div className="relative p-5">
+      <button 
+        className="absolute right-0"
+        title="isBtn" 
+        onClick={handleOpen}
+        >
         <Image
           src="/search.svg"
           width={500}
           height={500}
           alt="検索ボタン"
-          className="flex w-10 mt-5 absolute right-0 top-0"
+          className="w-10 mt-5 right-0 top-0"
         />
       </button>
       <Modal isOpen={modalIsOpen} style={ModalCss} ariaHideApp={false}>
