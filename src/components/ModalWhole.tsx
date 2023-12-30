@@ -136,11 +136,7 @@ const ModalWhole = (props: Props) => {
 
   return (
     <div className="relative p-5">
-      <button 
-        className="absolute right-0"
-        title="isBtn" 
-        onClick={handleOpen}
-        >
+      <button className="absolute right-0" title="isBtn" onClick={handleOpen}>
         <Image
           src="/search.svg"
           width={500}
