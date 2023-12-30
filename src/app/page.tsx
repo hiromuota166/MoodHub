@@ -2,10 +2,12 @@
 import CreateRoom from "@/components/CreateRoom";
 import NavigateButton from "@/components/NavigateButton";
 import RoomInButton from "@/components/RoomInButton";
+import ShowRoomName from "@/components/ShowRoomName";
 export default function Home() {
   return (
     <>
       <div className="m-auto my-8 w-fit">
+        <ShowRoomName />
         <RoomInButton />
       </div>
       <div className="m-auto my-8 w-fit">

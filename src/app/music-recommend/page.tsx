@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 import { useAuth } from "@/context/auth";
+import ShowRoomName from "@/components/ShowRoomName";
 
 interface SongListProps {
   roomID: number;
@@ -69,9 +70,12 @@ const Page = () => {
     );
   }
   return (
-    <Suspense fallback={<IsLoading />}>
-      <SongList roomID={Number(roomID)} userID={userID} />
-    </Suspense>
+    <>
+      <ShowRoomName/>
+      <Suspense fallback={<IsLoading />}>
+        <SongList roomID={Number(roomID)} userID={userID} />
+      </Suspense>
+    </>
   );
 };
 
