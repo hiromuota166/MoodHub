@@ -1,9 +1,5 @@
 import { gql, useSuspenseQuery } from "@apollo/client";
-
-interface Song {
-  songName: string;
-  categories: string[];
-}
+import { Song } from "./apollo/gql/graphql";
 
 const GET_SONG_BY_ROOM_ID = gql`
   query GetSongByRoomId($roomId: Int!) {
