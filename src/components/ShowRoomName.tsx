@@ -1,10 +1,15 @@
 // ロームネームを表示するコンポーネント 親コンポーネント
 "use client";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import RoomNameModal from "./RoomNameModal";
 
 const ShowRoomName = () => {
+  const searchParam = useSearchParams();
   const [roomName, setRoomName] = useState("ひまわりの部屋");
+
+  const roomID = searchParam.get("roomID");
+  console.log(roomID)
 
   const handleRoomNameChange = (newName: string) => {
     setRoomName(newName);
