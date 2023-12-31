@@ -9,7 +9,7 @@ const ShowRoomName = () => {
   const [roomName, setRoomName] = useState("ひまわりの部屋");
 
   const roomID = searchParam.get("roomID");
-  console.log(roomID)
+  console.log(roomID);
 
   const handleRoomNameChange = (newName: string) => {
     setRoomName(newName);

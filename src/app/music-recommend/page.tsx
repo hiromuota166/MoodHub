@@ -71,7 +71,7 @@ const Page = () => {
   }
   return (
     <>
-      <ShowRoomName/>
+      <ShowRoomName />
       <Suspense fallback={<IsLoading />}>
         <SongList roomID={Number(roomID)} userID={userID} />
       </Suspense>
