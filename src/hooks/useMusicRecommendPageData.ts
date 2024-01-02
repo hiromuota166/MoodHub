@@ -87,6 +87,15 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     await Song.refetch();
   };
 
+  // roomIDを与えるとroomMembersを取得する関数
+  const getRoomMembers = useCallback(
+    async (roomID: number) => {
+      if (!roomID) return;
+      await RoomMembers.refetch();
+    },
+    [RoomMembers]
+  );
+
   return {
     updateCategoriesState,
     registerUserState,
@@ -94,6 +103,7 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     RoomMembers,
     handleUserRegistration,
     handleUpdateCategories,
+    getRoomMembers,
   };
 };
 
