@@ -65,12 +65,14 @@ const GET_SONG = gql`
     }
   }
 `;
-
 const GET_USER = gql`
   query GetMembers($roomId: Int!) {
     getMembers(roomId: $roomId) {
       roomName
-      members
+      membersDict {
+        userId
+        avatarUrl
+      }
     }
   }
 `;
