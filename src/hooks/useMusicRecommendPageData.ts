@@ -60,8 +60,8 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
 
   //カテゴリのデータを更新する関数
   const handleUpdateCategories = async (categories: string[]) => {
-    if (registerUserState.data === undefined) {
-      if (!userID) return;
+    if (registerUserState.data === undefined) {//MoodHub自体が初めましての場合
+      if (!userID) return; //無効なら何もしない
       const userData: Register = {
         userId: userID,
         categories: categories,
@@ -87,6 +87,11 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     await Song.refetch();
   };
 
+  // roomIDを与えるとroomMembersを取得する関数
+  const getRoomMembers = async (roomID: number) => {
+    return await RoomMembers.refetch({ roomId: roomID });
+  };  
+
   return {
     updateCategoriesState,
     registerUserState,
@@ -94,6 +99,7 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     RoomMembers,
     handleUserRegistration,
     handleUpdateCategories,
+    getRoomMembers,
   };
 };
 
