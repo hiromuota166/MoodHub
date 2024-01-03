@@ -111,11 +111,16 @@ export type Room = {
   userId: Array<Scalars["String"]["output"]>;
 };
 
-export type RoomMembers = {
-  __typename?: "RoomMembers";
-  members: Array<Scalars["String"]["output"]>;
-  roomName: Scalars["String"]["output"];
+export type RoomMember = {
+  userId: string;
+  avatarUrl: string | null;
 };
+
+export type RoomMembers = {
+  roomName: string;
+  membersDict: RoomMember[];
+};
+
 
 export type Song = {
   __typename?: "Song";

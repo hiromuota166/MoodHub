@@ -6,8 +6,8 @@ import ModalWhole from "@/components/ModalWhole";
 import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
-import { useAuth } from "@/context/auth";
-import ShowRoomName from "@/components/ShowRoomName";
+import { useAuth } from "@/context/auth"; //firebaseの認証情報を取得する
+import ShowRoomNameTest from "@/components/ShowRoomNameTest";
 
 interface SongListProps {
   roomID: number;
@@ -71,7 +71,7 @@ const Page = () => {
   }
   return (
     <>
-      <ShowRoomName />
+      <ShowRoomNameTest roomID={Number(roomID)}/>
       <Suspense fallback={<IsLoading />}>
         <SongList roomID={Number(roomID)} userID={userID} />
       </Suspense>

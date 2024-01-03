@@ -11,7 +11,7 @@ const useCreateRoom = () => {
   const router = useRouter();
 
   const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // ページ遷移を防ぐ
     const userId = auth.currentUser?.uid; // userIdを取得
     const roomName = "testRoom"; //この部分にroomNameを入れる
     if (!userId) return window.alert("ログインしてください");
