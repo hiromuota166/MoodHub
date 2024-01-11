@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import IsLoading from "@/components/IsLoading";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 import { useAuth } from "@/context/auth";
+import SongItem from "@/components/SongItem";
 
 interface SongListProps {
   roomID: number;
@@ -22,7 +23,6 @@ const SongList = (props: SongListProps) => {
   );
   const error = Song.error;
   const songs = Song.data?.song;
-  const songNames = songs ? songs.map((song) => song.songName) : [];
 
   const handleModalUpdate = (categories: string[]) => {
     setloading(true);
@@ -35,12 +35,15 @@ const SongList = (props: SongListProps) => {
     <>
       <ModalWhole default={true} handleUpdateCategories={handleModalUpdate} />
       <ShowRoomID roomID={String(roomID)} />
-      {loading ? (
+      {loading || songs === undefined ? (
         <IsLoading />
       ) : error ? (
         <p>error</p>
       ) : (
-        <NeumourList listItems={songNames} />
+        <NeumourList
+          items={songs}
+          renderItem={(item) => <SongItem song={item} />}
+        />
       )}
     </>
   );

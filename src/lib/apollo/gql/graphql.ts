@@ -121,6 +121,7 @@ export type Song = {
   __typename?: "Song";
   categories: Array<Scalars["String"]["output"]>;
   songName: Scalars["String"]["output"];
+  trackId: Scalars["String"]["output"];
 };
 
 export type UpdateCategories = {
