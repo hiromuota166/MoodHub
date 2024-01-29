@@ -19,9 +19,9 @@ export default function GoogleLoginBtn() {
     setLoginState(user ? "LOGGED_IN" : "NOT_LOGGED_IN");
   }, [user]);
 
-  const [registerUserFunc] = useMutation<{
-    register: RegisterComplete;
-  }>(REGISTER_USER);
+  const [registerUserFunc] = useMutation<{ //useMutationはApollo Clientの機能
+    register: RegisterComplete; //registerの型を指定
+  }>(REGISTER_USER); //useMutationの引数には、GraphQLのmutationを指定
 
   const registerUserQuery = useCallback(
     async (userData: Register) => {
@@ -43,14 +43,13 @@ export default function GoogleLoginBtn() {
 
         const userData: Register = {
           userId: user.uid,
-          categories: [], // 必要に応じてカテゴリを設定
+          categories: [], //空配列で初期化
           userName: user.displayName || null,
           gender: null, // 性別が必要な場合は設定
           age: null, // 年齢が必要な場合は設定
         };
         await registerUserQuery(userData);
         setLoginState("LOGGED_IN");
-        console.log(user);
       })
       .catch((error) => {
         console.error(error?.code);
