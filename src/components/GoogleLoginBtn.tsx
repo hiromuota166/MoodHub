@@ -19,7 +19,8 @@ export default function GoogleLoginBtn() {
     setLoginState(user ? "LOGGED_IN" : "NOT_LOGGED_IN");
   }, [user]);
 
-  const [registerUserFunc] = useMutation<{ //useMutationはApollo Clientの機能
+  const [registerUserFunc] = useMutation<{
+    //useMutationはApollo Clientの機能
     register: RegisterComplete; //registerの型を指定
   }>(REGISTER_USER); //useMutationの引数には、GraphQLのmutationを指定
 
