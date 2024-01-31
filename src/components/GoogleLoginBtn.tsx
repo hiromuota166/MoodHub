@@ -3,15 +3,15 @@ import { useAuth } from "@/context/auth";
 import { login } from "@/lib/auth";
 import { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
-import { useMutation } from "@apollo/client";
 import { useCallback } from "react";
-import { REGISTER_USER } from "../lib/apollo/apollo-query";
-import { Register, RegisterComplete } from "../lib/apollo/gql/graphql";
+import { Register} from "../lib/apollo/gql/graphql";
+import useApolloQuery from "@/lib/apollo/useApolloQuery";
 
 type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
 
 export default function GoogleLoginBtn() {
   const user = useAuth();
+  const { registerUserFunc } = useApolloQuery();
   const [loginState, setLoginState] = useState<LoginState>("NOT_LOGGED_IN");
   const [error, setError] = useState<null | string>(null);
 
@@ -19,17 +19,14 @@ export default function GoogleLoginBtn() {
     setLoginState(user ? "LOGGED_IN" : "NOT_LOGGED_IN");
   }, [user]);
 
-  const [registerUserFunc] = useMutation<{
-    //useMutationはApollo Clientの機能
-    register: RegisterComplete; //registerの型を指定
-  }>(REGISTER_USER); //useMutationの引数には、GraphQLのmutationを指定
-
   const registerUserQuery = useCallback(
     async (userData: Register) => {
       await registerUserFunc({
         variables: userData,
       }).catch((err) => {
         console.error(err);
+        // registerUserFuncのエラー処理
+        throw new Error(err);
       });
     },
     [registerUserFunc]
@@ -49,6 +46,7 @@ export default function GoogleLoginBtn() {
           gender: null, // 性別が必要な場合は設定
           age: null, // 年齢が必要な場合は設定
         };
+        // debugger;
         await registerUserQuery(userData);
         setLoginState("LOGGED_IN");
       })
