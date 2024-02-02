@@ -4,7 +4,7 @@ import { login } from "@/lib/auth";
 import { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { Register} from "../lib/apollo/gql/graphql";
+import { Register } from "../lib/apollo/gql/graphql";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
 
 type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
