@@ -38,6 +38,7 @@ const REGISTER_USER = gql`
     $userName: String = null
     $gender: String = null
     $age: Int = null
+    $avatarUrl: String = null
   ) {
     register(
       regist: {
@@ -46,6 +47,7 @@ const REGISTER_USER = gql`
         userName: $userName
         gender: $gender
         age: $age
+        avatarUrl: $avatarUrl
       }
     ) {
       userId
@@ -68,10 +70,13 @@ const GET_SONG = gql`
 `;
 
 const GET_USER = gql`
-  query GetMembers($roomId: Int!) {
-    getMembers(roomId: $roomId) {
+  query getMembers($roomId: Int!){
+    getMembers(roomId: $roomId){
       roomName
-      members
+      membersInfoList {
+        userId
+        avatarUrl
+      }
     }
   }
 `;
