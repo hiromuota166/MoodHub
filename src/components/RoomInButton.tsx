@@ -1,9 +1,21 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import useRoomInButton from "@/hooks/useRoomInButton";
+import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 
-const RoomInButton = () => {
-  const { onSubmited } = useRoomInButton();
+interface RoomInButtonProps {
+  roomID: number;
+  userID: string;
+}
+
+const RoomInButton = (props: RoomInButtonProps) => {
+  const { userID, roomID } = props;
+  const { getRoomMembers } = useMusicRecommendPageData(
+    userID,
+    roomID
+    );
+  const { onSubmited } = useRoomInButton(getRoomMembers);
   return (
     <div className="text-lg m-auto mt-12 mb-24 p-8 py-10 w-fit rounded-3xl shadow-boxOut">
       <h2 className="mx-2">ルームID入力</h2>

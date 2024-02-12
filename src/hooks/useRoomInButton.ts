@@ -3,7 +3,7 @@ import useApolloQuery from "@/lib/apollo/useApolloQuery";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 
-const useRoomInButton = () => {
+const useRoomInButton = (callback: () => void) => {
   const { joinRoomFunc, joinRoomState } = useApolloQuery();
   const [roomName, setRoomName] = useState<string>("");
   const router = useRouter();
@@ -31,6 +31,7 @@ const useRoomInButton = () => {
     try {
       const joinedRoomId = await joinRoom(userId, roomId);
       if (joinedRoomId) {
+        callback();
         navigateToRoom(userId, joinedRoomId);
       } else {
         console.error("No room ID returned after joining the room.");
