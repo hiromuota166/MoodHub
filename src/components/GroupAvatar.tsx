@@ -1,5 +1,5 @@
 // getMembersで取得したユーザー情報を元に、アバターを表示するコンポーネント
-'use client';
+"use client";
 import React from "react";
 import { Avatar, AvatarGroup } from "@chakra-ui/react";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
@@ -8,12 +8,9 @@ interface AvatarProps {
   roomID: number;
 }
 
-const GroupAvatar = (props:AvatarProps) => {
+const GroupAvatar = (props: AvatarProps) => {
   const { roomID } = props;
-  const { getRoomMembers } = useMusicRecommendPageData(
-    undefined,
-    roomID,
-  );
+  const { getRoomMembers } = useMusicRecommendPageData(undefined, roomID);
   // getRoomMembersを使って、ルームメンバーのデータを取得
   const members = getRoomMembers();
   console.log(members);
