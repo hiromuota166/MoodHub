@@ -31,6 +31,7 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   const getRoomMembers = async () => {
     if (!roomID) return;
     await RoomMembers.refetch();
+    console.log(RoomMembers.data);
   };
 
   return {
