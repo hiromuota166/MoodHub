@@ -5,7 +5,7 @@ import useRoomInButton from "@/hooks/useRoomInButton";
 
 const RoomInButton = () => {
   const { onSubmited } = useRoomInButton();
-  
+
   return (
     <div className="text-lg m-auto mt-12 mb-24 p-8 py-10 w-fit rounded-3xl shadow-boxOut">
       <h2 className="mx-2">ルームID入力</h2>

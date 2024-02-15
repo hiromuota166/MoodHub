@@ -70,8 +70,8 @@ const GET_SONG = gql`
 `;
 
 const GET_USER = gql`
-  query getMembers($roomId: Int!){
-    getMembers(roomId: $roomId){
+  query getMembers($roomId: Int!) {
+    getMembers(roomId: $roomId) {
       roomName
       membersInfoList {
         userId
