@@ -36,7 +36,7 @@ const useRoomInButton = () => {
         console.error("No room ID returned after joining the room.");
       }
     } catch (err) {
-      // Handle errors e.g. show a toast notification
+      console.error("Failed to join room:", err);
     }
   };
 

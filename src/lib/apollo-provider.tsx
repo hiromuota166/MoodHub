@@ -10,7 +10,7 @@ import {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "https://mood-hub-v2.onrender.com/graphql",
+    uri: "https://moodhub-ez45wpznlq-an.a.run.app/graphql",
   });
 
   return new NextSSRApolloClient({

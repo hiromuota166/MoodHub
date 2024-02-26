@@ -6,7 +6,7 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     updateCategoriesState,
     registerUserState,
     Song,
-    RoomMembers,
+    RoomMembers, //これを使うことで、ルームメンバーのデータを取得できる
   } = useApolloQuery(userID, roomID);
 
   //カテゴリのデータを更新する関数
@@ -27,11 +27,18 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     await Song.refetch();
   };
 
+  // ルームのメンバーのデータを取得する関数
+  const getRoomMembers = async () => {
+    if (!roomID) return;
+    const response = await RoomMembers.refetch();
+    return response.data.getMembers; // getMembersのデータを返す
+  };
+
   return {
     updateCategoriesState,
     registerUserState,
     Song,
-    RoomMembers,
+    getRoomMembers,
     handleUpdateCategories,
   };
 };

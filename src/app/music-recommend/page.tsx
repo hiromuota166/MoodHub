@@ -8,6 +8,7 @@ import IsLoading from "@/components/IsLoading";
 import useMusicRecommendPageData from "@/hooks/useMusicRecommendPageData";
 import { useAuth } from "@/context/auth";
 import SongItem from "@/components/SongItem";
+import GroupAvatar from "@/components/GroupAvatar";
 
 interface SongListProps {
   roomID: number;
@@ -72,9 +73,12 @@ const Page = () => {
     );
   }
   return (
-    <Suspense fallback={<IsLoading />}>
-      <SongList roomID={Number(roomID)} userID={userID} />
-    </Suspense>
+    <>
+      <GroupAvatar roomID={Number(roomID)} />
+      <Suspense fallback={<IsLoading />}>
+        <SongList roomID={Number(roomID)} userID={userID} />
+      </Suspense>
+    </>
   );
 };
 

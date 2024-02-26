@@ -21,6 +21,7 @@ export default function GoogleLoginBtn() {
 
   const registerUserQuery = useCallback(
     async (userData: Register) => {
+      console.log(userData);
       await registerUserFunc({
         variables: userData,
       }).catch((err) => {
@@ -45,9 +46,12 @@ export default function GoogleLoginBtn() {
           userName: user.displayName || null,
           gender: null, // 性別が必要な場合は設定
           age: null, // 年齢が必要な場合は設定
+          avatarUrl: user.photoURL || null,
+          // 必要な情報はここに追加していく
         };
         // debugger;
         await registerUserQuery(userData);
+        console.log(userData);
         setLoginState("LOGGED_IN");
       })
       .catch((error) => {
