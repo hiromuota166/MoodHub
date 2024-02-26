@@ -30,8 +30,8 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   // ルームのメンバーのデータを取得する関数
   const getRoomMembers = async () => {
     if (!roomID) return;
-    await RoomMembers.refetch();
-    console.log(RoomMembers.data);
+    const response = await RoomMembers.refetch();
+    return response.data.getMembers; // getMembersのデータを返す
   };
 
   return {
