@@ -1,4 +1,5 @@
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
+import { useCallback } from "react";
 
 const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   const {
@@ -28,11 +29,11 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   };
 
   // ルームのメンバーのデータを取得する関数
-  const getRoomMembers = async () => {
+  const getRoomMembers = useCallback(async () => {
     if (!roomID) return;
     const response = await RoomMembers.refetch();
     return response.data.getMembers; // getMembersのデータを返す
-  };
+  }, [roomID, RoomMembers]); // 依存配列にroomIDとRoomMembersを追加
 
   return {
     updateCategoriesState,
