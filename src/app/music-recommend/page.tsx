@@ -74,7 +74,10 @@ const Page = () => {
   }
   return (
     <>
-      <GroupAvatar roomID={Number(roomID)} />
+      <div>
+        <p>メンバー</p>
+        <GroupAvatar roomID={Number(roomID)} />
+      </div>
       <Suspense fallback={<IsLoading />}>
         <SongList roomID={Number(roomID)} userID={userID} />
       </Suspense>
