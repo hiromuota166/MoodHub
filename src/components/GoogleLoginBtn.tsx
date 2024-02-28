@@ -11,7 +11,7 @@ type LoginState = "NOT_LOGGED_IN" | "LOGGING_IN" | "LOGGED_IN" | "LOGIN_FAILED";
 
 export default function GoogleLoginBtn() {
   const user = useAuth();
-  const { registerUserFunc } = useApolloQuery();
+  const { registerUserFunc, updateAvatarFunc } = useApolloQuery();
   const [loginState, setLoginState] = useState<LoginState>("NOT_LOGGED_IN");
   const [error, setError] = useState<null | string>(null);
 
@@ -33,32 +33,57 @@ export default function GoogleLoginBtn() {
     [registerUserFunc]
   );
 
-  const signIn = () => {
+  const signIn = async () => {
     setLoginState("LOGGING_IN");
+    try {
+      const userCredential = await login();
+      const user = userCredential.user;
 
-    login()
-      .then(async (userCrednetial) => {
-        const user = userCrednetial.user;
+      const userData: Register = {
+        userId: user.uid,
+        categories: [],
+        userName: user.displayName || null,
+        gender: null,
+        age: null,
+        avatarUrl: user.photoURL || null,
+      };
 
-        const userData: Register = {
-          userId: user.uid,
-          categories: [], //空配列で初期化
-          userName: user.displayName || null,
-          gender: null, // 性別が必要な場合は設定
-          age: null, // 年齢が必要な場合は設定
-          avatarUrl: user.photoURL || null,
-          // 必要な情報はここに追加していく
-        };
-        // debugger;
+      try {
         await registerUserQuery(userData);
-        console.log(userData);
         setLoginState("LOGGED_IN");
-      })
-      .catch((error) => {
-        console.error(error?.code);
-        setError(error?.message || "ログインに失敗しました");
-        setLoginState("LOGIN_FAILED");
-      });
+      } catch (registerError) {
+        if (
+          registerError instanceof Error &&
+          registerError.message ===
+            "ApolloError: You are already registered with Moodhub"
+        ) {
+          try {
+            await updateAvatarFunc({
+              variables: {
+                userId: user.uid,
+                avatarUrl: user.photoURL || null,
+              },
+            });
+          } catch (updateError) {
+            console.error(updateError);
+          }
+        } else {
+          setError(
+            registerError instanceof Error
+              ? registerError.message
+              : "登録に失敗しました"
+          );
+          setLoginState("LOGIN_FAILED");
+        }
+      }
+    } catch (loginError) {
+      setError(
+        loginError instanceof Error
+          ? loginError.message
+          : "ログインに失敗しました"
+      );
+      setLoginState("LOGIN_FAILED");
+    }
   };
 
   return (

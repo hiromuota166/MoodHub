@@ -4,6 +4,7 @@ import {
   CREATE_ROOM,
   JOIN_ROOM,
   UPDATE_CATEGORIES,
+  UPDATE_AVATAR,
   REGISTER_USER,
   GET_USER,
 } from "./apollo-query";
@@ -22,6 +23,9 @@ const useApolloQuery = (userID?: string, roomID?: number) => {
   const [registerUserFunc, registerUserState] = useMutation<{
     register: RegisterComplete;
   }>(REGISTER_USER);
+  const [updateAvatarFunc, updateAvatarState] = useMutation<{
+    updateAvatar: RegisterComplete;
+  }>(UPDATE_AVATAR);
   const Song = useQuery<{ song: Song[] }>(GET_SONG, {
     variables: { roomId: roomID },
     skip: !roomID,
@@ -37,6 +41,8 @@ const useApolloQuery = (userID?: string, roomID?: number) => {
     createRoomState,
     updateCategoriesFunc,
     updateCategoriesState,
+    updateAvatarFunc,
+    updateAvatarState,
     registerUserFunc,
     registerUserState,
     Song,
