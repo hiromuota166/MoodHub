@@ -21,7 +21,6 @@ export default function GoogleLoginBtn() {
 
   const registerUserQuery = useCallback(
     async (userData: Register) => {
-      console.log(userData);
       await registerUserFunc({
         variables: userData,
       }).catch((err) => {
