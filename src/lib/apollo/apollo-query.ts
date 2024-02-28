@@ -31,6 +31,15 @@ const UPDATE_CATEGORIES = gql`
   }
 `;
 
+const UPDATE_AVATAR = gql`
+  mutation UpdateAvatar($userId: String!, $avatarUrl: String!) {
+    updateAvatar(update: { userId: $userId, avatarUrl: $avatarUrl }) {
+      userId
+      avatarUrl
+    }
+  }
+`;
+
 const REGISTER_USER = gql`
   mutation Register(
     $userId: String!
@@ -86,6 +95,7 @@ export {
   CREATE_ROOM,
   JOIN_ROOM,
   UPDATE_CATEGORIES,
+  UPDATE_AVATAR,
   REGISTER_USER,
   GET_USER,
 };
