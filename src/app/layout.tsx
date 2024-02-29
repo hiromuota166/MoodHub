@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     title: "MoodHub | みんなの曲を共有・検索",
     statusBarStyle: "black-translucent",
   },
+  verification: {
+    google: "tuHWtjEYbjbvRhV8m_pXuitDzeuzodNAcge9xkNjPa8",
+  },
   openGraph: {
     type: "website",
     title: "MoodHub | みんなの曲を共有・検索",
