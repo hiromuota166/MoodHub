@@ -1,9 +1,11 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import useRoomInButton from "@/hooks/useRoomInButton";
 
 const RoomInButton = () => {
   const { onSubmited } = useRoomInButton();
+
   return (
     <div className="text-lg m-auto mt-12 mb-24 p-8 py-10 w-fit rounded-3xl shadow-boxOut">
       <h2 className="mx-2">ルームID入力</h2>
@@ -11,7 +13,7 @@ const RoomInButton = () => {
         <input
           title="ルームID入力欄"
           type="number"
-          className="bg-background dark:bg-darkbackground rounded-tl-2xl rounded-bl-2xl shadow-boxIn"
+          className="bg-background dark:bg-darkbackground rounded-tl-2xl rounded-bl-2xl shadow-boxIn w-48"
           name="roomId"
         />
         <button

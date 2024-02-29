@@ -1,77 +1,18 @@
-import { useCallback } from "react";
 import useApolloQuery from "@/lib/apollo/useApolloQuery";
-import { Register, UpdateCategories } from "@/lib/apollo/gql/graphql";
+import { useCallback } from "react";
 
 const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
   const {
     updateCategoriesFunc,
     updateCategoriesState,
-    registerUserFunc,
     registerUserState,
     Song,
-    RoomMembers,
+    RoomMembers, //これを使うことで、ルームメンバーのデータを取得できる
   } = useApolloQuery(userID, roomID);
-
-  // ユーザー登録のGraphQLのクエリ関数
-  const registerUserQuery = useCallback(
-    async (userData: Register) => {
-      await registerUserFunc({
-        variables: userData,
-      }).catch((err) => {
-        console.error(err);
-      });
-    },
-    [registerUserFunc]
-  );
-
-  // ユーザー情報更新のGraphQLのクエリ関数
-  const updateUserQuery = useCallback(
-    async (userId: string, categories: string[]) => {
-      const userData: UpdateCategories = {
-        userId: userId,
-        categories: categories,
-      };
-      await updateCategoriesFunc({
-        variables: {
-          ...userData,
-        },
-      }).catch((err) => {
-        console.error(err);
-      });
-    },
-    [updateCategoriesFunc]
-  );
-
-  // ユーザー登録または更新を判断する関数
-  const handleUserRegistration = useCallback(
-    async (userData: Register) => {
-      if (!userData) return;
-
-      if (registerUserState.data) {
-        // 既にユーザー情報がある場合は更新
-        await updateUserQuery(userData.userId, userData.categories);
-      } else {
-        // ユーザー情報がない場合は登録
-        await registerUserQuery(userData);
-      }
-    },
-    [registerUserState.data, registerUserQuery, updateUserQuery]
-  );
 
   //カテゴリのデータを更新する関数
   const handleUpdateCategories = async (categories: string[]) => {
-    if (registerUserState.data === undefined) {
-      if (!userID) return;
-      const userData: Register = {
-        userId: userID,
-        categories: categories,
-        userName: "moody山田",
-      };
-      handleUserRegistration(userData);
-      if (!roomID) return;
-      await Song.refetch();
-      return;
-    }
+    if (!userID) return;
 
     //ここにローカルストレージにカテゴリを保存する処理を後で追加する
 
@@ -87,12 +28,18 @@ const useMusicRecommendPageData = (userID?: string, roomID?: number) => {
     await Song.refetch();
   };
 
+  // ルームのメンバーのデータを取得する関数
+  const getRoomMembers = useCallback(async () => {
+    if (!roomID) return;
+    const response = await RoomMembers.refetch();
+    return response.data.getMembers; // getMembersのデータを返す
+  }, [roomID, RoomMembers]); // 依存配列にroomIDとRoomMembersを追加
+
   return {
     updateCategoriesState,
     registerUserState,
     Song,
-    RoomMembers,
-    handleUserRegistration,
+    getRoomMembers,
     handleUpdateCategories,
   };
 };

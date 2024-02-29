@@ -29,7 +29,7 @@ function RandomColorButton(props: iRandomColorButton) {
       <div className="py-2 px-2">
         <button
           onClick={toggleColors}
-          className={`px-3 py-1 flex flex-nowrap items-center text-lg`}
+          className={`px-3 py-1 flex flex-nowrap gap-1 items-center text-lg`}
           style={{
             backgroundColor: isClicked ? color : initialBackgroundColor,
             color: isClicked ? initialBackgroundColor : color,
@@ -37,23 +37,19 @@ function RandomColorButton(props: iRandomColorButton) {
           }}
         >
           {name}
-          {isClicked ? (
-            <Image
-              className="w-5"
-              src={"/done.svg"}
-              alt="Done Icon"
-              width={32}
-              height={32}
-            />
-          ) : (
-            <Image
-              className="origin-center rotate-45 w-5"
-              src={"/close.svg"}
-              alt="Close Icon"
-              width={32}
-              height={32}
-            />
-          )}
+          <div className="w-6 h-6">
+            {isClicked ? (
+              <Image src={"/done.svg"} alt="Done Icon" width={32} height={32} />
+            ) : (
+              <Image
+                className="origin-center rotate-45"
+                src={"/close.svg"}
+                alt="Close Icon"
+                width={32}
+                height={32}
+              />
+            )}
+          </div>
         </button>
       </div>
     </>

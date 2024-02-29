@@ -31,6 +31,15 @@ const UPDATE_CATEGORIES = gql`
   }
 `;
 
+const UPDATE_AVATAR = gql`
+  mutation UpdateAvatar($userId: String!, $avatarUrl: String!) {
+    updateAvatar(update: { userId: $userId, avatarUrl: $avatarUrl }) {
+      userId
+      avatarUrl
+    }
+  }
+`;
+
 const REGISTER_USER = gql`
   mutation Register(
     $userId: String!
@@ -38,6 +47,7 @@ const REGISTER_USER = gql`
     $userName: String = null
     $gender: String = null
     $age: Int = null
+    $avatarUrl: String = null
   ) {
     register(
       regist: {
@@ -46,6 +56,7 @@ const REGISTER_USER = gql`
         userName: $userName
         gender: $gender
         age: $age
+        avatarUrl: $avatarUrl
       }
     ) {
       userId
@@ -62,15 +73,19 @@ const GET_SONG = gql`
     song(roomId: $roomId) {
       songName
       categories
+      trackId
     }
   }
 `;
 
 const GET_USER = gql`
-  query GetMembers($roomId: Int!) {
+  query getMembers($roomId: Int!) {
     getMembers(roomId: $roomId) {
       roomName
-      members
+      membersInfoList {
+        userId
+        avatarUrl
+      }
     }
   }
 `;
@@ -80,6 +95,7 @@ export {
   CREATE_ROOM,
   JOIN_ROOM,
   UPDATE_CATEGORIES,
+  UPDATE_AVATAR,
   REGISTER_USER,
   GET_USER,
 };
