@@ -16,6 +16,12 @@ export const metadata: Metadata = {
   title: "MoodHub | みんなの曲を共有・検索",
   description:
     "カラオケやパーティーでの音楽の選択に悩むことはもうありません。MoodHubでルームを作成し、参加者の知っている曲を瞬時に検索。一緒の時間をもっと楽しく、もっと盛り上げましょう。",
+  manifest: "/manifest.json",
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  icons: [
+    { rel: "apple-touch-icon", url: "/MoodHubOGP.png" },
+    { rel: "icon", url: "/MoodHubOGP.png" },
+  ],
   appleWebApp: {
     capable: true,
     title: "MoodHub | みんなの曲を共有・検索",
